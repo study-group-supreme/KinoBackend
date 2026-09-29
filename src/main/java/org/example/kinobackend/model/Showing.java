@@ -1,12 +1,12 @@
 package org.example.kinobackend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Showing {
@@ -16,6 +16,10 @@ public class Showing {
     @ManyToOne
     @JoinColumn(name = "movie", referencedColumnName = "id")
     private Movie movie;
+
+    @OneToMany(mappedBy = "showing")
+    @JsonBackReference
+    private Set<Reservation> reservations = new HashSet<>();
 
     public Movie getMovie() {
         return movie;
@@ -39,6 +43,14 @@ public class Showing {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Set<Reservation> reservations) {
+        this.reservations = reservations;
     }
 
     @Override
