@@ -10,11 +10,11 @@ public class Movie {
     @Id
     private int id;
     private String name;
-    private int runtime_minutes;
+    private int runtimeMinutes;
     private String description;
     private String poserUrl;
-    private int age_limit;
-    private boolean is_active;
+    private int ageLimit;
+    private boolean isActive;
 
     public int getId() {
         return id;
@@ -32,12 +32,12 @@ public class Movie {
         this.name = name;
     }
 
-    public int getRuntime_minutes() {
-        return runtime_minutes;
+    public int getRuntimeMinutes() {
+        return runtimeMinutes;
     }
 
-    public void setRuntime_minutes(int runtime_minutes) {
-        this.runtime_minutes = runtime_minutes;
+    public void setRuntimeMinutes(int runtimeMinutes) {
+        this.runtimeMinutes = runtimeMinutes;
     }
 
     public String getDescription() {
@@ -56,31 +56,31 @@ public class Movie {
         this.poserUrl = poserUrl;
     }
 
-    public int getAge_limit() {
-        return age_limit;
+    public int getAgeLimit() {
+        return ageLimit;
     }
 
-    public void setAge_limit(int age_limit) {
-        this.age_limit = age_limit;
+    public void setAgeLimit(int ageLimit) {
+        this.ageLimit = ageLimit;
     }
 
-    public boolean isIs_active() {
-        return is_active;
+    public boolean isIsActive() {
+        return isActive;
     }
 
-    public void setIs_active(boolean is_active) {
-        this.is_active = is_active;
+    public void setIsActive(boolean is_active) {
+        this.isActive = is_active;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Movie movie = (Movie) o;
-        return id == movie.id && runtime_minutes == movie.runtime_minutes && age_limit == movie.age_limit && is_active == movie.is_active && Objects.equals(name, movie.name) && Objects.equals(description, movie.description) && Objects.equals(poserUrl, movie.poserUrl);
+        return id == movie.id && runtimeMinutes == movie.runtimeMinutes && ageLimit == movie.ageLimit && isActive == movie.isActive && Objects.equals(name, movie.name) && Objects.equals(description, movie.description) && Objects.equals(poserUrl, movie.poserUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, runtime_minutes, description, poserUrl, age_limit, is_active);
+        return Objects.hash(id, name, runtimeMinutes, description, poserUrl, ageLimit, isActive);
     }
 }
