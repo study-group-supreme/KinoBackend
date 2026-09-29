@@ -20,7 +20,7 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "showing", referencedColumnName = "id")
-    private Showing showings;
+    private Showing showing;
 
     public int getId() {
         return id;
@@ -62,19 +62,19 @@ public class Reservation {
         this.tickets = tickets;
     }
 
-    public Showing getShowings() {
-        return showings;
+    public Showing getShowing() {
+        return showing;
     }
 
-    public void setShowings(Showing showings) {
-        this.showings = showings;
+    public void setShowing(Showing showing) {
+        this.showing = showing;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Reservation that = (Reservation) o;
-        return id == that.id && Objects.equals(customerName, that.customerName) && Objects.equals(customerPhone, that.customerPhone) && Objects.equals(customerMail, that.customerMail) && Objects.equals(showings, that.showings);
+        return id == that.id && Objects.equals(customerName, that.customerName) && Objects.equals(customerPhone, that.customerPhone) && Objects.equals(customerMail, that.customerMail) && Objects.equals(showing, that.showing);
     }
 
     @Override

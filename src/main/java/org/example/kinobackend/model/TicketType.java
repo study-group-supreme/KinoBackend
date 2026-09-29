@@ -1,5 +1,6 @@
 package org.example.kinobackend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -17,7 +18,8 @@ public class TicketType {
     private String name;
     private double price;
 
-    @OneToMany(mappedBy = "ticket_type")
+    @OneToMany(mappedBy = "ticketType")
+    @JsonBackReference
     private Set<Ticket> tickets = new HashSet<>();
 
     public int getId() {
