@@ -11,7 +11,7 @@ public class Seat {
     private int id;
     private int seatRow;
     private int seatNumber;
-    private boolean isAvaliable;
+    private boolean isAvailable;
 
     public int getId() {
         return id;
@@ -37,23 +37,23 @@ public class Seat {
         this.seatNumber = seatNumber;
     }
 
-    public boolean isAvaliable() {
-        return isAvaliable;
+    public boolean isAvailable() {
+        return isAvailable;
     }
 
-    public void setAvaliable(boolean avaliable) {
-        isAvaliable = avaliable;
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Seat seat = (Seat) o;
-        return id == seat.id && seatRow == seat.seatRow && seatNumber == seat.seatNumber && isAvaliable == seat.isAvaliable;
+        return id == seat.id && seatRow == seat.seatRow && seatNumber == seat.seatNumber && isAvailable == seat.isAvailable;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, seatRow, seatNumber, isAvaliable);
+        return Objects.hash(id, seatRow, seatNumber, isAvailable);
     }
 }
