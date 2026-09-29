@@ -8,6 +8,8 @@ public class Ticket {
     @Id
     private int id;
 
+    private TicketType ticketType;
+
     public int getId() {
         return id;
     }
