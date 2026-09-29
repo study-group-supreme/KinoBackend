@@ -2,9 +2,12 @@ package org.example.kinobackend.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table
@@ -13,6 +16,9 @@ public class TicketType {
     private int id;
     private String name;
     private double price;
+
+    @OneToMany(mappedBy = "ticket_type")
+    private Set<Ticket> tickets = new HashSet<>();
 
     public int getId() {
         return id;
@@ -36,6 +42,14 @@ public class TicketType {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public Set<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Set<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
     @Override
