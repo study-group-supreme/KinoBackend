@@ -12,7 +12,7 @@ public class Movie {
     private String name;
     private int runtimeMinutes;
     private String description;
-    private String poserUrl;
+    private String posterUrl;
     private int ageLimit;
     private boolean isActive;
 
@@ -48,12 +48,12 @@ public class Movie {
         this.description = description;
     }
 
-    public String getPoserUrl() {
-        return poserUrl;
+    public String getPosterUrl() {
+        return posterUrl;
     }
 
-    public void setPoserUrl(String poserUrl) {
-        this.poserUrl = poserUrl;
+    public void setPosterUrl(String poserUrl) {
+        this.posterUrl = poserUrl;
     }
 
     public int getAgeLimit() {
@@ -76,11 +76,11 @@ public class Movie {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Movie movie = (Movie) o;
-        return id == movie.id && runtimeMinutes == movie.runtimeMinutes && ageLimit == movie.ageLimit && isActive == movie.isActive && Objects.equals(name, movie.name) && Objects.equals(description, movie.description) && Objects.equals(poserUrl, movie.poserUrl);
+        return id == movie.id && runtimeMinutes == movie.runtimeMinutes && ageLimit == movie.ageLimit && isActive == movie.isActive && Objects.equals(name, movie.name) && Objects.equals(description, movie.description) && Objects.equals(posterUrl, movie.posterUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, runtimeMinutes, description, poserUrl, ageLimit, isActive);
+        return Objects.hash(id, name, runtimeMinutes, description, posterUrl, ageLimit, isActive);
     }
 }
