@@ -59,11 +59,11 @@ public class Theatre {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Theatre theatre = (Theatre) o;
-        return id == theatre.id && Objects.equals(name, theatre.name) && Objects.equals(seats, theatre.seats) && Objects.equals(showings, theatre.showings);
+        return id == theatre.id && Objects.equals(name, theatre.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, seats, showings);
+        return Objects.hash(id, name);
     }
 }

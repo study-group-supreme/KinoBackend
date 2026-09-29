@@ -1,10 +1,7 @@
 package org.example.kinobackend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -20,6 +17,10 @@ public class Reservation {
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<Ticket> tickets = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "showing", referencedColumnName = "id")
+    private Showing showings;
 
     public int getId() {
         return id;
@@ -61,15 +62,23 @@ public class Reservation {
         this.tickets = tickets;
     }
 
+    public Showing getShowings() {
+        return showings;
+    }
+
+    public void setShowings(Showing showings) {
+        this.showings = showings;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Reservation that = (Reservation) o;
-        return id == that.id && Objects.equals(customerName, that.customerName) && Objects.equals(customerPhone, that.customerPhone) && Objects.equals(customerMail, that.customerMail) && Objects.equals(tickets, that.tickets);
+        return id == that.id && Objects.equals(customerName, that.customerName) && Objects.equals(customerPhone, that.customerPhone) && Objects.equals(customerMail, that.customerMail) && Objects.equals(showings, that.showings);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, customerName, customerPhone, customerMail, tickets);
+        return Objects.hash(id, customerName, customerPhone, customerMail, showings);
     }
 }
