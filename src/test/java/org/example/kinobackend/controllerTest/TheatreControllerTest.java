@@ -4,8 +4,6 @@ import org.example.kinobackend.controller.TheatreController;
 import org.example.kinobackend.model.Theatre;
 import org.example.kinobackend.service.TheatreService;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
