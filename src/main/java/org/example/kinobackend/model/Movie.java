@@ -19,12 +19,14 @@ public class Movie {
     private int ageLimit;
     private boolean isActive;
 
-    @ElementCollection
-    @Enumerated(EnumType.ORDINAL)
-    @CollectionTable(name = "movie_category", joinColumns = @JoinColumn(name = "movie_id"))
-    @Column(name = "category_id")
-    private Set<Category> categories = EnumSet.noneOf(Category.class);
+    @ManyToMany
+    @JoinTable(
+            name = "movie_category",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
 
+    )
+    private Set<Category> categories = new HashSet<>();
 
     @OneToMany(mappedBy = "movie")
     @JsonBackReference
@@ -102,6 +104,8 @@ public class Movie {
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
     }
+
+
 
     @Override
     public boolean equals(Object o) {
