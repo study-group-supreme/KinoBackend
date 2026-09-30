@@ -13,6 +13,7 @@ public class Showing {
     @Id
     private int id;
     private LocalDateTime startTime;
+
     @ManyToOne
     @JoinColumn(name = "movie", referencedColumnName = "id")
     private Movie movie;
