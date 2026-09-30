@@ -27,7 +27,7 @@ public class TheatreControllerTest {
 
     @Test
     //201 == status code "created"
-    public void postTheatreReturns201AndSavedTheatre() throws Exception {
+    public void postTheatreReturns201AndSavesTheatre() throws Exception {
         Theatre theatre = new Theatre();
         theatre.setName("test");
         theatre.setId(1);
