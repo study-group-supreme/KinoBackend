@@ -10,6 +10,7 @@ import java.util.Set;
 @Entity
 public class Seat {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private char seatRow;
     private int seatNumber;
