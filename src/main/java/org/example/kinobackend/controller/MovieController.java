@@ -30,4 +30,9 @@ public class MovieController {
         return movieService.getAllActiveMovies();
     }
 
+    @GetMapping("/unavailable")
+    public List<Movie> getAllUnavailableMovies(){
+        return movieService.getAllInactiveMovies();
+    }
+
 }

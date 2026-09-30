@@ -24,4 +24,8 @@ public class MovieService {
     public List<Movie> getAllActiveMovies(){
         return movieRepository.findByIsActiveTrue();
     }
+
+    public List<Movie> getAllInactiveMovies(){
+        return movieRepository.findByIsActiveFalse();
+    }
 }
