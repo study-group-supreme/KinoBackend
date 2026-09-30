@@ -1,6 +1,8 @@
 package org.example.kinobackend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.EnumSet;
@@ -27,10 +29,11 @@ public class Movie {
             inverseJoinColumns = @JoinColumn(name = "category_id")
 
     )
+    @JsonIgnoreProperties("categories")
     private Set<Category> categories = new HashSet<>();
 
     @OneToMany(mappedBy = "movie")
-    @JsonBackReference
+    @JsonManagedReference("movie-showings")
     private Set<Showing> showings = new HashSet<>();
 
     public int getId() {

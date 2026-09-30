@@ -1,6 +1,7 @@
 package org.example.kinobackend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -18,10 +19,11 @@ public class Seat {
 
     @ManyToOne
     @JoinColumn(name = "theatre", referencedColumnName = "id")
+    @JsonBackReference("theatre-seats")
     private Theatre theatre;
 
     @OneToMany(mappedBy = "seat")
-    @JsonBackReference
+    @JsonManagedReference("seat-tickets")
     private Set<Ticket> tickets = new HashSet<>();
 
     public int getId() {
