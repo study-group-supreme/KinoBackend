@@ -2,18 +2,23 @@ package org.example.kinobackend.config;
 
 import org.example.kinobackend.model.Employee;
 import org.example.kinobackend.repository.EmployeeRepository;
+import org.example.kinobackend.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+
 
 
 @Component
 public class InitDataEmployee implements CommandLineRunner {
 
-    @Autowired
-    EmployeeRepository employeeRepository;
+    private final EmployeeService employeeService;
+
+
+    public InitDataEmployee(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
 
     @Override
@@ -31,8 +36,8 @@ public class InitDataEmployee implements CommandLineRunner {
         notAdmin.setIs_admin(false);
         notAdmin.setUsername("LoneNotAdmin");
 
-        employeeRepository.save(admin1);
-        employeeRepository.save(notAdmin);
+        employeeService.save(admin1);
+        employeeService.save(notAdmin);
     }
 }
 
