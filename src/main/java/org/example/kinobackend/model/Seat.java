@@ -11,7 +11,7 @@ import java.util.Set;
 public class Seat {
     @Id
     private int id;
-    private int seatRow;
+    private char seatRow;
     private int seatNumber;
     private boolean isAvailable;
 
@@ -31,11 +31,11 @@ public class Seat {
         this.id = id;
     }
 
-    public int getSeatRow() {
+    public char getSeatRow() {
         return seatRow;
     }
 
-    public void setSeatRow(int seatRow) {
+    public void setSeatRow(char seatRow) {
         this.seatRow = seatRow;
     }
 
