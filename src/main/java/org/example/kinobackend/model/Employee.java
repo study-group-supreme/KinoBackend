@@ -12,6 +12,7 @@ public class Employee {
     private String name;
     private String password;
     private boolean is_admin;
+    private String username;
 
 
     public int getId() {
@@ -24,6 +25,14 @@ public class Employee {
 
     public String getName() {
         return name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setName(String name) {
@@ -50,12 +59,12 @@ public class Employee {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return id == employee.id && is_admin == employee.is_admin && Objects.equals(name, employee.name) && Objects.equals(password, employee.password);
+        return id == employee.id && is_admin == employee.is_admin && Objects.equals(name, employee.name) && Objects.equals(password, employee.password) && Objects.equals(username, employee.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, password, is_admin);
+        return Objects.hash(id, name, password, is_admin, username);
     }
 }
 
