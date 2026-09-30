@@ -47,7 +47,7 @@ public class InitDataMovie implements CommandLineRunner {
         movie4.setDescription("A jailed former NFL quarterback recruits a team of inmates to play a football game against the guards.");
         movie4.setPosterUrl("https://example.com");
         movie4.setAgeLimit(11);
-        movie4.setActive(true);
+        movie4.setActive(false);
 
         // 5. Jackass 3
         Movie movie5 = new Movie();
