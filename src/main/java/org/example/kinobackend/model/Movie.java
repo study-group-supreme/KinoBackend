@@ -1,9 +1,12 @@
 package org.example.kinobackend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
+import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Movie {
@@ -12,9 +15,20 @@ public class Movie {
     private String name;
     private int runtimeMinutes;
     private String description;
-    private String poserUrl;
+    private String posterUrl;
     private int ageLimit;
     private boolean isActive;
+
+    @ElementCollection
+    @Enumerated(EnumType.ORDINAL)
+    @CollectionTable(name = "movie_category", joinColumns = @JoinColumn(name = "movie_id"))
+    @Column(name = "category_id")
+    private Set<Category> categories = EnumSet.noneOf(Category.class);
+
+
+    @OneToMany(mappedBy = "movie")
+    @JsonBackReference
+    private Set<Showing> showings = new HashSet<>();
 
     public int getId() {
         return id;
@@ -48,12 +62,12 @@ public class Movie {
         this.description = description;
     }
 
-    public String getPoserUrl() {
-        return poserUrl;
+    public String getPosterUrl() {
+        return posterUrl;
     }
 
-    public void setPoserUrl(String poserUrl) {
-        this.poserUrl = poserUrl;
+    public void setPosterUrl(String poserUrl) {
+        this.posterUrl = poserUrl;
     }
 
     public int getAgeLimit() {
@@ -64,23 +78,40 @@ public class Movie {
         this.ageLimit = ageLimit;
     }
 
-    public boolean isIsActive() {
+
+    public boolean isActive() {
         return isActive;
     }
 
-    public void setIsActive(boolean is_active) {
-        this.isActive = is_active;
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public Set<Showing> getShowings() {
+        return showings;
+    }
+
+    public void setShowings(Set<Showing> showings) {
+        this.showings = showings;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Movie movie = (Movie) o;
-        return id == movie.id && runtimeMinutes == movie.runtimeMinutes && ageLimit == movie.ageLimit && isActive == movie.isActive && Objects.equals(name, movie.name) && Objects.equals(description, movie.description) && Objects.equals(poserUrl, movie.poserUrl);
+        return id == movie.id && runtimeMinutes == movie.runtimeMinutes && ageLimit == movie.ageLimit && isActive == movie.isActive && Objects.equals(name, movie.name) && Objects.equals(description, movie.description) && Objects.equals(posterUrl, movie.posterUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, runtimeMinutes, description, poserUrl, ageLimit, isActive);
+        return Objects.hash(id, name, runtimeMinutes, description, posterUrl, ageLimit, isActive);
     }
 }

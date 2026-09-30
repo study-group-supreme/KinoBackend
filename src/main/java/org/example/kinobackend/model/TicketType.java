@@ -4,24 +4,23 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
-public class Theatre {
+@Table
+public class TicketType {
     @Id
     private int id;
     private String name;
+    private double price;
 
-    @OneToMany(mappedBy = "theatre")
+    @OneToMany(mappedBy = "ticketType")
     @JsonBackReference
-    private Set<Seat> seats = new HashSet<>();
-
-    @OneToMany(mappedBy = "theatre")
-    @JsonBackReference
-    private Set<Showing> showings = new HashSet<>();
+    private Set<Ticket> tickets = new HashSet<>();
 
     public int getId() {
         return id;
@@ -39,31 +38,31 @@ public class Theatre {
         this.name = name;
     }
 
-    public Set<Seat> getSeats() {
-        return seats;
+    public double getPrice() {
+        return price;
     }
 
-    public void setSeats(Set<Seat> seats) {
-        this.seats = seats;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public Set<Showing> getShowings() {
-        return showings;
+    public Set<Ticket> getTickets() {
+        return tickets;
     }
 
-    public void setShowings(Set<Showing> showings) {
-        this.showings = showings;
+    public void setTickets(Set<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Theatre theatre = (Theatre) o;
-        return id == theatre.id && Objects.equals(name, theatre.name);
+        TicketType that = (TicketType) o;
+        return id == that.id && Double.compare(price, that.price) == 0 && Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, name, price);
     }
 }
