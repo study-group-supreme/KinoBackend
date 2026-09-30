@@ -25,6 +25,9 @@ public class MovieController {
         return movieService.getMovieByName(name);
     }
 
-
+    @GetMapping("/available")
+    public List<Movie> getAllAvailableMovies(){
+        return movieService.getAllActiveMovies();
+    }
 
 }

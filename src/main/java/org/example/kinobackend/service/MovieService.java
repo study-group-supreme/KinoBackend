@@ -13,11 +13,15 @@ public class MovieService {
     @Autowired
     MovieRepository movieRepository;
 
-    public List<Movie> getAllMovies(){
+    public List<Movie> getAllMovies() {
         return movieRepository.findAll();
     }
 
-    public List<Movie> getMovieByName(String name){
+    public List<Movie> getMovieByName(String name) {
         return movieRepository.findAllByName(name);
+    }
+
+    public List<Movie> getAllActiveMovies(){
+        return movieRepository.findByIsActiveTrue();
     }
 }

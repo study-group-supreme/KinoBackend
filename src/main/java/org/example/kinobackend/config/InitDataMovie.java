@@ -56,7 +56,7 @@ public class InitDataMovie implements CommandLineRunner {
         movie5.setDescription("Johnny Knoxville and his crew return for another round of outrageous stunts and painful pranks.");
         movie5.setPosterUrl("https://example.com");
         movie5.setAgeLimit(15);
-        movie5.setActive(true);
+        movie5.setActive(false);
 
         movieRepository.save(movie1);
         movieRepository.save(movie2);

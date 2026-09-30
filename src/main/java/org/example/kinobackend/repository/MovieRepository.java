@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
     List<Movie> findAllByName(String name);
+
+    List<Movie> findByIsActiveTrue();
 }
