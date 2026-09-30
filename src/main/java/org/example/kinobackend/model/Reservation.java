@@ -14,6 +14,7 @@ public class Reservation {
     private String customerName;
     private String customerPhone;
     private String customerMail;
+
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<Ticket> tickets = new HashSet<>();
