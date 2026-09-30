@@ -3,20 +3,24 @@ package org.example.kinobackend.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
-public class Category {
+@Table
+public class TicketType {
     @Id
     private int id;
     private String name;
+    private double price;
 
-    @ManyToMany(mappedBy = "categories")
-    private Set<Movie> movies = new HashSet<>();
+    @OneToMany(mappedBy = "ticketType")
+    @JsonBackReference
+    private Set<Ticket> tickets = new HashSet<>();
 
     public int getId() {
         return id;
@@ -34,23 +38,31 @@ public class Category {
         this.name = name;
     }
 
-    public Set<Movie> getMovies() {
-        return movies;
+    public double getPrice() {
+        return price;
     }
 
-    public void setMovies(Set<Movie> movies) {
-        this.movies = movies;
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public Set<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Set<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Category category = (Category) o;
-        return id == category.id && Objects.equals(name, category.name);
+        TicketType that = (TicketType) o;
+        return id == that.id && Double.compare(price, that.price) == 0 && Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, name, price);
     }
 }
