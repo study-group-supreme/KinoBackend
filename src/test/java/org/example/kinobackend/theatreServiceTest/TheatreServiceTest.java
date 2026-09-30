@@ -34,5 +34,12 @@ public class TheatreServiceTest {
         theatre.setName(" ");
         assertThrows(IllegalArgumentException.class, () -> theatreService.createTheatre(theatre));
     }
+
+    @Test
+    public void createTheatreThrowIllegalArgumentExceptionWhenNameIsNull() {
+        Theatre theatre = new Theatre();
+        theatre.setName(null);
+        assertThrows(IllegalArgumentException.class, () -> theatreService.createTheatre(theatre));
+    }
 }
 
