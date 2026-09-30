@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -18,13 +19,20 @@ public class TheatreServiceTest {
     private TheatreRepository theatreRepository;
 
     @Test
-    public void createTheatreCreatesATheatre(){
+    public void createTheatreCreatesATheatre() {
         Theatre theatre = new Theatre();
         theatre.setName("test");
         theatreRepository.save(theatre);
 
         List<Theatre> theatreList = theatreRepository.findAll();
         assertTrue(theatreList.size() == 1);
+    }
+
+    @Test
+    public void createTheatreThrowIllegalArgumentExceptionWhenNameIsBlank() {
+        Theatre theatre = new Theatre();
+        theatre.setName(" ");
+        assertThrows(IllegalArgumentException.class, () -> theatreService.createTheatre(theatre));
     }
 }
 
