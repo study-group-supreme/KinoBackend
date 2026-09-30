@@ -1,4 +1,4 @@
-package org.example.kinobackend.theatreServiceTest;
+package org.example.kinobackend.serviceTest;
 
 import org.example.kinobackend.model.Theatre;
 import org.example.kinobackend.repository.TheatreRepository;
