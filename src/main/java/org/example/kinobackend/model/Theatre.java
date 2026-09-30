@@ -14,11 +14,11 @@ public class Theatre {
     private int id;
     private String name;
 
-    @OneToMany(mappedBy = "theatre")
+    @OneToMany(mappedBy = "theatre", cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<Seat> seats = new HashSet<>();
 
-    @OneToMany(mappedBy = "theatre")
+    @OneToMany(mappedBy = "theatre", cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<Showing> showings = new HashSet<>();
 
