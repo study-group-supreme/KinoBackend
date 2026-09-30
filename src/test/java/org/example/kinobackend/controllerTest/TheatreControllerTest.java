@@ -36,7 +36,7 @@ public class TheatreControllerTest {
         theatre.setId(1);
         when(theatreService.createTheatre(any(Theatre.class))).thenReturn(theatre);
 
-        mockMvc.perform(post("/theatres")
+        mockMvc.perform(post("/api/theatre")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\": \"test\"}"))
                 .andExpect(status().isCreated())
