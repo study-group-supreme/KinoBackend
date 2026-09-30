@@ -1,6 +1,8 @@
 package org.example.kinobackend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -17,7 +19,7 @@ public class TicketType {
     private double price;
 
     @OneToMany(mappedBy = "ticketType")
-    @JsonBackReference
+    @JsonIgnore
     private Set<Ticket> tickets = new HashSet<>();
 
     public int getId() {
