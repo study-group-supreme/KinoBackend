@@ -1,6 +1,7 @@
 package org.example.kinobackend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -16,11 +17,11 @@ public class Theatre {
     private String name;
 
     @OneToMany(mappedBy = "theatre")
-    @JsonBackReference
+    @JsonIgnore
     private Set<Seat> seats = new HashSet<>();
 
     @OneToMany(mappedBy = "theatre")
-    @JsonBackReference
+    @JsonIgnore
     private Set<Showing> showings = new HashSet<>();
 
     public int getId() {
