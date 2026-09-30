@@ -12,23 +12,28 @@ import java.util.List;
 @Component
 public class InitDataEmployee implements CommandLineRunner {
 
+    @Autowired
+    EmployeeRepository employeeRepository;
 
-    private final EmployeeRepository employeeRepository;
-
-    public InitDataEmployee(EmployeeRepository employeeRepository, EmployeeRepository employeeRepository1) {
-
-        this.employeeRepository = employeeRepository1;
-    }
 
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws Exception {
 
-       createEmployees();
+        Employee admin1 = new Employee();
+        admin1.setName("John");
+        admin1.setPassword("admin123");
+        admin1.setIs_admin(true);
+        admin1.setUsername("JohnAdmin");
+
+        Employee notAdmin = new Employee();
+        notAdmin.setName("Lone");
+        notAdmin.setPassword("notAdmin123");
+        notAdmin.setIs_admin(false);
+        notAdmin.setUsername("LoneNotAdmin");
+
+        employeeRepository.save(admin1);
+        employeeRepository.save(notAdmin);
     }
-    private void createEmployees() {
-        Employee employee = new Employee();
-
-
-    }
-
 }
+
+
