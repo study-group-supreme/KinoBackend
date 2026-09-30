@@ -4,28 +4,35 @@ import org.example.kinobackend.model.Theatre;
 import org.example.kinobackend.repository.TheatreRepository;
 import org.example.kinobackend.service.TheatreService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class TheatreServiceTest {
-    @Autowired
-    private TheatreService theatreService;
-    @Autowired
+    @Mock
     private TheatreRepository theatreRepository;
+    @InjectMocks
+    private TheatreService theatreService;
 
     @Test
     public void createTheatreCreatesATheatre() {
         Theatre theatre = new Theatre();
         theatre.setName("test");
-        theatreService.createTheatre(theatre);
+        when(theatreRepository.save(theatre)).thenReturn(theatre);
+        Theatre result = theatreService.createTheatre(theatre);
 
-        List<Theatre> theatreList = theatreRepository.findAll();
-        assertTrue(theatreList.size() == 1);
+        assertEquals(theatre, result);
+        verify(theatreRepository).save(theatre);
     }
 
     @Test

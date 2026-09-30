@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TheatreController {
-    @Autowired
     private TheatreService theatreService;
 
+    public TheatreController(TheatreService theatreService) {
+        this.theatreService = theatreService;
+    }
 
     @PostMapping("/theatres")
     public ResponseEntity<Theatre> postTheatre(@RequestBody Theatre theatre) {

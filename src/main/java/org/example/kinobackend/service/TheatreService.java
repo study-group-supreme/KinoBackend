@@ -7,9 +7,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TheatreService {
-    @Autowired
-    TheatreRepository theatreRepository;
 
+    private TheatreRepository theatreRepository;
+
+    public TheatreService(TheatreRepository theatreRepository) {
+        this.theatreRepository = theatreRepository;
+    }
 
     public Theatre createTheatre(Theatre theatre) throws IllegalArgumentException {
         if (theatre.getName() == null || theatre.getName().isBlank()) {
