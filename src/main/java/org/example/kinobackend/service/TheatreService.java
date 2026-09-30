@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class TheatreService {
     @Autowired
-    TheatreRepository theatreRepository;
+    private TheatreRepository theatreRepository;
 
     public void deleteTheatre(int id) {
         Theatre theatre = theatreRepository.findById(id)
