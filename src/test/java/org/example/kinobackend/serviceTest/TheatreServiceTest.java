@@ -22,7 +22,7 @@ public class TheatreServiceTest {
     public void createTheatreCreatesATheatre() {
         Theatre theatre = new Theatre();
         theatre.setName("test");
-        theatreRepository.save(theatre);
+        theatreService.createTheatre(theatre);
 
         List<Theatre> theatreList = theatreRepository.findAll();
         assertTrue(theatreList.size() == 1);
