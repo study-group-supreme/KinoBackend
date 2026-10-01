@@ -43,6 +43,7 @@ Employee result = employeeService.createEmployee(employee);
         employee.setIs_admin(true);
         employee.setName("Andreas");
         employee.setPassword("ab");
+        employee.setUsername("Andreas123");
 assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee));
     }
     @Test
@@ -52,6 +53,19 @@ assertThrows(IllegalArgumentException.class, () -> employeeService.createEmploye
         employee.setName("   ");
         employee.setIs_admin(false);
         employee.setId(2);
+        employee.setUsername("BlankUser");
         assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee));
     }
+    @Test
+    public void createEmployeeThrowsIllegalArgumentExceptionIfNameIsNull(){
+        Employee employee = new Employee();
+        employee.setName(null);
+        employee.setId(1);
+        employee.setIs_admin(false);
+        employee.setPassword("hans123");
+        employee.setUsername("Hans123321");
+
+        assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee));
+    }
+
 }
