@@ -33,11 +33,14 @@ public class EmployeeServiceTest {
     public void setUp() {
 
         admin = new Employee();
+        admin.setId(1);
         admin.setName("John");
         admin.setUsername("JohnAdmin");
         admin.setPassword("admin123");
         admin.setIsAdmin(true);
+
         employee = new Employee();
+        employee.setId(2);
         employee.setName("Lone");
         employee.setUsername("LoneNotAdmin");
         employee.setPassword("notAdmin123");
@@ -157,6 +160,14 @@ public class EmployeeServiceTest {
         assertThrows(EntityNotFoundException.class, () -> employeeService.deleteEmployee(5));
 
         verify(employeeRepository, never()).delete(any());
+    }
+    @Test
+    public void getEmployeeByIdShouldReturnEmployeeWithTheRightId() {
+        when(employeeRepository.findById(2)).thenReturn(Optional.of(employee));
+
+        Employee result = employeeService.getEmployeeById(2);
+
+        assertEquals(2, result.getId());
     }
 
 
