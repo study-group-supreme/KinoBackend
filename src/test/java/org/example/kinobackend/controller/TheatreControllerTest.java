@@ -1,6 +1,5 @@
-package org.example.kinobackend.controllerTest;
+package org.example.kinobackend.controller;
 
-import org.example.kinobackend.controller.TheatreController;
 import org.example.kinobackend.model.Theatre;
 import org.example.kinobackend.service.TheatreService;
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

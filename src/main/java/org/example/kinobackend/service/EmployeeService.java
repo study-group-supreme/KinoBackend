@@ -19,7 +19,7 @@ public class EmployeeService {
         if (employee.getPassword() == null || employee.getPassword().isBlank()) {
             throw new IllegalArgumentException("Employee password cannot be empty");
         }
-        if (employee.getPassword().length() >= 3) {
+        if (employee.getPassword().length() <= 3) {
             throw new IllegalArgumentException("Password must be longere than 3 characters");
         }
         return employeeRepository.save(employee);
