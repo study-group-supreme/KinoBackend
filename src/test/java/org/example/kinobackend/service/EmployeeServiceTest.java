@@ -67,5 +67,28 @@ assertThrows(IllegalArgumentException.class, () -> employeeService.createEmploye
 
         assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee));
     }
+    @Test
+    public void createEmployeeThrowsIllegalArgumentExceptionIfUsernameIsNull(){
+        Employee employee = new Employee();
+        employee.setUsername(null);
+        employee.setName("Joakim");
+        employee.setPassword("sadfgh");
+        employee.setIs_admin(false);
+        employee.setId(1);
+
+        assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee));
+    }
+    @Test
+    public void createEmployeeThrowsIllegalArgumentExceptionIfUsernameIsBlank(){
+        Employee employee = new Employee();
+        employee.setUsername("     ");
+        employee.setName("Joakim");
+        employee.setPassword("sadfgh");
+        employee.setIs_admin(false);
+        employee.setId(1);
+
+        assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee));
+    }
+
 
 }
