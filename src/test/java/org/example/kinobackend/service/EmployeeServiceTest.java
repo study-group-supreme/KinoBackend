@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -34,6 +35,23 @@ public class EmployeeServiceTest {
 Employee result = employeeService.createEmployee(employee);
         assertEquals(employee, result);
         verify(employeeRepository).save(employee);
-
+    }
+    @Test
+    public void createEmployeeCannotCreateEmployeeIfPasswordIsUnder3CharactersAndThrowsIllegalArgumentException() {
+        Employee employee = new Employee();
+        employee.setId(1);
+        employee.setIs_admin(true);
+        employee.setName("Andreas");
+        employee.setPassword("ab");
+assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee));
+    }
+    @Test
+    public void createEmployeeThrowsIllegalArgumentExceptionIfNameIsBlank(){
+        Employee employee = new Employee();
+        employee.setPassword("12345");
+        employee.setName("   ");
+        employee.setIs_admin(false);
+        employee.setId(2);
+        assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee));
     }
 }
