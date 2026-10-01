@@ -1,14 +1,14 @@
 package org.example.kinobackend.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.example.kinobackend.model.Theatre;
 import org.example.kinobackend.repository.TheatreRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TheatreService {
 
-    private TheatreRepository theatreRepository;
+    private final TheatreRepository theatreRepository;
 
     public TheatreService(TheatreRepository theatreRepository) {
         this.theatreRepository = theatreRepository;
@@ -23,7 +23,7 @@ public class TheatreService {
 
     public void deleteTheatre(int id) {
         Theatre theatre = theatreRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Theatre not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Theatre not found"));
 
         theatreRepository.delete(theatre);
     }
