@@ -43,8 +43,4 @@ public class EmployeeService {
     public Optional<Employee> findByUsername(String username) {
         return employeeRepository.findByUsername(username);
     }
-
-    public void save(Employee employee) {
-        employeeRepository.save(employee);
-    }
 }

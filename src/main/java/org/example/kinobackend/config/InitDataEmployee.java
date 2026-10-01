@@ -36,8 +36,8 @@ public class InitDataEmployee implements CommandLineRunner {
         notAdmin.setIsAdmin(false);
         notAdmin.setUsername("LoneNotAdmin");
 
-        employeeService.save(admin1);
-        employeeService.save(notAdmin);
+        employeeService.createEmployee(admin1);
+        employeeService.createEmployee(notAdmin);
     }
 }
 
