@@ -26,7 +26,6 @@ public class TheatreServiceTest {
 
     @BeforeEach
     public void setUp() {
-        theatreRepository.deleteAll();
     }
 
     @Test
