@@ -2,7 +2,6 @@ package org.example.kinobackend.controller;
 
 import org.example.kinobackend.model.Theatre;
 import org.example.kinobackend.service.TheatreService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +10,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/theatre")
-public class TheatreController {
-    private TheatreService theatreService;
+public class TheatreRestController {
+    private final TheatreService theatreService;
 
-    public TheatreController(TheatreService theatreService) {
+    public TheatreRestController(TheatreService theatreService) {
         this.theatreService = theatreService;
     }
 
@@ -23,6 +22,11 @@ public class TheatreController {
         Theatre savedTheatre = theatreService.createTheatre(theatre);
 
         return new ResponseEntity<>(savedTheatre, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("{id}")
+    public void deleteTheatre(@PathVariable int id) {
+        theatreService.deleteTheatre(id);
     }
 
     @PutMapping("/{id}")

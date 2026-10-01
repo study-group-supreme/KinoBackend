@@ -14,7 +14,7 @@ public class Employee {
     private int id;
     private String name;
     private String password;
-    private boolean is_admin;
+    private boolean isAdmin;
     private String username;
 
 
@@ -50,24 +50,24 @@ public class Employee {
         this.password = password;
     }
 
-    public boolean isIs_admin() {
-        return is_admin;
+    public boolean isAdmin() {
+        return isAdmin;
     }
 
-    public void setIs_admin(boolean is_admin) {
-        this.is_admin = is_admin;
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return id == employee.id && is_admin == employee.is_admin && Objects.equals(name, employee.name) && Objects.equals(password, employee.password) && Objects.equals(username, employee.username);
+        return id == employee.id && isAdmin == employee.isAdmin && Objects.equals(name, employee.name) && Objects.equals(password, employee.password) && Objects.equals(username, employee.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, password, is_admin, username);
+        return Objects.hash(id, name, password, isAdmin, username);
     }
 }
 
