@@ -22,6 +22,9 @@ public class EmployeeService {
         if (employee.getPassword().length() <= 3) {
             throw new IllegalArgumentException("Password must be longere than 3 characters");
         }
+        if (employee.getUsername() == null || employee.getUsername().isBlank()){
+            throw new IllegalArgumentException("Employee must have a username");
+        }
         return employeeRepository.save(employee);
     }
 }
