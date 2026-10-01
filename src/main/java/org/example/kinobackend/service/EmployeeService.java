@@ -17,15 +17,30 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
+    public Employee createEmployee(Employee employee) {
+        if (employee.getName() == null || employee.getName().isBlank()) {
+            throw new IllegalArgumentException("Employee must have a name");
+        }
+        if (employee.getPassword() == null || employee.getPassword().isBlank()) {
+            throw new IllegalArgumentException("Employee password cannot be empty");
+        }
+        if (employee.getPassword().length() <= 3) {
+            throw new IllegalArgumentException("Password must be longere than 3 characters");
+        }
+        if (employee.getUsername() == null || employee.getUsername().isBlank()) {
+            throw new IllegalArgumentException("Employee must have a username");
+        }
+        if (employeeRepository.existsByUsername(employee.getUsername())) {
+            throw new IllegalArgumentException("Username already taken");
+        }
+        return employeeRepository.save(employee);
+    }
+
     public List<Employee> getAll() {
         return employeeRepository.findAll();
     }
 
     public Optional<Employee> findByUsername(String username) {
         return employeeRepository.findByUsername(username);
-    }
-
-    public void save(Employee employee) {
-        employeeRepository.save(employee);
     }
 }

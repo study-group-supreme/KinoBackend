@@ -13,13 +13,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class InitDataEmployee implements CommandLineRunner {
 
-    private final EmployeeService employeeService;
+    private final EmployeeRepository employeeRepository;
 
-
-    public InitDataEmployee(EmployeeService employeeService) {
-        this.employeeService = employeeService;
+    public InitDataEmployee(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
     }
-
 
     @Override
     public void run(String... args) throws Exception {
@@ -36,8 +34,8 @@ public class InitDataEmployee implements CommandLineRunner {
         notAdmin.setIsAdmin(false);
         notAdmin.setUsername("LoneNotAdmin");
 
-        employeeService.save(admin1);
-        employeeService.save(notAdmin);
+        employeeRepository.save(admin1);
+        employeeRepository.save(notAdmin);
     }
 }
 
