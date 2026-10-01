@@ -1,8 +1,8 @@
-package org.example.kinobackend.serviceTest;
+package org.example.kinobackend.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.example.kinobackend.model.Theatre;
 import org.example.kinobackend.repository.TheatreRepository;
-import org.example.kinobackend.service.TheatreService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -93,5 +93,28 @@ public class TheatreServiceTest {
         assertEquals(allTheatres, result);
     }
 
+
+    @Test
+    void deleteTheatre_shouldDeleteWhenFound() {
+        Theatre theatre = new Theatre();
+        theatre.setId(1);
+
+        when(theatreRepository.findById(1)).thenReturn(Optional.of(theatre));
+
+        theatreService.deleteTheatre(1);
+
+        verify(theatreRepository).findById(1);
+        verify(theatreRepository).delete(theatre);
+    }
+
+    @Test
+    void deleteTheatre_shouldThrowEntityNotFoundExceptionWhenNotFound() {
+        when(theatreRepository.findById(1)).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> theatreService.deleteTheatre(1));
+
+        verify(theatreRepository).findById(1);
+        verify(theatreRepository, never()).delete(any());
+    }
 }
 

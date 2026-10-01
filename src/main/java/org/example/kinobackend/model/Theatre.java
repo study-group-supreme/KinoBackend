@@ -1,7 +1,5 @@
 package org.example.kinobackend.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -16,7 +14,7 @@ public class Theatre {
     private int id;
     private String name;
 
-    @OneToMany(mappedBy = "theatre")
+    @OneToMany(mappedBy = "theatre", cascade = CascadeType.ALL)
     @JsonManagedReference("theatre-seats")
     private Set<Seat> seats = new HashSet<>();
 
