@@ -48,9 +48,9 @@ public class EmployeeServiceTest {
 
         when(employeeRepository.findAll()).thenReturn(List.of(admin, employee));
         List<Employee> result = employeeService.getAll();
-//        assertEquals(2, result.size());
-//        assertEquals("JohnAdmin", result.get(0).getUsername());
-//        assertEquals("LoneNotAdmin", result.get(1).getUsername());
+        assertEquals(2, result.size());
+        assertEquals("JohnAdmin", result.get(0).getUsername());
+        assertEquals("LoneNotAdmin", result.get(1).getUsername());
         verify(employeeRepository).findAll();
     }
 
