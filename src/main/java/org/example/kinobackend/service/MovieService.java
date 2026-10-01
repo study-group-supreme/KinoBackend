@@ -44,4 +44,12 @@ public class MovieService {
         return movieRepository.save(movie);
     }
 
+
+    public Movie deactivateMovie(int id) {
+        Movie movie = movieRepository.findById(id).orElseThrow(()
+                -> new IllegalArgumentException("Movie not found with id: " + id));
+        movie.setActive(false);
+        return movieRepository.save(movie);
+    }
+
 }

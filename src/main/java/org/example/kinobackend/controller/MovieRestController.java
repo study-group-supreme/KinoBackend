@@ -20,22 +20,22 @@ public class MovieRestController {
     }
 
     @GetMapping
-    public List<Movie> getAllMovies(){
+    public List<Movie> getAllMovies() {
         return movieService.getAllMovies();
     }
 
     @GetMapping("/{name}")
-    public List<Movie> getMovieByName (@PathVariable String name) {
+    public List<Movie> getMovieByName(@PathVariable String name) {
         return movieService.getMovieByName(name);
     }
 
     @GetMapping("/available")
-    public List<Movie> getAllAvailableMovies(){
+    public List<Movie> getAllAvailableMovies() {
         return movieService.getAllActiveMovies();
     }
 
     @GetMapping("/unavailable")
-    public List<Movie> getAllUnavailableMovies(){
+    public List<Movie> getAllUnavailableMovies() {
         return movieService.getAllInactiveMovies();
     }
 
@@ -44,5 +44,12 @@ public class MovieRestController {
         Movie saveMovie = movieService.createMovie(movie);
         return new ResponseEntity<>(saveMovie, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deactivateMovieById(@PathVariable int id) {
+        movieService.deactivateMovie(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
