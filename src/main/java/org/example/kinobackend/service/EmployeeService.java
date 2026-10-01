@@ -1,5 +1,6 @@
 package org.example.kinobackend.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.example.kinobackend.model.Employee;
 import org.example.kinobackend.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
@@ -42,5 +43,12 @@ public class EmployeeService {
 
     public Optional<Employee> findByUsername(String username) {
         return employeeRepository.findByUsername(username);
+    }
+
+    public void deleteEmployee(int id) {
+        Employee employeeToBeDeleted = employeeRepository.findById(id).orElseThrow(()
+                -> new EntityNotFoundException
+                ("The employee you are trying to deleted does not exist"));
+        employeeRepository.delete(employeeToBeDeleted);
     }
 }
