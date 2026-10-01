@@ -153,14 +153,16 @@ public class EmployeeServiceTest {
         verify(employeeRepository).findById(1);
         verify(employeeRepository).delete(employee);
     }
+
     @Test
-    public void deleteEmployeeThrowsEntityNotFoundExceptionIfEmployeeToBeDeletedIsNotFound(){
+    public void deleteEmployeeThrowsEntityNotFoundExceptionIfEmployeeToBeDeletedIsNotFound() {
         when(employeeRepository.findById(5)).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> employeeService.deleteEmployee(5));
 
         verify(employeeRepository, never()).delete(any());
     }
+
     @Test
     public void getEmployeeByIdShouldReturnEmployeeWithTheRightId() {
         when(employeeRepository.findById(2)).thenReturn(Optional.of(employee));
@@ -168,6 +170,12 @@ public class EmployeeServiceTest {
         Employee result = employeeService.getEmployeeById(2);
 
         assertEquals(2, result.getId());
+    }
+
+    @Test
+    public void getEmployeeByIdShouldThrowEntityNotFoundExceptionWhenNoEmployeeIsFound() {
+        when(employeeRepository.findById(1000000)).thenReturn(Optional.empty());
+        assertThrows(EntityNotFoundException.class, () -> employeeService.getEmployeeById(1000000));
     }
 
 
