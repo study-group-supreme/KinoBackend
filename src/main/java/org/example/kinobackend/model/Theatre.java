@@ -18,7 +18,7 @@ public class Theatre {
     @JsonManagedReference("theatre-seats")
     private Set<Seat> seats = new HashSet<>();
 
-    @OneToMany(mappedBy = "theatre", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "theatre")
     @JsonManagedReference("theatre-showing")
     private Set<Showing> showings = new HashSet<>();
 
