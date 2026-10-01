@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/theatre")
 public class TheatreController {
@@ -29,7 +31,11 @@ public class TheatreController {
         return new ResponseEntity<>(updatedTheatre, HttpStatus.OK);
     }
 
-
+    @GetMapping("/showAll")
+    public ResponseEntity<List<Theatre>> showAllTheatres() {
+        List<Theatre> theatres = theatreService.getAllTheatres();
+        return ResponseEntity.ok(theatres);
+    }
 }
 
 

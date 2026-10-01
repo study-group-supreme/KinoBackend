@@ -10,6 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -74,5 +76,23 @@ public class TheatreServiceTest {
         assertThrows(IllegalArgumentException.class, () -> theatreService.updateTheatre(1, theatre));
         verify(theatreRepository, never()).save(any());
     }
+    @Test
+    void getAllTheatresReturnsAllTheatres() {
+        Theatre imax = new Theatre();
+        Theatre regular = new Theatre();
+
+        List<Theatre> allTheatres = new ArrayList<>();
+
+        allTheatres.add(imax);
+        allTheatres.add(regular);
+
+        when(theatreRepository.findAll()).thenReturn(allTheatres);
+
+        List<Theatre> result = theatreService.getAllTheatres();
+
+        assertEquals(2, result.size());
+        assertEquals(allTheatres, result);
+    }
+
 }
 
