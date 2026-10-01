@@ -42,6 +42,5 @@ public class MovieService {
             throw new IllegalArgumentException("Fill out description to continue");
         }
         return movieRepository.save(movie);
-
     }
 }

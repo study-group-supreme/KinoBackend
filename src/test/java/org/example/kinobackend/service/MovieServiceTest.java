@@ -51,7 +51,7 @@ class MovieServiceTest {
         movies = List.of(hobbit, greenMile);
     }
 
-// --- GetAllMovies ---
+    // --- GetAllMovies ---
     @Test
     void getAllMovies_shouldReturnAllMovies() {
         when(movieRepository.findAll()).thenReturn(movies);
@@ -73,7 +73,7 @@ class MovieServiceTest {
         assertTrue(result.isEmpty());
     }
 
-// --- GetMovieByName ---
+    // --- GetMovieByName ---
     @Test
     void getMovieByName_ShouldReturnMatchingMovie() {
         when(movieRepository.findAllByName(hobbit.getName())).thenReturn(List.of(hobbit));
@@ -86,7 +86,7 @@ class MovieServiceTest {
     }
 
     @Test
-    void getMovieByName_ShouldReturnEmptyList_WhenNoMatch(){
+    void getMovieByName_ShouldReturnEmptyList_WhenNoMatch() {
         when(movieRepository.findAllByName("Unknown Title")).thenReturn(List.of());
 
         List<Movie> result = movieService.getMovieByName("Unknown Title");
@@ -94,7 +94,7 @@ class MovieServiceTest {
         assertTrue(result.isEmpty());
     }
 
-// --- GetActiveMovies ---
+    // --- GetActiveMovies ---
     @Test
     void getAllActiveMovies_ShouldReturnListOfActiveMovies() {
         when(movieRepository.findByIsActiveTrue()).thenReturn(List.of(hobbit));
@@ -107,12 +107,13 @@ class MovieServiceTest {
     }
 
     @Test
-    void getAllActiveMovies_ShouldReturnEmptyList_WhenNoneActive(){
+    void getAllActiveMovies_ShouldReturnEmptyList_WhenNoneActive() {
         when(movieRepository.findByIsActiveTrue()).thenReturn(List.of());
 
         assertTrue(movieService.getAllActiveMovies().isEmpty());
     }
-// --- GetAllInactiveMovies ---
+
+    // --- GetAllInactiveMovies ---
     @Test
     void getAllInactiveMovies_ShouldReturnListOfInactiveMovies() {
         when(movieRepository.findByIsActiveFalse()).thenReturn(List.of(greenMile));
@@ -132,5 +133,25 @@ class MovieServiceTest {
         assertTrue(movieService.getAllInactiveMovies().isEmpty());
     }
 
+    // --- CreateMovie ---
+    @Test
+    void postMovie_shouldCreateNewMovie_whenSaveIsCalled() {
+        Movie happyRabbit = new Movie();
+        happyRabbit.setName("The Happy Rabbit");
+        happyRabbit.setRuntimeMinutes(67);
+        happyRabbit.setDescription("A story about the happy rabbit, who left his home to go explore the wilderness with nothing but a semi-automatic assault rifle");
+        happyRabbit.setPosterUrl("https://example.com");
+        happyRabbit.setAgeLimit(18);
+        happyRabbit.setActive(true);
 
+        when(movieRepository.save(happyRabbit)).thenReturn(happyRabbit);
+        Movie result = movieService.createMovie(happyRabbit);
+
+        assertEquals(happyRabbit, result);
+        verify(movieRepository).save(happyRabbit);
     }
+
+    @Test
+    void
+
+}
