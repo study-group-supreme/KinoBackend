@@ -219,6 +219,7 @@ class MovieServiceTest {
         happyRabbit.setAgeLimit(18);
         happyRabbit.setActive(true);
 
+        when(movieRepository.save(happyRabbit)).thenReturn(happyRabbit);
         Movie result = movieService.createMovie(happyRabbit);
         assertEquals(1, result.getRuntimeMinutes());
         verify(movieRepository).save(happyRabbit);
