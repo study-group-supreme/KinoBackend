@@ -1,4 +1,14 @@
 package org.example.kinobackend.repository;
 
-public interface MovieRepository {
+import org.example.kinobackend.model.Movie;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface MovieRepository extends JpaRepository<Movie, Integer> {
+    List<Movie> findAllByName(String name);
+
+    List<Movie> findByIsActiveTrue();
+
+    List<Movie> findByIsActiveFalse();
 }
