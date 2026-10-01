@@ -9,17 +9,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.any;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.same;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TheatreServiceTest {
@@ -72,6 +66,13 @@ public class TheatreServiceTest {
 
         assertEquals("newTest", result.getName());
         verify(theatreRepository).save(existing);
+    }
+    @Test
+    public void updateTheatreThrowsIllegalArgumentExceptionWhenNameIsBlank(){
+        Theatre theatre = new Theatre();
+        theatre.setName("   ");
+        assertThrows(IllegalArgumentException.class, () -> theatreService.updateTheatre(1, theatre));
+        verify(theatreRepository, never()).save(any());
     }
 }
 
