@@ -18,13 +18,15 @@ import static org.mockito.Mockito.when;
 public class EmployeeServiceTest {
     @Mock
     EmployeeRepository employeeRepository;
-    @InjectMocks EmployeeService employeeService;
+    @InjectMocks
+    EmployeeService employeeService;
 
     @BeforeEach
-    void setup(){
+    void setup() {
     }
+
     @Test
-    public void createEmployeeCanCreateEmployee(){
+    public void createEmployeeCanCreateEmployee() {
         Employee employee = new Employee();
         employee.setId(1);
         employee.setIs_admin(true);
@@ -32,10 +34,11 @@ public class EmployeeServiceTest {
         employee.setPassword("Andreas123");
 
         when(employeeRepository.save(employee)).thenReturn(employee);
-Employee result = employeeService.createEmployee(employee);
+        Employee result = employeeService.createEmployee(employee);
         assertEquals(employee, result);
         verify(employeeRepository).save(employee);
     }
+
     @Test
     public void createEmployeeCannotCreateEmployeeIfPasswordIsUnder3CharactersAndThrowsIllegalArgumentException() {
         Employee employee = new Employee();
@@ -44,10 +47,11 @@ Employee result = employeeService.createEmployee(employee);
         employee.setName("Andreas");
         employee.setPassword("ab");
         employee.setUsername("Andreas123");
-assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee));
+        assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee));
     }
+
     @Test
-    public void createEmployeeThrowsIllegalArgumentExceptionIfNameIsBlank(){
+    public void createEmployeeThrowsIllegalArgumentExceptionIfNameIsBlank() {
         Employee employee = new Employee();
         employee.setPassword("12345");
         employee.setName("   ");
@@ -56,8 +60,9 @@ assertThrows(IllegalArgumentException.class, () -> employeeService.createEmploye
         employee.setUsername("BlankUser");
         assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee));
     }
+
     @Test
-    public void createEmployeeThrowsIllegalArgumentExceptionIfNameIsNull(){
+    public void createEmployeeThrowsIllegalArgumentExceptionIfNameIsNull() {
         Employee employee = new Employee();
         employee.setName(null);
         employee.setId(1);
@@ -67,8 +72,9 @@ assertThrows(IllegalArgumentException.class, () -> employeeService.createEmploye
 
         assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee));
     }
+
     @Test
-    public void createEmployeeThrowsIllegalArgumentExceptionIfUsernameIsNull(){
+    public void createEmployeeThrowsIllegalArgumentExceptionIfUsernameIsNull() {
         Employee employee = new Employee();
         employee.setUsername(null);
         employee.setName("Joakim");
@@ -78,8 +84,9 @@ assertThrows(IllegalArgumentException.class, () -> employeeService.createEmploye
 
         assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee));
     }
+
     @Test
-    public void createEmployeeThrowsIllegalArgumentExceptionIfUsernameIsBlank(){
+    public void createEmployeeThrowsIllegalArgumentExceptionIfUsernameIsBlank() {
         Employee employee = new Employee();
         employee.setUsername("     ");
         employee.setName("Joakim");
@@ -88,6 +95,18 @@ assertThrows(IllegalArgumentException.class, () -> employeeService.createEmploye
         employee.setId(1);
 
         assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee));
+    }
+
+    @Test
+    public void createEmployeeThrowsIllegalArgumentExceptionIfUsernameIsAlreadyTaken() {
+        Employee employee1 = new Employee();
+        employee1.setUsername("test");
+        employee1.setName("Mads");
+        employee1.setId(1);
+        employee1.setIs_admin(false);
+        employee1.setPassword("1234");
+        when(employeeRepository.existByUsername("test")).thenReturn(true);
+        assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee1));
     }
 
 
