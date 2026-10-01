@@ -11,7 +11,7 @@ import java.util.List;
 public class MovieService {
     private final MovieRepository movieRepository;
 
-    public MovieService(MovieRepository movieRepository){
+    public MovieService(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
     }
 
@@ -23,13 +23,27 @@ public class MovieService {
         return movieRepository.findAllByName(name);
     }
 
-    public List<Movie> getAllActiveMovies(){
+    public List<Movie> getAllActiveMovies() {
         return movieRepository.findByIsActiveTrue();
     }
 
-    public List<Movie> getAllInactiveMovies(){
+    public List<Movie> getAllInactiveMovies() {
         return movieRepository.findByIsActiveFalse();
     }
+
+    public Movie createMovie(Movie movie) {
+        if (movie.getName() == null || movie.getName().isBlank()) {
+            throw new IllegalArgumentException("Fill out name to continue");
+        }
+        if (movie.getRuntimeMinutes()<= 0) {
+            throw new IllegalArgumentException("Runtime must be positive");
+        }
+        if (movie.getDescription() == null || movie.getDescription().isBlank()) {
+            throw new IllegalArgumentException("Fill out description to continue");
+        }
+        return movieRepository.save(movie);
+    }
+
 
     public Movie deactivateMovie(int id) {
         Movie movie = movieRepository.findById(id).orElseThrow(()
