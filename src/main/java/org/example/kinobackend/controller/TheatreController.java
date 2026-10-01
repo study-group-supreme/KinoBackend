@@ -26,7 +26,4 @@ public class TheatreController {
         return new ResponseEntity<>(savedTheatre, HttpStatus.CREATED);
     }
 
-
 }
-
-
