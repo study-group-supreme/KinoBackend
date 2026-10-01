@@ -1,6 +1,5 @@
 package org.example.kinobackend.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.example.kinobackend.model.Employee;
 import org.example.kinobackend.repository.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class EmployeeServiceTest {
@@ -167,6 +167,64 @@ public class EmployeeServiceTest {
     public void getEmployeeByIdShouldThrowEntityNotFoundExceptionWhenNoEmployeeIsFound() {
         when(employeeRepository.findById(1000000)).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> employeeService.getEmployeeById(1000000));
+    }
+
+    @Test
+    public void updateEmployee() {
+
+        admin.setId(1);
+
+        Employee updatedEmployee = new Employee();
+        updatedEmployee.setName("John Updated");
+        updatedEmployee.setUsername("JohnUpdated");
+        updatedEmployee.setPassword("newPassword123");
+        updatedEmployee.setIsAdmin(true);
+
+        when(employeeRepository.existsByUsername("JohnUpdated"))
+                .thenReturn(false);
+
+        when(employeeRepository.findById(1))
+                .thenReturn(Optional.of(admin));
+
+        when(employeeRepository.save(any(Employee.class)))
+                .thenReturn(admin);
+
+        Optional<Employee> result =
+                employeeService.updateEmployee(1, updatedEmployee);
+
+        assertTrue(result.isPresent());
+        assertEquals("JohnUpdated", result.get().getUsername());
+        assertEquals("John Updated", result.get().getName());
+        assertEquals("newPassword123", result.get().getPassword());
+        assertTrue(result.get().isAdmin());
+
+        verify(employeeRepository).existsByUsername("JohnUpdated");
+        verify(employeeRepository).findById(1);
+        verify(employeeRepository).save(admin);
+    }
+
+    @Test
+    public void updateEmployeeUsernameAlreadyTaken() {
+
+        Employee updatedEmployee = new Employee();
+        updatedEmployee.setName("John Updated");
+        updatedEmployee.setUsername("ExistingUser");
+        updatedEmployee.setPassword("newPassword123");
+        updatedEmployee.setIsAdmin(true);
+
+        when(employeeRepository.existsByUsername("ExistingUser"))
+                .thenReturn(true);
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> employeeService.updateEmployee(1, updatedEmployee)
+        );
+
+        assertEquals("Username already taken", exception.getMessage());
+
+        verify(employeeRepository).existsByUsername("ExistingUser");
+        verify(employeeRepository, never()).findById(anyInt());
+        verify(employeeRepository, never()).save(any(Employee.class));
     }
 
 

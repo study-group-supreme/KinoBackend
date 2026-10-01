@@ -48,4 +48,17 @@ public class EmployeeRestController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable int id) {
+        return employeeService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/id/{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable int id, @RequestBody Employee employee) {
+        return employeeService.updateEmployee(id, employee)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
