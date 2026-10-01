@@ -41,4 +41,9 @@ public class EmployeeRestController {
 
         return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
     }
+    @DeleteMapping("/remove/{id}")
+    public ResponseEntity<Employee> deleteEmployee(@PathVariable int id){
+        Employee employeeToBeRemoved =
+
+    }
 }

@@ -51,4 +51,9 @@ public class EmployeeService {
                 ("The employee you are trying to deleted does not exist"));
         employeeRepository.delete(employeeToBeDeleted);
     }
+    public Employee getEmployeeById(int id){
+        Employee employee = employeeRepository.findById(id).orElseThrow(()
+                -> new EntityNotFoundException("No employee found"));
+        return employee;
+    }
 }
