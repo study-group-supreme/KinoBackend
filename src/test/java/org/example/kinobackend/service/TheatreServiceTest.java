@@ -1,16 +1,21 @@
-package org.example.kinobackend.service;
+package org.example.kinobackend.serviceTest;
 
 import org.example.kinobackend.model.Theatre;
 import org.example.kinobackend.repository.TheatreRepository;
+import org.example.kinobackend.service.TheatreService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TheatreServiceTest {
@@ -18,6 +23,10 @@ public class TheatreServiceTest {
     private TheatreRepository theatreRepository;
     @InjectMocks
     private TheatreService theatreService;
+
+    @BeforeEach
+    public void setUp() {
+    }
 
     @Test
     public void createTheatreCreatesATheatre() {
@@ -43,5 +52,46 @@ public class TheatreServiceTest {
         theatre.setName(null);
         assertThrows(IllegalArgumentException.class, () -> theatreService.createTheatre(theatre));
     }
+    @Test
+    public void updateTheatreUpdatesTheatreName() {
+        Theatre existing = new Theatre();
+        existing.setId(1);
+        existing.setName("test");
+        when(theatreRepository.findById(1)).thenReturn(Optional.of(existing));
+        when(theatreRepository.save(existing)).thenReturn(existing);
+
+        Theatre update = new Theatre();
+        update.setName("newTest");
+
+        Theatre result = theatreService.updateTheatre(1, update);
+
+        assertEquals("newTest", result.getName());
+        verify(theatreRepository).save(existing);
+    }
+    @Test
+    public void updateTheatreThrowsIllegalArgumentExceptionWhenNameIsBlank(){
+        Theatre theatre = new Theatre();
+        theatre.setName("   ");
+        assertThrows(IllegalArgumentException.class, () -> theatreService.updateTheatre(1, theatre));
+        verify(theatreRepository, never()).save(any());
+    }
+    @Test
+    void getAllTheatresReturnsAllTheatres() {
+        Theatre imax = new Theatre();
+        Theatre regular = new Theatre();
+
+        List<Theatre> allTheatres = new ArrayList<>();
+
+        allTheatres.add(imax);
+        allTheatres.add(regular);
+
+        when(theatreRepository.findAll()).thenReturn(allTheatres);
+
+        List<Theatre> result = theatreService.getAllTheatres();
+
+        assertEquals(2, result.size());
+        assertEquals(allTheatres, result);
+    }
+
 }
 
