@@ -10,7 +10,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -130,6 +132,21 @@ class MovieServiceTest {
         when(movieRepository.findByIsActiveFalse()).thenReturn(List.of());
 
         assertTrue(movieService.getAllInactiveMovies().isEmpty());
+    }
+
+
+    @Test
+    void deactivateMovie_shouldChangeIsActiveToFalse_andSave() {
+        Movie test = new Movie();
+        test.setId(1);
+        test.setActive(true);
+
+        when(movieRepository.findById(1)).thenReturn(Optional.of(test));
+        when(movieRepository.save(any(Movie.class))).thenReturn(test);
+
+        Movie result = movieService.deactivateMovie(1);
+
+        assertFalse(result.isActive());
     }
 
 
