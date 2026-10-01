@@ -7,8 +7,19 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TheatreService {
-    @Autowired
+
     private TheatreRepository theatreRepository;
+
+    public TheatreService(TheatreRepository theatreRepository) {
+        this.theatreRepository = theatreRepository;
+    }
+
+    public Theatre createTheatre(Theatre theatre) throws IllegalArgumentException {
+        if (theatre.getName() == null || theatre.getName().isBlank()) {
+            throw new IllegalArgumentException("Theatre must be named");
+        }
+        return theatreRepository.save(theatre);
+    }
 
     public void deleteTheatre(int id) {
         Theatre theatre = theatreRepository.findById(id)
