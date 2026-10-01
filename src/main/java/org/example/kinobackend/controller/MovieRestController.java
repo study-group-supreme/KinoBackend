@@ -2,7 +2,6 @@ package org.example.kinobackend.controller;
 
 import org.example.kinobackend.model.Movie;
 import org.example.kinobackend.service.MovieService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,10 +9,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/movies")
 @CrossOrigin("*")
-public class MovieController {
+public class MovieRestController {
     private final MovieService movieService;
 
-    public MovieController(MovieService movieService){
+    public MovieRestController(MovieService movieService){
         this.movieService = movieService;
     }
 
