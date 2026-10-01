@@ -1,4 +1,4 @@
-package org.example.kinobackend.serviceTest;
+package org.example.kinobackend.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.example.kinobackend.model.Theatre;
