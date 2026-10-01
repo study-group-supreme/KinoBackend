@@ -3,6 +3,8 @@ package org.example.kinobackend.controller;
 import org.example.kinobackend.model.Movie;
 import org.example.kinobackend.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,5 +38,11 @@ public class MovieController {
     public List<Movie> getAllUnavailableMovies(){
         return movieService.getAllInactiveMovies();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Movie> deactivateMovieById(@PathVariable int id) {
+        return movieService.deactivateMovie(1);
+    }
+
 
 }
