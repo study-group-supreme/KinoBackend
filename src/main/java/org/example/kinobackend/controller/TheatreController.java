@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/theatre")
 public class TheatreController {
-    private TheatreService theatreService;
+    private final TheatreService theatreService;
 
     public TheatreController(TheatreService theatreService) {
         this.theatreService = theatreService;

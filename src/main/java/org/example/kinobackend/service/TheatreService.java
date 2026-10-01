@@ -3,11 +3,9 @@ package org.example.kinobackend.service;
 import jakarta.persistence.EntityNotFoundException;
 import org.example.kinobackend.model.Theatre;
 import org.example.kinobackend.repository.TheatreRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TheatreService {
@@ -26,7 +24,7 @@ public class TheatreService {
     }
 
     public Theatre updateTheatre(int id, Theatre theatre) {
-        if(theatre.getName() == null || theatre.getName().isBlank()){
+        if (theatre.getName() == null || theatre.getName().isBlank()) {
             throw new IllegalArgumentException("Theatre name must not be blank");
         }
         Theatre existing = theatreRepository.findById(id)
@@ -35,10 +33,10 @@ public class TheatreService {
         return theatreRepository.save(existing);
 
     }
+
     public List<Theatre> getAllTheatres() {
         return theatreRepository.findAll();
     }
-
 
     public void deleteTheatre(int id) {
         Theatre theatre = theatreRepository.findById(id)
