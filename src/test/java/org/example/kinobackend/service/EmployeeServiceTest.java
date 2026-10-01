@@ -1,5 +1,6 @@
 package org.example.kinobackend.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.example.kinobackend.model.Employee;
 import org.example.kinobackend.repository.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,8 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class EmployeeServiceTest {
@@ -149,6 +149,14 @@ public class EmployeeServiceTest {
 
         verify(employeeRepository).findById(1);
         verify(employeeRepository).delete(employee);
+    }
+    @Test
+    public void deleteEmployeeThrowsEntityNotFoundExceptionIfEmployeeToBeDeletedIsNotFound(){
+        when(employeeRepository.findById(5)).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> employeeService.deleteEmployee(5));
+
+        verify(employeeRepository, never()).delete(any());
     }
 
 
