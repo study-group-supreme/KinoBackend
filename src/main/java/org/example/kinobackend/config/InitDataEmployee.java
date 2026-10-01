@@ -27,13 +27,13 @@ public class InitDataEmployee implements CommandLineRunner {
         Employee admin1 = new Employee();
         admin1.setName("John");
         admin1.setPassword("admin123");
-        admin1.setIs_admin(true);
+        admin1.setIsAdmin(true);
         admin1.setUsername("JohnAdmin");
 
         Employee notAdmin = new Employee();
         notAdmin.setName("Lone");
         notAdmin.setPassword("notAdmin123");
-        notAdmin.setIs_admin(false);
+        notAdmin.setIsAdmin(false);
         notAdmin.setUsername("LoneNotAdmin");
 
         employeeService.save(admin1);

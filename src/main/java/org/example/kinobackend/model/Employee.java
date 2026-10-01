@@ -50,12 +50,12 @@ public class Employee {
         this.password = password;
     }
 
-    public boolean isadmin() {
+    public boolean isAdmin() {
         return isAdmin;
     }
 
-    public void setIs_admin(boolean is_admin) {
-        this.isAdmin = is_admin;
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     @Override
