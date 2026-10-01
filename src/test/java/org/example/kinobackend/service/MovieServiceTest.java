@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,7 +31,7 @@ class MovieServiceTest {
 
     @BeforeEach
     void setup() {
-        Movie hobbit = new Movie();
+        hobbit = new Movie();
         hobbit.setName("The Fellowship of the Ring");
         hobbit.setRuntimeMinutes(178);
         hobbit.setDescription("A meek Hobbit from the Shire and eight companions set out on a journey to destroy the One Ring.");
@@ -39,31 +40,97 @@ class MovieServiceTest {
         hobbit.setActive(true);
 
 
-        Movie greenMile = new Movie();
+        greenMile = new Movie();
         greenMile.setName("The Green Mile");
         greenMile.setRuntimeMinutes(189);
         greenMile.setDescription("A death row head guard discovers that one of his inmates has a miraculous, supernatural gift.");
         greenMile.setPosterUrl("https://example.com");
         greenMile.setAgeLimit(15);
-        greenMile.setActive(true);
+        greenMile.setActive(false);
 
         movies = List.of(hobbit, greenMile);
     }
 
-
+// --- GetAllMovies ---
     @Test
-    void getAllMovies() {
+    void getAllMovies_shouldReturnAllMovies() {
+        when(movieRepository.findAll()).thenReturn(movies);
+
+        List<Movie> result = movieService.getAllMovies();
+
+        assertEquals(2, result.size());
+        assertTrue(result.contains(hobbit));
+        assertTrue(result.contains(greenMile));
+        verify(movieRepository).findAll();
     }
 
     @Test
-    void getMovieByName() {
+    void getAllMovies_ShouldReturnEmptyList_WhenNoMovies() {
+        when(movieRepository.findAll()).thenReturn(List.of());
+
+        List<Movie> result = movieService.getAllMovies();
+
+        assertTrue(result.isEmpty());
+    }
+
+// --- GetMovieByName ---
+    @Test
+    void getMovieByName_ShouldReturnMatchingMovie() {
+        when(movieRepository.findAllByName(hobbit.getName())).thenReturn(List.of(hobbit));
+
+        List<Movie> result = movieService.getMovieByName("The Fellowship of the Ring");
+
+        assertEquals(1, result.size());
+        assertEquals("The Fellowship of the Ring", result.get(0).getName());
+        verify(movieRepository).findAllByName("The Fellowship of the Ring");
     }
 
     @Test
-    void getAllActiveMovies() {
+    void getMovieByName_ShouldReturnEmptyList_WhenNoMatch(){
+        when(movieRepository.findAllByName("Unknown Title")).thenReturn(List.of());
+
+        List<Movie> result = movieService.getMovieByName("Unknown Title");
+
+        assertTrue(result.isEmpty());
+    }
+
+// --- GetActiveMovies ---
+    @Test
+    void getAllActiveMovies_ShouldReturnListOfActiveMovies() {
+        when(movieRepository.findByIsActiveTrue()).thenReturn(List.of(hobbit));
+
+        List<Movie> result = movieService.getAllActiveMovies();
+
+        assertEquals(1, result.size());
+        assertEquals("The Fellowship of the Ring", result.get(0).getName());
+        verify(movieRepository).findByIsActiveTrue();
     }
 
     @Test
-    void getAllInactiveMovies() {
+    void getAllActiveMovies_ShouldReturnEmptyList_WhenNoneActive(){
+        when(movieRepository.findByIsActiveTrue()).thenReturn(List.of());
+
+        assertTrue(movieService.getAllActiveMovies().isEmpty());
     }
-}
+// --- GetAllInactiveMovies ---
+    @Test
+    void getAllInactiveMovies_ShouldReturnListOfInactiveMovies() {
+        when(movieRepository.findByIsActiveFalse()).thenReturn(List.of(greenMile));
+
+        List<Movie> result = movieService.getAllInactiveMovies();
+
+        assertEquals(1, result.size());
+        assertEquals("The Green Mile", result.get(0).getName());
+        assertFalse(result.get(0).isActive());
+        verify(movieRepository).findByIsActiveFalse();
+    }
+
+    @Test
+    void getAllInactiveMovies_shouldReturnEmptyList_whenNoneInactive() {
+        when(movieRepository.findByIsActiveFalse()).thenReturn(List.of());
+
+        assertTrue(movieService.getAllInactiveMovies().isEmpty());
+    }
+
+
+    }
