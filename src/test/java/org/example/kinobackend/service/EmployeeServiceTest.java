@@ -11,29 +11,46 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class EmployeeServiceTest {
     @Mock
-    EmployeeRepository employeeRepository;
+    private EmployeeRepository employeeRepository;
+
     @InjectMocks
-    EmployeeService employeeService;
+    private EmployeeService employeeService;
+    private Employee admin;
+    private Employee employee;
 
     @BeforeEach
-    void setup() {
+    public void setUp() {
+
+        admin = new Employee();
+        admin.setName("John");
+        admin.setUsername("JohnAdmin");
+        admin.setPassword("admin123");
+        admin.setIsAdmin(true);
+        employee = new Employee();
+        employee.setName("Lone");
+        employee.setUsername("LoneNotAdmin");
+        employee.setPassword("notAdmin123");
+        employee.setIsAdmin(false);
     }
 
     @Test
     public void createEmployeeCanCreateEmployee() {
         Employee employee = new Employee();
         employee.setId(1);
-        employee.setIs_admin(true);
         employee.setName("Andreas");
         employee.setPassword("Andreas123");
         employee.setUsername("AndreasUser");
-
         when(employeeRepository.save(employee)).thenReturn(employee);
         Employee result = employeeService.createEmployee(employee);
         assertEquals(employee, result);
@@ -44,7 +61,6 @@ public class EmployeeServiceTest {
     public void createEmployeeCannotCreateEmployeeIfPasswordIsUnder3CharactersAndThrowsIllegalArgumentException() {
         Employee employee = new Employee();
         employee.setId(1);
-        employee.setIs_admin(true);
         employee.setName("Andreas");
         employee.setPassword("ab");
         employee.setUsername("Andreas123");
@@ -52,11 +68,21 @@ public class EmployeeServiceTest {
     }
 
     @Test
+    public void get_All_Employees() {
+
+        when(employeeRepository.findAll()).thenReturn(List.of(admin, employee));
+        List<Employee> result = employeeService.getAll();
+        assertEquals(2, result.size());
+        assertEquals("JohnAdmin", result.get(0).getUsername());
+        assertEquals("LoneNotAdmin", result.get(1).getUsername());
+        verify(employeeRepository).findAll();
+    }
+
+    @Test
     public void createEmployeeThrowsIllegalArgumentExceptionIfNameIsBlank() {
         Employee employee = new Employee();
         employee.setPassword("12345");
         employee.setName("   ");
-        employee.setIs_admin(false);
         employee.setId(2);
         employee.setUsername("BlankUser");
         assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee));
@@ -67,7 +93,6 @@ public class EmployeeServiceTest {
         Employee employee = new Employee();
         employee.setName(null);
         employee.setId(1);
-        employee.setIs_admin(false);
         employee.setPassword("hans123");
         employee.setUsername("Hans123321");
 
@@ -80,10 +105,17 @@ public class EmployeeServiceTest {
         employee.setUsername(null);
         employee.setName("Joakim");
         employee.setPassword("sadfgh");
-        employee.setIs_admin(false);
         employee.setId(1);
+    }
+
+    public void get_Employee_By_Username() {
 
         assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee));
+
+        when(employeeRepository.findByUsername("JohnAdmin"))
+                .
+
+                thenReturn(Optional.of(admin));
     }
 
     @Test
@@ -92,8 +124,8 @@ public class EmployeeServiceTest {
         employee.setUsername("     ");
         employee.setName("Joakim");
         employee.setPassword("sadfgh");
-        employee.setIs_admin(false);
         employee.setId(1);
+        Optional<Employee> result = employeeService.findByUsername("JohnAdmin");
 
         assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee));
     }
@@ -104,7 +136,6 @@ public class EmployeeServiceTest {
         employee1.setUsername("test");
         employee1.setName("Mads");
         employee1.setId(1);
-        employee1.setIs_admin(false);
         employee1.setPassword("1234");
         when(employeeRepository.existsByUsername("test")).thenReturn(true);
         assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee1));

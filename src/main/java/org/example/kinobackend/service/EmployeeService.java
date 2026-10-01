@@ -5,10 +5,13 @@ import org.example.kinobackend.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeService {
-    private EmployeeRepository employeeRepository;
+
+    private final EmployeeRepository employeeRepository;
+
 
     public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
@@ -24,12 +27,24 @@ public class EmployeeService {
         if (employee.getPassword().length() <= 3) {
             throw new IllegalArgumentException("Password must be longere than 3 characters");
         }
-        if (employee.getUsername() == null || employee.getUsername().isBlank()){
+        if (employee.getUsername() == null || employee.getUsername().isBlank()) {
             throw new IllegalArgumentException("Employee must have a username");
         }
-        if(employeeRepository.existsByUsername(employee.getUsername())){
+        if (employeeRepository.existsByUsername(employee.getUsername())) {
             throw new IllegalArgumentException("Username already taken");
         }
         return employeeRepository.save(employee);
+    }
+
+    public List<Employee> getAll() {
+        return employeeRepository.findAll();
+    }
+
+    public Optional<Employee> findByUsername(String username) {
+        return employeeRepository.findByUsername(username);
+    }
+
+    public void save(Employee employee) {
+        employeeRepository.save(employee);
     }
 }
