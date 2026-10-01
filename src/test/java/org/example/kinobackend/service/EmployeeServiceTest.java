@@ -141,5 +141,15 @@ public class EmployeeServiceTest {
         assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee1));
     }
 
+    @Test
+    public void deleteEmployeeShouldDeleteEmployee() {
+        when(employeeRepository.findById(1)).thenReturn(Optional.of(employee));
+
+        employeeService.deleteEmployee(1);
+
+        verify(employeeRepository).findById(1);
+        verify(employeeRepository).delete(employee);
+    }
+
 
 }
