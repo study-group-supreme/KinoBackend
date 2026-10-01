@@ -148,6 +148,7 @@ class MovieServiceTest {
         Movie result = movieService.deactivateMovie(1);
 
         assertFalse(result.isActive());
+        verify(movieRepository).save(test);
     }
 
     @Test
