@@ -25,7 +25,7 @@ public class TheatreService {
 
     public Theatre updateTheatre(int id, Theatre theatre) {
         Theatre existing = theatreRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(); //When we agree on custom exceptions i can fill this out, but it will still work now
         if(theatre.getName() == null || theatre.getName().isBlank()){
             throw new IllegalArgumentException("Theatre name must not be blank");
         }
