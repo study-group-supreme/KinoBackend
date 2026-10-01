@@ -32,6 +32,7 @@ public class EmployeeServiceTest {
         employee.setIs_admin(true);
         employee.setName("Andreas");
         employee.setPassword("Andreas123");
+        employee.setUsername("AndreasUser");
 
         when(employeeRepository.save(employee)).thenReturn(employee);
         Employee result = employeeService.createEmployee(employee);
@@ -105,7 +106,7 @@ public class EmployeeServiceTest {
         employee1.setId(1);
         employee1.setIs_admin(false);
         employee1.setPassword("1234");
-        when(employeeRepository.existByUsername("test")).thenReturn(true);
+        when(employeeRepository.existsByUsername("test")).thenReturn(true);
         assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee1));
     }
 
