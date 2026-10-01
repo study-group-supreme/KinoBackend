@@ -15,33 +15,34 @@ import java.util.List;
 public class MovieController {
     private final MovieService movieService;
 
-    public MovieController(MovieService movieService){
+    public MovieController(MovieService movieService) {
         this.movieService = movieService;
     }
 
     @GetMapping
-    public List<Movie> getAllMovies(){
+    public List<Movie> getAllMovies() {
         return movieService.getAllMovies();
     }
 
     @GetMapping("/{name}")
-    public List<Movie> getMovieByName (@PathVariable String name) {
+    public List<Movie> getMovieByName(@PathVariable String name) {
         return movieService.getMovieByName(name);
     }
 
     @GetMapping("/available")
-    public List<Movie> getAllAvailableMovies(){
+    public List<Movie> getAllAvailableMovies() {
         return movieService.getAllActiveMovies();
     }
 
     @GetMapping("/unavailable")
-    public List<Movie> getAllUnavailableMovies(){
+    public List<Movie> getAllUnavailableMovies() {
         return movieService.getAllInactiveMovies();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Movie> deactivateMovieById(@PathVariable int id) {
-        return movieService.deactivateMovie(1);
+    public ResponseEntity<Void> deactivateMovieById(@PathVariable int id) {
+        movieService.deactivateMovie(id);
+        return ResponseEntity.noContent().build();
     }
 
 
