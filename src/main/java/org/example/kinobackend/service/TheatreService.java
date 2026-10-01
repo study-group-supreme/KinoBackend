@@ -5,6 +5,8 @@ import org.example.kinobackend.repository.TheatreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TheatreService {
     @Autowired
@@ -17,6 +19,10 @@ public class TheatreService {
         }
         return theatreRepository.save(theatre);
 
+    }
+
+    public List<Theatre> getAllTheatres() {
+        return theatreRepository.findAll();
     }
 
 
