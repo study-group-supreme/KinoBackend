@@ -53,7 +53,7 @@ class MovieServiceTest {
         movies = List.of(hobbit, greenMile);
     }
 
-// --- GetAllMovies ---
+    // --- GetAllMovies ---
     @Test
     void getAllMovies_shouldReturnAllMovies() {
         when(movieRepository.findAll()).thenReturn(movies);
@@ -75,7 +75,7 @@ class MovieServiceTest {
         assertTrue(result.isEmpty());
     }
 
-// --- GetMovieByName ---
+    // --- GetMovieByName ---
     @Test
     void getMovieByName_ShouldReturnMatchingMovie() {
         when(movieRepository.findAllByName(hobbit.getName())).thenReturn(List.of(hobbit));
@@ -88,7 +88,7 @@ class MovieServiceTest {
     }
 
     @Test
-    void getMovieByName_ShouldReturnEmptyList_WhenNoMatch(){
+    void getMovieByName_ShouldReturnEmptyList_WhenNoMatch() {
         when(movieRepository.findAllByName("Unknown Title")).thenReturn(List.of());
 
         List<Movie> result = movieService.getMovieByName("Unknown Title");
@@ -96,7 +96,7 @@ class MovieServiceTest {
         assertTrue(result.isEmpty());
     }
 
-// --- GetActiveMovies ---
+    // --- GetActiveMovies ---
     @Test
     void getAllActiveMovies_ShouldReturnListOfActiveMovies() {
         when(movieRepository.findByIsActiveTrue()).thenReturn(List.of(hobbit));
@@ -109,12 +109,13 @@ class MovieServiceTest {
     }
 
     @Test
-    void getAllActiveMovies_ShouldReturnEmptyList_WhenNoneActive(){
+    void getAllActiveMovies_ShouldReturnEmptyList_WhenNoneActive() {
         when(movieRepository.findByIsActiveTrue()).thenReturn(List.of());
 
         assertTrue(movieService.getAllActiveMovies().isEmpty());
     }
-// --- GetAllInactiveMovies ---
+
+    // --- GetAllInactiveMovies ---
     @Test
     void getAllInactiveMovies_ShouldReturnListOfInactiveMovies() {
         when(movieRepository.findByIsActiveFalse()).thenReturn(List.of(greenMile));
@@ -149,5 +150,14 @@ class MovieServiceTest {
         assertFalse(result.isActive());
     }
 
+    @Test
+    void deactivateMovie_shouldThrowException_whenMovieNotFound() {
+        when(movieRepository.findById(1)).thenReturn(Optional.empty());
 
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> movieService.deactivateMovie(1));
+        assertEquals("Movie not found with id: 1", exception.getMessage());
     }
+
+
+}
