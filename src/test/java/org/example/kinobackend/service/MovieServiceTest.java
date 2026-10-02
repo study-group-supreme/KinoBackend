@@ -307,5 +307,14 @@ class MovieServiceTest {
         verify(movieRepository, never()).delete(any());
     }
 
+    @Test
+    void deleteMovie_ShouldThrowException_WhenMovieByIdNotFound() {
+        when(movieRepository.findById(hobbit.getId())).thenReturn(Optional.empty());
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class
+        , () -> movieService.deleteMovieById(hobbit.getId()));
+        assertEquals("Movie not found with id: " + hobbit.getId(), exception.getMessage());
+    }
+
 }
 
