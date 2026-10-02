@@ -41,7 +41,7 @@ public class TheatreRestController {
         return ResponseEntity.ok(theatres);
     }
 
-    @GetMapping("/showSpecific")
+    @GetMapping("/showSpecific/{id}")
     public ResponseEntity<Theatre> showSpecificTheatre(@PathVariable int id) {
         Theatre specificTheatre = theatreService.getTheatreById(id);
         return new ResponseEntity<>(specificTheatre, HttpStatus.OK);
