@@ -1,5 +1,6 @@
 package org.example.kinobackend.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.example.kinobackend.model.Employee;
 import org.example.kinobackend.repository.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,10 +13,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
