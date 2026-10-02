@@ -12,4 +12,5 @@ public class ShowingRestController {
     public ShowingRestController(ShowingService showingService) {
         this.showingService = showingService;
     }
+
 }
