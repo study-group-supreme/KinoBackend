@@ -15,13 +15,13 @@ public class ShowingRestController {
         this.showingService = showingService;
     }
 
-    @PostMapping("/create")
+    @PostMapping("")
     public ResponseEntity<Showing> createShowing(@RequestBody Showing showing) {
         Showing newShowing = showingService.createShowing(showing);
         return new ResponseEntity<>(newShowing, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/delete{id}")
+    @DeleteMapping("/{id}")
     public void deleteShowing(@PathVariable int id) {
         showingService.deleteShowing(id);
 
