@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -22,27 +23,37 @@ import static org.mockito.Mockito.when;
 public class ShowingServiceTest {
     @Mock
     ShowingRepository showingRepository;
-    @InjectMocks ShowingService showingService;
+    @InjectMocks
+    ShowingService showingService;
+    @InjectMocks
+    Showing showing;
+    @InjectMocks
+    Movie movie;
+    @InjectMocks
+    Theatre theatre;
+
+
     @BeforeEach
-    void setup(){
-    }
-    @Test
-    public void createShowing_CreatesShowing(){
-        Movie movie = new Movie();
-        movie.setName("Test");
+    void setup() {
+        movie = new Movie();
+        movie.setName("test");
         movie.setId(1);
 
-        Theatre theatre = new Theatre();
-        theatre.setName("testTheatre");
+        theatre = new Theatre();
         theatre.setId(1);
+        theatre.setName("test");
 
-        Showing showing = new Showing();
+        showing = new Showing();
         showing.setId(1);
         showing.setMovie(movie);
         showing.setTheatre(theatre);
-        showing.setReservations(null);
         showing.setStartTime(null);
+        showing.setReservations(null);
 
+    }
+
+    @Test
+    public void createShowing_CreatesShowing() {
         when(showingRepository.save(showing)).thenReturn(showing);
         Showing result = showingService.createShowing(showing);
         assertEquals(showing, result);
