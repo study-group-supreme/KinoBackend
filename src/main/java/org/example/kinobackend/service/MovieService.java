@@ -2,9 +2,7 @@ package org.example.kinobackend.service;
 
 import org.example.kinobackend.model.Movie;
 import org.example.kinobackend.repository.MovieRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -46,7 +44,7 @@ public class MovieService {
     }
 
 
-    public Movie deactivateMovie(int id) {
+    public Movie deactivateMovieById(int id) {
         Movie movie = movieRepository.findById(id).orElseThrow(()
                 -> new IllegalArgumentException("Movie not found with id: " + id));
         movie.setActive(false);

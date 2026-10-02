@@ -258,7 +258,7 @@ class MovieServiceTest {
     }
 
     @Test
-    void deactivateMovie_shouldChangeIsActiveToFalse_andSave() {
+    void deactivateMovie_ById_shouldChangeIsActiveToFalse_andSave() {
         Movie test = new Movie();
         test.setId(1);
         test.setActive(true);
@@ -266,18 +266,18 @@ class MovieServiceTest {
         when(movieRepository.findById(1)).thenReturn(Optional.of(test));
         when(movieRepository.save(any(Movie.class))).thenReturn(test);
 
-        Movie result = movieService.deactivateMovie(1);
+        Movie result = movieService.deactivateMovieById(1);
 
         assertFalse(result.isActive());
         verify(movieRepository).save(test);
     }
 
     @Test
-    void deactivateMovie_shouldThrowException_whenMovieNotFound() {
+    void deactivateMovie_shouldThrowException_whenMovieByIdNotFound() {
         when(movieRepository.findById(1)).thenReturn(Optional.empty());
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> movieService.deactivateMovie(1));
+                () -> movieService.deactivateMovieById(1));
         assertEquals("Movie not found with id: 1", exception.getMessage());
     }
 
