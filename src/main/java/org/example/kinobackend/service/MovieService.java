@@ -47,7 +47,7 @@ public class MovieService {
         }
 
         Movie existing = movieRepository.findById(id)
-                .orElseThrow(); //When we agree on custom exceptions i can fill this out, but it will still work now
+                .orElseThrow(); //When we agree on custom exceptions I can fill this out, but it will still work now
         existing.setName(movie.getName());
         existing.setDescription(movie.getDescription());
         existing.setRuntimeMinutes(movie.getRuntimeMinutes());
