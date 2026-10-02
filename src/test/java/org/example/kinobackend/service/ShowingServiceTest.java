@@ -13,6 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -48,7 +52,7 @@ public class ShowingServiceTest {
         showing.setMovie(movie);
         showing.setTheatre(theatre);
         showing.setStartTime(null);
-        showing.setReservations(null);
+        showing.setReservations(new HashSet<>());
 
     }
 
@@ -58,5 +62,11 @@ public class ShowingServiceTest {
         Showing result = showingService.createShowing(showing);
         assertEquals(showing, result);
         verify(showingRepository).save(showing);
+    }
+    @Test
+    public void deleteShowing_WithNoReservations_DeletesShowing(){
+        when(showingRepository.findById(1)).thenReturn(Optional.of(showing));
+        showingService.deleteShowing(1);
+        verify(showingRepository).delete(showing);
     }
 }
