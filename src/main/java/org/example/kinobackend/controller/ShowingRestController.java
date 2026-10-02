@@ -4,10 +4,7 @@ import org.example.kinobackend.model.Showing;
 import org.example.kinobackend.service.ShowingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/showing")
@@ -22,5 +19,9 @@ public class ShowingRestController {
     public ResponseEntity<Showing> createShowing(@RequestBody Showing showing) {
         Showing newShowing = showingService.createShowing(showing);
         return new ResponseEntity<>(newShowing, HttpStatus.CREATED);
+    }
+    @DeleteMapping("/delete")
+    public ResponseEntity<Showing> deleteShowing(){
+
     }
 }
