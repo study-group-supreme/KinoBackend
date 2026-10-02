@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 
+import static org.apache.logging.log4j.ThreadContext.isEmpty;
+
 @Service
 public class ShowingService {
     private ShowingRepository showingRepository;
@@ -22,5 +24,11 @@ public class ShowingService {
             throw new IllegalArgumentException("Showing cant be created without a theatre");
         }
         return showingRepository.save(showing);
+    }
+
+    public void deleteShowing(Showing showing) {
+        if (!showing.getReservations().isEmpty()) {
+            throw new IllegalArgumentException("You cannot delete a showing containing reservations");
+        }
     }
 }
