@@ -1,6 +1,7 @@
 package org.example.kinobackend.service;
 
 import org.example.kinobackend.model.Movie;
+import org.example.kinobackend.model.Reservation;
 import org.example.kinobackend.model.Showing;
 import org.example.kinobackend.model.Theatre;
 import org.example.kinobackend.repository.MovieRepository;
@@ -63,10 +64,22 @@ public class ShowingServiceTest {
         assertEquals(showing, result);
         verify(showingRepository).save(showing);
     }
+
     @Test
-    public void deleteShowing_WithNoReservations_DeletesShowing(){
+    public void deleteShowing_WithNoReservations_DeletesShowing() {
         when(showingRepository.findById(1)).thenReturn(Optional.of(showing));
         showingService.deleteShowing(1);
         verify(showingRepository).delete(showing);
+    }
+
+    @Test
+    public void deleteShowing_WithReservations_ReturnsIllegalArgumentException() {
+        Reservation reservation = new Reservation();
+        reservation.setShowing(showing);
+        showing.getReservations().add(reservation);
+        when(showingRepository.findById(1)).thenReturn(Optional.of(showing));
+
+        assertThrows(IllegalArgumentException.class, () -> showingService.deleteShowing(1));
+
     }
 }
