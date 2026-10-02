@@ -29,7 +29,7 @@ public class TheatreServiceTest {
     }
 
     @Test
-    public void createTheatreCreatesATheatre() {
+    public void createTheatre_CreatesATheatre() {
         Theatre theatre = new Theatre();
         theatre.setName("test");
         when(theatreRepository.save(theatre)).thenReturn(theatre);
@@ -40,20 +40,20 @@ public class TheatreServiceTest {
     }
 
     @Test
-    public void createTheatreThrowIllegalArgumentExceptionWhenNameIsBlank() {
+    public void createTheatre_ThrowIllegalArgumentException_WhenNameIsBlank() {
         Theatre theatre = new Theatre();
         theatre.setName(" ");
         assertThrows(IllegalArgumentException.class, () -> theatreService.createTheatre(theatre));
     }
 
     @Test
-    public void createTheatreThrowIllegalArgumentExceptionWhenNameIsNull() {
+    public void createTheatre_ThrowIllegalArgumentException_WhenNameIsNull() {
         Theatre theatre = new Theatre();
         theatre.setName(null);
         assertThrows(IllegalArgumentException.class, () -> theatreService.createTheatre(theatre));
     }
     @Test
-    public void updateTheatreUpdatesTheatreName() {
+    public void updateTheatre_UpdatesTheatreName() {
         Theatre existing = new Theatre();
         existing.setId(1);
         existing.setName("test");
@@ -69,14 +69,14 @@ public class TheatreServiceTest {
         verify(theatreRepository).save(existing);
     }
     @Test
-    public void updateTheatreThrowsIllegalArgumentExceptionWhenNameIsBlank(){
+    public void updateTheatre_ThrowsIllegalArgumentException_WhenNameIsBlank(){
         Theatre theatre = new Theatre();
         theatre.setName("   ");
         assertThrows(IllegalArgumentException.class, () -> theatreService.updateTheatre(1, theatre));
         verify(theatreRepository, never()).save(any());
     }
     @Test
-    void getAllTheatresReturnsAllTheatres() {
+    void getAllTheatres_ReturnsAllTheatres() {
         Theatre imax = new Theatre();
         Theatre regular = new Theatre();
 
