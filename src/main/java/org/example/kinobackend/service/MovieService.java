@@ -4,6 +4,7 @@ import org.example.kinobackend.model.Movie;
 import org.example.kinobackend.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class MovieService {
         if (movie.getName() == null || movie.getName().isBlank()) {
             throw new IllegalArgumentException("Fill out name to continue");
         }
-        if (movie.getRuntimeMinutes()<= 0) {
+        if (movie.getRuntimeMinutes() <= 0) {
             throw new IllegalArgumentException("Runtime must be positive");
         }
         if (movie.getDescription() == null || movie.getDescription().isBlank()) {
@@ -51,5 +52,18 @@ public class MovieService {
         movie.setActive(false);
         return movieRepository.save(movie);
     }
+
+    public void deleteMovieById(int id) {
+        Movie movie = movieRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Movie not found with id: " + id));
+
+        if (!movie.getShowings().isEmpty()) {
+            throw new IllegalStateException("Cannot delete movie with id: " + id + " because it has existing showings");
+        }
+
+        movieRepository.delete(movie);
+
+    }
+
 
 }
