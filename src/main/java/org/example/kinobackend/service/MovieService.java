@@ -54,13 +54,10 @@ public class MovieService {
     public void deleteMovieById(int id) {
         Movie movie = movieRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Movie not found with id: " + id));
-
         if (!movie.getShowings().isEmpty()) {
             throw new IllegalStateException("Cannot delete movie with id: " + id + " because it has existing showings");
         }
-
         movieRepository.delete(movie);
-
     }
 
 

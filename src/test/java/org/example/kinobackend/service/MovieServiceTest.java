@@ -1,6 +1,7 @@
 package org.example.kinobackend.service;
 
 import org.example.kinobackend.model.Movie;
+import org.example.kinobackend.model.Showing;
 import org.example.kinobackend.repository.MovieRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,8 +10,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.swing.text.html.Option;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.*;
@@ -281,6 +285,27 @@ class MovieServiceTest {
         assertEquals("Movie not found with id: 1", exception.getMessage());
     }
 
+    @Test
+    void deleteMovie_ShouldDeleteMovieFromDatabase() {
+        when(movieRepository.findById(hobbit.getId())).thenReturn(Optional.of(hobbit));
+
+        movieService.deleteMovieById(hobbit.getId());
+
+        verify(movieRepository).findById(hobbit.getId());
+        verify(movieRepository).delete(hobbit);
+    }
+
+    @Test
+    void deleteMovie_ShouldThrowException_WhenMovieHasShowings() {
+        greenMile.setShowings(Set.of(new Showing()));
+
+        when(movieRepository.findById(greenMile.getId())).thenReturn(Optional.of(greenMile));
+
+        assertThrows(IllegalStateException.class,
+                () -> movieService.deleteMovieById(greenMile.getId()));
+
+        verify(movieRepository, never()).delete(any());
+    }
 
 }
 
