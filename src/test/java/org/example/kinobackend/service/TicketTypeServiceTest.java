@@ -33,7 +33,7 @@ class TicketTypeServiceTest {
     }
 
     @Test
-    void createTicketTypeShouldCreateTicketType() {
+    void createTicketType_ShouldCreateTicketType() {
         when(ticketTypeRepository.findByName("Adult"))
                 .thenReturn(Optional.empty());
 
@@ -51,7 +51,7 @@ class TicketTypeServiceTest {
     }
 
     @Test
-    void createTicketTypeShouldThrowExceptionWhenNameIsNull() {
+    void createTicketType_ShouldThrowException_WhenNameIsNull() {
         ticketType.setName(null);
 
         IllegalArgumentException exception = assertThrows(
@@ -65,7 +65,7 @@ class TicketTypeServiceTest {
     }
 
     @Test
-    void createTicketTypeShouldThrowExceptionWhenNameIsBlank() {
+    void createTicket_TypeShouldThrowException_WhenNameIsBlank() {
         ticketType.setName("   ");
 
         IllegalArgumentException exception = assertThrows(
@@ -79,7 +79,7 @@ class TicketTypeServiceTest {
     }
 
     @Test
-    void createTicketTypeShouldThrowExceptionWhenPriceIsZero() {
+    void createTicket_TypeShouldThrowException_WhenPriceIsZero() {
         ticketType.setPrice(0);
 
         IllegalArgumentException exception = assertThrows(
@@ -93,7 +93,7 @@ class TicketTypeServiceTest {
     }
 
     @Test
-    void createTicketTypeShouldThrowExceptionWhenPriceIsNegative() {
+    void createTicket_TypeShouldThrowException_WhenPriceIsNegative() {
         ticketType.setPrice(-10);
 
         IllegalArgumentException exception = assertThrows(
@@ -107,7 +107,7 @@ class TicketTypeServiceTest {
     }
 
     @Test
-    void createTicketTypeShouldThrowExceptionWhenNameAlreadyExists() {
+    void createTicket_TypeShouldThrowException_WhenNameAlreadyExists() {
         TicketType existingTicketType = new TicketType();
         existingTicketType.setName("Adult");
         existingTicketType.setPrice(120.0);
