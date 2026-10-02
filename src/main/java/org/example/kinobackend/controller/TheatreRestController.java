@@ -40,6 +40,12 @@ public class TheatreRestController {
         List<Theatre> theatres = theatreService.getAllTheatres();
         return ResponseEntity.ok(theatres);
     }
+
+    @GetMapping("/showSpecific/{id}")
+    public ResponseEntity<Theatre> showSpecificTheatre(@PathVariable int id) {
+        Theatre specificTheatre = theatreService.getTheatreById(id);
+        return new ResponseEntity<>(specificTheatre, HttpStatus.OK);
+    }
 }
 
 
