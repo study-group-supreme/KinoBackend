@@ -2,12 +2,15 @@ package org.example.kinobackend.controller;
 
 import org.example.kinobackend.model.Movie;
 import org.example.kinobackend.service.MovieService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/movies")
@@ -37,6 +40,12 @@ public class MovieRestController {
     @GetMapping("/unavailable")
     public List<Movie> getAllUnavailableMovies(){
         return movieService.getAllInactiveMovies();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Movie> putMovie(@PathVariable int id, @RequestBody Movie movie){
+        Movie updatedMovie = movieService.updateMovie(movie, id);
+        return new ResponseEntity<>(updatedMovie, HttpStatus.OK);
     }
 
     @PostMapping
