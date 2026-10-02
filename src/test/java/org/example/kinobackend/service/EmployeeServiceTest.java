@@ -48,7 +48,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void createEmployeeCanCreateEmployee() {
+    public void createEmployee_CanCreateEmployee() {
         Employee employee = new Employee();
         employee.setId(1);
         employee.setName("Andreas");
@@ -61,7 +61,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void createEmployeeCannotCreateEmployeeIfPasswordIsUnder3CharactersAndThrowsIllegalArgumentException() {
+    public void createEmployee_CannotCreateEmployeeIfPasswordIsUnder3Characters_AndThrowsIllegalArgumentException() {
         Employee employee = new Employee();
         employee.setId(1);
         employee.setName("Andreas");
@@ -82,7 +82,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void createEmployeeThrowsIllegalArgumentExceptionIfNameIsBlank() {
+    public void createEmployee_ThrowsIllegalArgumentException_IfNameIsBlank() {
         Employee employee = new Employee();
         employee.setPassword("12345");
         employee.setName("   ");
@@ -92,7 +92,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void createEmployeeThrowsIllegalArgumentExceptionIfNameIsNull() {
+    public void createEmployee_ThrowsIllegalArgumentException_IfNameIsNull() {
         Employee employee = new Employee();
         employee.setName(null);
         employee.setId(1);
@@ -103,7 +103,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void createEmployeeThrowsIllegalArgumentExceptionIfUsernameIsNull() {
+    public void createEmployee_ThrowsIllegalArgumentException_IfUsernameIsNull() {
         Employee employee = new Employee();
         employee.setUsername(null);
         employee.setName("Joakim");
@@ -113,7 +113,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void createEmployeeThrowsIllegalArgumentExceptionIfUsernameIsBlank() {
+    public void createEmployee_ThrowsIllegalArgumentException_IfUsernameIsBlank() {
         Employee employee = new Employee();
         employee.setUsername("     ");
         employee.setName("Joakim");
@@ -125,7 +125,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void createEmployeeThrowsIllegalArgumentExceptionIfUsernameIsAlreadyTaken() {
+    public void createEmployee_ThrowsIllegalArgumentException_IfUsernameIsAlreadyTaken() {
         Employee employee1 = new Employee();
         employee1.setUsername("test");
         employee1.setName("Mads");
@@ -136,7 +136,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void deleteEmployeeShouldDeleteEmployee() {
+    public void deleteEmployee_ShouldDeleteEmployee() {
         when(employeeRepository.findById(1)).thenReturn(Optional.of(employee));
 
         employeeService.deleteEmployee(1);
@@ -146,7 +146,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void deleteEmployeeThrowsEntityNotFoundExceptionIfEmployeeToBeDeletedIsNotFound() {
+    public void deleteEmployee_ThrowsEntityNotFoundException_IfEmployeeToBeDeletedIsNotFound() {
         when(employeeRepository.findById(5)).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> employeeService.deleteEmployee(5));
@@ -155,7 +155,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void getEmployeeByIdShouldReturnEmployeeWithTheRightId() {
+    public void getEmployeeById_ShouldReturnEmployeeWithTheRightId() {
         when(employeeRepository.findById(2)).thenReturn(Optional.of(employee));
 
         Employee result = employeeService.getEmployeeById(2);
@@ -164,7 +164,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void getEmployeeByIdShouldThrowEntityNotFoundExceptionWhenNoEmployeeIsFound() {
+    public void getEmployeeById_ShouldThrowEntityNotFoundException_WhenNoEmployeeIsFound() {
         when(employeeRepository.findById(1000000)).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> employeeService.getEmployeeById(1000000));
     }
@@ -204,7 +204,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void updateEmployeeUsernameAlreadyTaken() {
+    public void updateEmployee_UsernameAlreadyTaken() {
 
         Employee updatedEmployee = new Employee();
         updatedEmployee.setName("John Updated");
