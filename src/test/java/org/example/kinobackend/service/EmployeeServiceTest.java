@@ -109,16 +109,7 @@ public class EmployeeServiceTest {
         employee.setName("Joakim");
         employee.setPassword("sadfgh");
         employee.setId(1);
-    }
-
-    public void get_Employee_By_Username() {
-
         assertThrows(IllegalArgumentException.class, () -> employeeService.createEmployee(employee));
-
-        when(employeeRepository.findByUsername("JohnAdmin"))
-                .
-
-                thenReturn(Optional.of(admin));
     }
 
     @Test
