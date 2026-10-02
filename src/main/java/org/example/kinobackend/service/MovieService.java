@@ -55,6 +55,7 @@ public class MovieService {
         existing.setAgeLimit(movie.getAgeLimit());
         existing.setPosterUrl(movie.getPosterUrl());
         existing.setCategories(movie.getCategories());
+        existing.setShowings(movie.getShowings());
         return movieRepository.save(existing);
     }
 }

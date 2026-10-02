@@ -2,6 +2,7 @@ package org.example.kinobackend.controller;
 
 import org.example.kinobackend.model.Movie;
 import org.example.kinobackend.service.MovieService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,10 +40,9 @@ public class MovieRestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Movie> putMovie(int id){
-        Optional<Movie> movieToUpdate = movieService.getMovieById(id);
-
-
+    public ResponseEntity<Movie> putMovie(@PathVariable int id, @RequestBody Movie movie){
+        Movie updatedMovie = movieService.updateMovie(movie, id);
+        return new ResponseEntity<>(updatedMovie, HttpStatus.OK);
     }
 
 }
