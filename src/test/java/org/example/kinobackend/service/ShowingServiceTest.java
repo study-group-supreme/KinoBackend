@@ -22,13 +22,7 @@ import static org.mockito.Mockito.when;
 public class ShowingServiceTest {
     @Mock
     ShowingRepository showingRepository;
-    @Mock
-    MovieRepository movieRepository;
-    @Mock
-    TheatreRepository theatreRepository;
     @InjectMocks ShowingService showingService;
-    @InjectMocks MovieService movieService;
-    @InjectMocks TheatreService theatreService;
     @BeforeEach
     void setup(){
     }
