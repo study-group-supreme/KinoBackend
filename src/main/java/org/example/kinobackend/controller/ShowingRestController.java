@@ -20,8 +20,10 @@ public class ShowingRestController {
         Showing newShowing = showingService.createShowing(showing);
         return new ResponseEntity<>(newShowing, HttpStatus.CREATED);
     }
-    @DeleteMapping("/delete")
-    public ResponseEntity<Showing> deleteShowing(){
+
+    @DeleteMapping("/delete{id}")
+    public void deleteShowing(@PathVariable int id) {
+        showingService.deleteShowing(id);
 
     }
 }
