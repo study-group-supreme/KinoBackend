@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class MovieServiceTest {
@@ -134,6 +133,129 @@ class MovieServiceTest {
         when(movieRepository.findByIsActiveFalse()).thenReturn(List.of());
 
         assertTrue(movieService.getAllInactiveMovies().isEmpty());
+    }
+
+    // --- CreateMovie ---
+    @Test
+    void postMovie_shouldCreateNewMovie_whenSaveIsCalled() {
+        Movie happyRabbit = new Movie();
+        happyRabbit.setName("The Happy Rabbit");
+        happyRabbit.setRuntimeMinutes(67);
+        happyRabbit.setDescription("A story about the happy rabbit, who left his home to go explore the wilderness with nothing but a semi-automatic assault rifle");
+        happyRabbit.setPosterUrl("https://example.com");
+        happyRabbit.setAgeLimit(18);
+        happyRabbit.setActive(true);
+
+        when(movieRepository.save(happyRabbit)).thenReturn(happyRabbit);
+        Movie result = movieService.createMovie(happyRabbit);
+
+        assertEquals(happyRabbit, result);
+        verify(movieRepository).save(happyRabbit);
+    }
+
+    @Test
+    void postMovie_shouldThrow_whenNameIsNull() {
+        Movie happyRabbit = new Movie();
+        happyRabbit.setName(null);
+        happyRabbit.setRuntimeMinutes(67);
+        happyRabbit.setDescription("A story about the happy rabbit, who left his home to go explore the wilderness with nothing but a semi-automatic assault rifle");
+        happyRabbit.setPosterUrl("https://example.com");
+        happyRabbit.setAgeLimit(18);
+        happyRabbit.setActive(true);
+
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> movieService.createMovie(happyRabbit));
+
+        assertEquals("Fill out name to continue", e.getMessage());
+        verify(movieRepository, never()).save(any());
+    }
+
+    @Test
+    void postMovie_shouldThrow_WhenNameIsBlank() {
+        Movie happyRabbit = new Movie();
+        happyRabbit.setName("");
+        happyRabbit.setRuntimeMinutes(67);
+        happyRabbit.setDescription("A story about the happy rabbit, who left his home to go explore the wilderness with nothing but a semi-automatic assault rifle");
+        happyRabbit.setPosterUrl("https://example.com");
+        happyRabbit.setAgeLimit(18);
+        happyRabbit.setActive(true);
+
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> movieService.createMovie(happyRabbit));
+    }
+
+    @Test
+    void postMovie_shouldThrowException_whenRuntimeIsZero() {
+        Movie happyRabbit = new Movie();
+        happyRabbit.setName("The Happy Rabbit");
+        happyRabbit.setRuntimeMinutes(0);
+        happyRabbit.setDescription("A story about the happy rabbit, who left his home to go explore the wilderness with nothing but a semi-automatic assault rifle");
+        happyRabbit.setPosterUrl("https://example.com");
+        happyRabbit.setAgeLimit(18);
+        happyRabbit.setActive(true);
+
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> movieService.createMovie(happyRabbit));
+        assertEquals("Runtime must be positive", e.getMessage());
+        verify(movieRepository, never()).save(any());
+    }
+
+    @Test
+    void postMovie_shouldThrowException_whenRuntimeIsNegativ() {
+        Movie happyRabbit = new Movie();
+        happyRabbit.setName("The Happy Rabbit");
+        happyRabbit.setRuntimeMinutes(-45);
+        happyRabbit.setDescription("A story about the happy rabbit, who left his home to go explore the wilderness with nothing but a semi-automatic assault rifle");
+        happyRabbit.setPosterUrl("https://example.com");
+        happyRabbit.setAgeLimit(18);
+        happyRabbit.setActive(true);
+
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> movieService.createMovie(happyRabbit));
+        assertEquals("Runtime must be positive", e.getMessage());
+        verify(movieRepository, never()).save(any());
+    }
+
+    @Test
+    void postMovie_ShouldSave_WhenRuntimeIsOne() {
+        Movie happyRabbit = new Movie();
+        happyRabbit.setName("The Happy Rabbit");
+        happyRabbit.setRuntimeMinutes(1);
+        happyRabbit.setDescription("A story about the happy rabbit, who left his home to go explore the wilderness with nothing but a semi-automatic assault rifle");
+        happyRabbit.setPosterUrl("https://example.com");
+        happyRabbit.setAgeLimit(18);
+        happyRabbit.setActive(true);
+
+        when(movieRepository.save(happyRabbit)).thenReturn(happyRabbit);
+        Movie result = movieService.createMovie(happyRabbit);
+        assertEquals(1, result.getRuntimeMinutes());
+        verify(movieRepository).save(happyRabbit);
+    }
+
+    @Test
+    void postMovie_ShouldThrowException_whenDescriptionIsNull() {
+        Movie happyRabbit = new Movie();
+        happyRabbit.setName("The Happy Rabbit");
+        happyRabbit.setRuntimeMinutes(67);
+        happyRabbit.setDescription(null);
+        happyRabbit.setPosterUrl("https://example.com");
+        happyRabbit.setAgeLimit(18);
+        happyRabbit.setActive(true);
+
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> movieService.createMovie(happyRabbit));
+        assertEquals("Fill out description to continue", e.getMessage());
+        verify(movieRepository, never()).save(any());
+    }
+
+    @Test
+    void postMovie_ShouldThrowException_whenDescriptionIsBlank() {
+        Movie happyRabbit = new Movie();
+        happyRabbit.setName("The Happy Rabbit");
+        happyRabbit.setRuntimeMinutes(67);
+        happyRabbit.setDescription(" ");
+        happyRabbit.setPosterUrl("https://example.com");
+        happyRabbit.setAgeLimit(18);
+        happyRabbit.setActive(true);
+
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> movieService.createMovie(happyRabbit));
+        assertEquals("Fill out description to continue", e.getMessage());
+        verify(movieRepository, never()).save(any());
     }
 
 
