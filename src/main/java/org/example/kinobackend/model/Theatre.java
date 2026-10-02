@@ -15,6 +15,7 @@ public class Theatre {
     private String name;
 
     @OneToMany(mappedBy = "theatre", cascade = CascadeType.ALL)
+    @OrderBy("id ASC")
     @JsonManagedReference("theatre-seats")
     private Set<Seat> seats = new HashSet<>();
 
