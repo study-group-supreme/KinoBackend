@@ -45,4 +45,26 @@ public class TicketTypeService {
     public Optional<TicketType> findTicketTypeById(int id) {
         return ticketTypeRepository.findById(id);
     }
+
+    public Optional<TicketType> updateTicketType(int id, TicketType ticketType) {
+        if (ticketType.getName() == null || ticketType.getName().isBlank()) {
+
+            throw new IllegalArgumentException("Ticket type must be named");
+        }
+
+        if (ticketType.getPrice() <= 0) {
+            throw new IllegalArgumentException("Price must be greater than 0");
+        }
+
+        if (ticketTypeRepository.findByName(ticketType.getName()).isPresent()) {
+            throw new IllegalArgumentException("Ticket type with that name already exists");
+        }
+
+        TicketType existingTicketType = ticketTypeRepository.findById(id)
+                .orElseThrow();
+        existingTicketType.setName(ticketType.getName());
+        existingTicketType.setPrice(ticketType.getPrice());
+
+        return Optional.of(ticketTypeRepository.save(existingTicketType));
+    }
 }
