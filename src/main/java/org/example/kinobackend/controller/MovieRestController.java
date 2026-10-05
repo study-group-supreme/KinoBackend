@@ -54,7 +54,7 @@ public class MovieRestController {
         return new ResponseEntity<>(saveMovie, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deactivate/{id}")
     public ResponseEntity<Void> deactivateMovieById(@PathVariable int id) {
         movieService.deactivateMovieById(id);
         return ResponseEntity.noContent().build();
