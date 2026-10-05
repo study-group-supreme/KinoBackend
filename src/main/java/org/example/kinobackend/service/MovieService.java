@@ -35,7 +35,7 @@ public class MovieService {
         if (movie.getName() == null || movie.getName().isBlank()) {
             throw new IllegalArgumentException("Fill out name to continue");
         }
-        if (movie.getRuntimeMinutes()<= 0) {
+        if (movie.getRuntimeMinutes() <= 0) {
             throw new IllegalArgumentException("Runtime must be positive");
         }
         if (movie.getDescription() == null || movie.getDescription().isBlank()) {
@@ -43,6 +43,25 @@ public class MovieService {
         }
         return movieRepository.save(movie);
     }
+
+
+    public Movie deactivateMovieById(int id) {
+        Movie movie = movieRepository.findById(id).orElseThrow(()
+                -> new IllegalArgumentException("Movie not found with id: " + id));
+        movie.setActive(false);
+        return movieRepository.save(movie);
+    }
+
+    public void deleteMovieById(int id) {
+        Movie movie = movieRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Movie not found with id: " + id));
+
+        if (!movie.getShowings().isEmpty()) {
+            throw new IllegalStateException("Cannot delete movie with id: " + id + " because it has existing showings");
+        }
+        movieRepository.delete(movie);
+    }
+
 
 
     public Optional<Movie> getMovieById(int id){

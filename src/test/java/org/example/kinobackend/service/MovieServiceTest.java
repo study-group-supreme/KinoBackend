@@ -1,6 +1,7 @@
 package org.example.kinobackend.service;
 
 import org.example.kinobackend.model.Movie;
+import org.example.kinobackend.model.Showing;
 import org.example.kinobackend.repository.MovieRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,9 +10,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.swing.text.html.Option;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -259,6 +265,28 @@ class MovieServiceTest {
         verify(movieRepository, never()).save(any());
     }
 
+    @Test
+    void deactivateMovie_ById_shouldChangeIsActiveToFalse_andSave() {
+        hobbit.setActive(true);
+
+        when(movieRepository.findById(hobbit.getId())).thenReturn(Optional.of(hobbit));
+        when(movieRepository.save(any(Movie.class))).thenReturn(hobbit);
+
+        Movie result = movieService.deactivateMovieById(hobbit.getId());
+
+        assertFalse(result.isActive());
+        verify(movieRepository).findById(hobbit.getId());
+        verify(movieRepository).save(hobbit);
+    }
+
+    @Test
+    void deactivateMovie_shouldThrowException_whenMovieByIdNotFound() {
+        when(movieRepository.findById(hobbit.getId())).thenReturn(Optional.empty());
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> movieService.deactivateMovieById(hobbit.getId()));
+        assertEquals("Movie not found with id: " + hobbit.getId(), exception.getMessage());
+    }
 
     @Test
     void updateMovie_ShouldReturnUpdatedMovie_WhenSuccessful() {
@@ -326,5 +354,40 @@ class MovieServiceTest {
         );
         assertEquals("Runtime must be a positive number", exception.getMessage());
     }
+
+
+
+
+    @Test
+    void deleteMovie_ShouldDeleteMovieFromDatabase() {
+        when(movieRepository.findById(hobbit.getId())).thenReturn(Optional.of(hobbit));
+
+        movieService.deleteMovieById(hobbit.getId());
+
+        verify(movieRepository).findById(hobbit.getId());
+        verify(movieRepository).delete(hobbit);
+    }
+
+    @Test
+    void deleteMovie_ShouldThrowException_WhenMovieHasShowings() {
+        greenMile.setShowings(Set.of(new Showing()));
+
+        when(movieRepository.findById(greenMile.getId())).thenReturn(Optional.of(greenMile));
+
+        assertThrows(IllegalStateException.class,
+                () -> movieService.deleteMovieById(greenMile.getId()));
+
+        verify(movieRepository, never()).delete(any());
+    }
+
+    @Test
+    void deleteMovie_ShouldThrowException_WhenMovieByIdNotFound() {
+        when(movieRepository.findById(hobbit.getId())).thenReturn(Optional.empty());
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class
+                , () -> movieService.deleteMovieById(hobbit.getId()));
+        assertEquals("Movie not found with id: " + hobbit.getId(), exception.getMessage());
+    }
+
 }
 
