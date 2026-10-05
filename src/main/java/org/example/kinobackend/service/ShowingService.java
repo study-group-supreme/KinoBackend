@@ -44,9 +44,7 @@ public class ShowingService {
         return specific;
     }
 
-    public ShowingResponse getShowingResponseById(int id) {
-        Showing showing = getShowingById(id);
-
+    private ShowingResponse toResponse(Showing showing) {
         return new ShowingResponse(
                 showing.getId(),
                 showing.getStartTime(),
@@ -56,4 +54,21 @@ public class ShowingService {
                 showing.getTheatre().getName()
         );
     }
+    public ShowingResponse getShowingResponseById(int id) {
+        return toResponse(getShowingById(id));
+    }
+
+//    public ShowingResponse getShowingResponseById(int id) {
+//        Showing showing = getShowingById(id);
+//
+//        return new ShowingResponse(
+//                showing.getId(),
+//                showing.getStartTime(),
+//                showing.getMovie().getId(),
+//                showing.getMovie().getName(),
+//                showing.getTheatre().getId(),
+//                showing.getTheatre().getName()
+//        );
+//    }
+
 }
