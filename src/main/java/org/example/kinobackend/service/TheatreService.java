@@ -44,4 +44,9 @@ public class TheatreService {
 
         theatreRepository.delete(theatre);
     }
+    public Theatre getTheatreById(int id){
+        Theatre specific = theatreRepository.findById(id).orElseThrow(()
+                -> new EntityNotFoundException("Theatre not found"));
+        return specific;
+    }
 }

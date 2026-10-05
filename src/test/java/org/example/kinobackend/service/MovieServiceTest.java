@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,6 +31,7 @@ class MovieServiceTest {
     @InjectMocks
     MovieService movieService;
 
+
     Movie hobbit;
     Movie greenMile;
     List<Movie> movies;
@@ -37,6 +39,7 @@ class MovieServiceTest {
     @BeforeEach
     void setup() {
         hobbit = new Movie();
+        hobbit.setId(1);
         hobbit.setName("The Fellowship of the Ring");
         hobbit.setRuntimeMinutes(178);
         hobbit.setDescription("A meek Hobbit from the Shire and eight companions set out on a journey to destroy the One Ring.");
@@ -46,6 +49,7 @@ class MovieServiceTest {
 
 
         greenMile = new Movie();
+        greenMile.setId(2);
         greenMile.setName("The Green Mile");
         greenMile.setRuntimeMinutes(189);
         greenMile.setDescription("A death row head guard discovers that one of his inmates has a miraculous, supernatural gift.");
@@ -283,6 +287,75 @@ class MovieServiceTest {
                 () -> movieService.deactivateMovieById(hobbit.getId()));
         assertEquals("Movie not found with id: " + hobbit.getId(), exception.getMessage());
     }
+
+    @Test
+    void updateMovie_ShouldReturnUpdatedMovie_WhenSuccessful() {
+        // Arrange
+        int id = 1;
+
+        Movie updatedDetails = new Movie();
+        updatedDetails.setName("The Fellowship of the Ring - Extended Edition");
+        updatedDetails.setDescription("An expanded journey through Middle-earth.");
+        updatedDetails.setRuntimeMinutes(228);
+        updatedDetails.setActive(true);
+        updatedDetails.setAgeLimit(11);
+        updatedDetails.setPosterUrl("https://example.com/extended.jpg");
+
+        when(movieRepository.findById(id)).thenReturn(Optional.of(hobbit));
+        when(movieRepository.save(hobbit)).thenReturn(hobbit);
+
+        // Act
+        Movie result = movieService.updateMovie(updatedDetails, id);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("The Fellowship of the Ring - Extended Edition", result.getName());
+        assertEquals("An expanded journey through Middle-earth.", result.getDescription());
+        assertEquals(228, result.getRuntimeMinutes());
+        assertEquals("https://example.com/extended.jpg", result.getPosterUrl());
+
+        verify(movieRepository).findById(id);
+        verify(movieRepository).save(hobbit);
+    }
+
+    @Test
+    void updateMovie_ShouldThrowException_WhenMovieNotFound() {
+        // Arrange
+        int nonExistentId = 99;
+        when(movieRepository.findById(nonExistentId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(RuntimeException.class, () -> movieService.updateMovie(hobbit, nonExistentId));
+        verify(movieRepository).findById(nonExistentId);
+    }
+
+    @Test
+    void updateMovie_ShouldThrowException_WhenNameIsInvalid() {
+        // Arrange
+        hobbit.setName(""); // Invalid blank name
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> movieService.updateMovie(hobbit, 1)
+        );
+        assertEquals("Movie must have a name", exception.getMessage());
+    }
+
+    @Test
+    void updateMovie_ShouldThrowException_WhenRuntimeIsNegative() {
+        // Arrange
+        hobbit.setRuntimeMinutes(-10); // Invalid runtime
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> movieService.updateMovie(hobbit, 1)
+        );
+        assertEquals("Runtime must be a positive number", exception.getMessage());
+    }
+
+
 
 
     @Test

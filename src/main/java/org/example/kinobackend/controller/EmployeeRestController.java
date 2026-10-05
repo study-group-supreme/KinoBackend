@@ -35,10 +35,33 @@ public class EmployeeRestController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
     @PostMapping("")
-    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee){
+    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
         Employee savedEmployee = employeeService.createEmployee(employee);
 
         return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/remove/{id}")
+    public ResponseEntity<Employee> deleteEmployee(@PathVariable int id) {
+        Employee employeeToBeRemoved = employeeService.getEmployeeById(id);
+        employeeService.deleteEmployee(employeeToBeRemoved.getId());
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/find/{id}")
+    public ResponseEntity<Employee> findEmployeeById(@PathVariable int id) {
+        Employee employeeToBefound = employeeService.getEmployeeById(id);
+        return new ResponseEntity<>(employeeToBefound, HttpStatus.OK);
+    }
+
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable int id, @RequestBody Employee employee) {
+        return employeeService.updateEmployee(id, employee)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
