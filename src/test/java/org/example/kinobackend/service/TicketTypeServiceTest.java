@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,13 +24,21 @@ class TicketTypeServiceTest {
     private TicketTypeService ticketTypeService;
 
     private TicketType ticketType;
+    private TicketType existingTicketType;
+    private int id;
 
     @BeforeEach
     void setUp() {
+        id = 1;
 
         ticketType = new TicketType();
         ticketType.setName("Adult");
         ticketType.setPrice(120.0);
+
+        existingTicketType = new TicketType();
+        existingTicketType.setId(id);
+        existingTicketType.setName("Old Name");
+        existingTicketType.setPrice(50);
     }
 
     @Test
@@ -234,7 +241,6 @@ class TicketTypeServiceTest {
 
     @Test
     void updateTicketType_shouldThrow_WhenName_AlreadyExists() {
-        int id = 1;
 
         TicketType update = new TicketType();
         update.setName("VIP");
@@ -263,8 +269,7 @@ class TicketTypeServiceTest {
     }
 
     @Test
-    void updateTicketType_shouldThrow_WhenTicketType_DoesNotExist() {
-        int id = 1;
+    void updateTicketType_shouldReturnEmpty_WhenTicketTypeDoesNotExist() {
 
         TicketType update = new TicketType();
         update.setName("VIP");
@@ -276,10 +281,10 @@ class TicketTypeServiceTest {
         when(ticketTypeRepository.findById(id))
                 .thenReturn(Optional.empty());
 
-        assertThrows(
-                NoSuchElementException.class,
-                () -> ticketTypeService.updateTicketType(id, update)
-        );
+        Optional<TicketType> result =
+                ticketTypeService.updateTicketType(id, update);
+
+        assertTrue(result.isEmpty());
 
         verify(ticketTypeRepository).findByName("VIP");
         verify(ticketTypeRepository).findById(id);
