@@ -27,7 +27,7 @@ public class InitDataMovie implements CommandLineRunner {
         movie2.setName("The Fellowship of the Ring");
         movie2.setRuntimeMinutes(178);
         movie2.setDescription("A meek Hobbit from the Shire and eight companions set out on a journey to destroy the One Ring.");
-        movie2.setPosterUrl("https://example.com");
+        movie2.setPosterUrl("https://image.tmdb.org/t/p/w500/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg");
         movie2.setAgeLimit(11);
         movie2.setActive(true);
 
@@ -36,7 +36,7 @@ public class InitDataMovie implements CommandLineRunner {
         movie3.setName("The Green Mile");
         movie3.setRuntimeMinutes(189);
         movie3.setDescription("A death row head guard discovers that one of his inmates has a miraculous, supernatural gift.");
-        movie3.setPosterUrl("https://example.com");
+        movie3.setPosterUrl("https://image.tmdb.org/t/p/w500/velWPhVMQeQKcxggNEU8YmIo52R.jpg");
         movie3.setAgeLimit(15);
         movie3.setActive(true);
 
