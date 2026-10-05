@@ -60,5 +60,11 @@ public class MovieRestController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMovieById(@PathVariable int id) {
+        movieService.deleteMovieById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
