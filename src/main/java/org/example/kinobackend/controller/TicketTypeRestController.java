@@ -44,7 +44,7 @@ public class TicketTypeRestController {
         return ResponseEntity.ok(savedTicketType);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTicketTypeById(@PathVariable int id) {
         ticketTypeService.deleteTicketTypeById(id);
         return ResponseEntity.ok().build();
