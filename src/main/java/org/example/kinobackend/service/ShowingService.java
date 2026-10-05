@@ -1,6 +1,7 @@
 package org.example.kinobackend.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.example.kinobackend.dto.ShowingResponse;
 import org.example.kinobackend.model.Showing;
 import org.example.kinobackend.model.Theatre;
 import org.example.kinobackend.repository.ShowingRepository;
@@ -12,7 +13,7 @@ import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
 @Service
 public class ShowingService {
-    private ShowingRepository showingRepository;
+    private final ShowingRepository showingRepository;
 
     public ShowingService(ShowingRepository showingRepository) {
         this.showingRepository = showingRepository;
@@ -41,5 +42,18 @@ public class ShowingService {
         Showing specific = showingRepository.findById(id).orElseThrow(()
                 -> new EntityNotFoundException("Showing not found"));
         return specific;
+    }
+
+    public ShowingResponse getShowingResponseById(int id) {
+        Showing showing = getShowingById(id);
+
+        return new ShowingResponse(
+                showing.getId(),
+                showing.getStartTime(),
+                showing.getMovie().getId(),
+                showing.getMovie().getName(),
+                showing.getTheatre().getId(),
+                showing.getTheatre().getName()
+        );
     }
 }

@@ -5,12 +5,14 @@ import org.example.kinobackend.model.Theatre;
 import org.example.kinobackend.repository.SeatRepository;
 import org.example.kinobackend.repository.TheatreRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Order(1)
 public class InitDataTheaterAndSeat implements CommandLineRunner {
 
     private final TheatreRepository theatreRepository;

@@ -4,9 +4,11 @@ import org.example.kinobackend.model.Movie;
 import org.example.kinobackend.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
+@Order(2)
 public class InitDataMovie implements CommandLineRunner {
     @Autowired
     MovieRepository movieRepository;

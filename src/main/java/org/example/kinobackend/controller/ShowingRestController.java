@@ -1,5 +1,6 @@
 package org.example.kinobackend.controller;
 
+import org.example.kinobackend.dto.ShowingResponse;
 import org.example.kinobackend.model.Showing;
 import org.example.kinobackend.service.ShowingService;
 import org.springframework.http.HttpStatus;
@@ -16,9 +17,9 @@ public class ShowingRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Showing> getShowing(@PathVariable int id){
-        Showing specificShowing = showingService.getShowingById(id);
-        return new ResponseEntity<>(specificShowing, HttpStatus.OK);
+    public ResponseEntity<ShowingResponse> getShowing(@PathVariable int id) {
+        ShowingResponse showing = showingService.getShowingResponseById(id);
+        return new ResponseEntity<>(showing, HttpStatus.OK);
     }
 
     @PostMapping("")
