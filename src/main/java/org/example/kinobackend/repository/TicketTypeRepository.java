@@ -10,6 +10,4 @@ import java.util.Optional;
 public interface TicketTypeRepository extends JpaRepository<TicketType, Integer> {
 
     Optional<TicketType> findByName(String name);
-
-
 }

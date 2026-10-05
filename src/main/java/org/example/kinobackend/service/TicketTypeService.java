@@ -56,7 +56,10 @@ public class TicketTypeService {
             throw new IllegalArgumentException("Price must be greater than 0");
         }
 
-        if (ticketTypeRepository.findByName(ticketType.getName()).isPresent()) {
+        Optional<TicketType> sameName =
+                ticketTypeRepository.findByName(ticketType.getName());
+
+        if (sameName.isPresent() && sameName.get().getId() != id) {
             throw new IllegalArgumentException("Ticket type with that name already exists");
         }
 
