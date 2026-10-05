@@ -2,6 +2,7 @@ package org.example.kinobackend.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.example.kinobackend.model.Showing;
+import org.example.kinobackend.model.Theatre;
 import org.example.kinobackend.repository.ShowingRepository;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +35,11 @@ public class ShowingService {
             throw new IllegalArgumentException("You cannot delete a showing containing reservations");
         }
         showingRepository.delete(showingToBeDeleted);
+    }
+
+    public Showing getShowingById(int id){
+        Showing specific = showingRepository.findById(id).orElseThrow(()
+                -> new EntityNotFoundException("Showing not found"));
+        return specific;
     }
 }
