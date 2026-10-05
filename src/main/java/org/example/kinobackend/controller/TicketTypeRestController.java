@@ -43,7 +43,7 @@ public class TicketTypeRestController {
 
         return ResponseEntity.ok(savedTicketType);
     }
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<TicketType> updateTicketType(@PathVariable int id, @RequestBody TicketType ticketType) {
         return ticketTypeService.updateTicketType(id, ticketType)
                 .map(ResponseEntity::ok)
