@@ -71,17 +71,4 @@ public class ShowingService {
         return responses;
     }
 
-//    public ShowingResponse getShowingResponseById(int id) {
-//        Showing showing = getShowingById(id);
-//
-//        return new ShowingResponse(
-//                showing.getId(),
-//                showing.getStartTime(),
-//                showing.getMovie().getId(),
-//                showing.getMovie().getName(),
-//                showing.getTheatre().getId(),
-//                showing.getTheatre().getName()
-//        );
-//    }
-
 }
