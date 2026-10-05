@@ -63,11 +63,17 @@ public class TicketTypeService {
             throw new IllegalArgumentException("Ticket type with that name already exists");
         }
 
-        TicketType existingTicketType = ticketTypeRepository.findById(id)
-                .orElseThrow();
-        existingTicketType.setName(ticketType.getName());
-        existingTicketType.setPrice(ticketType.getPrice());
+        Optional<TicketType> existingTicketType = ticketTypeRepository.findById(id);
 
-        return Optional.of(ticketTypeRepository.save(existingTicketType));
+        if (existingTicketType.isEmpty()) {
+            return Optional.empty();
+        }
+
+        TicketType existing = existingTicketType.get();
+
+        existing.setName(ticketType.getName());
+        existing.setPrice(ticketType.getPrice());
+
+        return Optional.of(ticketTypeRepository.save(existing));
     }
 }

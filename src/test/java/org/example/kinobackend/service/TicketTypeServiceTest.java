@@ -28,6 +28,7 @@ class TicketTypeServiceTest {
 
     @BeforeEach
     void setUp() {
+
         ticketType = new TicketType();
         ticketType.setName("Adult");
         ticketType.setPrice(120.0);
