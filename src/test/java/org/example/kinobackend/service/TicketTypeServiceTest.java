@@ -1,5 +1,6 @@
 package org.example.kinobackend.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.example.kinobackend.model.TicketType;
 import org.example.kinobackend.repository.TicketTypeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -289,5 +290,36 @@ class TicketTypeServiceTest {
         verify(ticketTypeRepository).findByName("VIP");
         verify(ticketTypeRepository).findById(id);
         verify(ticketTypeRepository, never()).save(any());
+    }
+
+    @Test
+    void deleteTicketTypeById_shouldDeleteTicketType_WhenItExists() {
+        int id = 1;
+        TicketType ticketType = new TicketType();
+        ticketType.setId(id);
+
+        when(ticketTypeRepository.findById(id))
+                .thenReturn(Optional.of(ticketType));
+
+        ticketTypeService.deleteTicketTypeById(id);
+
+        verify(ticketTypeRepository).findById(id);
+        verify(ticketTypeRepository).delete(ticketType);
+    }
+
+    @Test
+    void deleteTicketTypeById_shouldThrowException_WhenTicketTypeDoesNotExist() {
+        int id = 1;
+
+        when(ticketTypeRepository.findById(id))
+                .thenReturn(Optional.empty());
+
+        assertThrows(
+                EntityNotFoundException.class,
+                () -> ticketTypeService.deleteTicketTypeById(id)
+        );
+
+        verify(ticketTypeRepository).findById(id);
+        verify(ticketTypeRepository, never()).delete(any());
     }
 }

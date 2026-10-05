@@ -1,5 +1,6 @@
 package org.example.kinobackend.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.example.kinobackend.model.TicketType;
 import org.example.kinobackend.repository.TicketTypeRepository;
 import org.springframework.stereotype.Service;
@@ -75,5 +76,12 @@ public class TicketTypeService {
         existing.setPrice(ticketType.getPrice());
 
         return Optional.of(ticketTypeRepository.save(existing));
+    }
+
+    public void deleteTicketTypeById(int id) {
+        TicketType ticketTypeToBeDeleted = ticketTypeRepository.findById(id).orElseThrow(()
+        -> new EntityNotFoundException
+                ("The ticket type you are trying to delete, does not exist"));
+        ticketTypeRepository.delete(ticketTypeToBeDeleted);
     }
 }

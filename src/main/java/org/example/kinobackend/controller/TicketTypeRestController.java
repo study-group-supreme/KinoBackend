@@ -43,6 +43,12 @@ public class TicketTypeRestController {
 
         return ResponseEntity.ok(savedTicketType);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTicketTypeById(@PathVariable int id) {
+        ticketTypeService.deleteTicketTypeById(id);
+        return ResponseEntity.ok().build();
+    }
     @PutMapping("/{id}")
     public ResponseEntity<TicketType> updateTicketType(@PathVariable int id, @RequestBody TicketType ticketType) {
         return ticketTypeService.updateTicketType(id, ticketType)
