@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/showing")
 public class ShowingRestController {
@@ -32,5 +34,10 @@ public class ShowingRestController {
     public void deleteShowing(@PathVariable int id) {
         showingService.deleteShowing(id);
 
+    }
+
+    @GetMapping("/movie/{movieId}")
+    public List<ShowingResponse> getShowingsForMovie(@PathVariable int movieId) {
+        return showingService.getUpcomingShowingsForMovie(movieId);
     }
 }
