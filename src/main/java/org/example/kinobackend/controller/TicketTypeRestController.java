@@ -3,6 +3,7 @@ package org.example.kinobackend.controller;
 
 import org.example.kinobackend.model.TicketType;
 import org.example.kinobackend.service.TicketTypeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,21 +33,19 @@ public class TicketTypeRestController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TicketType> getTicketTypeById(@PathVariable int id) {
-        return ticketTypeService.findTicketTypeById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+       TicketType ticketToBeUpdated = ticketTypeService.findTicketTypeById(id).orElseThrow();
+       return new ResponseEntity<>(ticketToBeUpdated, HttpStatus.OK);
     }
 
     @PostMapping("")
     public ResponseEntity<TicketType> createTicketType(@RequestBody TicketType ticketType) {
         TicketType savedTicketType = ticketTypeService.createTicketType(ticketType);
 
-        return ResponseEntity.ok(savedTicketType);
+        return new ResponseEntity<>(savedTicketType, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteTicketTypeById(@PathVariable int id) {
+    public void deleteTicketTypeById(@PathVariable int id) {
         ticketTypeService.deleteTicketTypeById(id);
-        return ResponseEntity.ok().build();
     }
 }
