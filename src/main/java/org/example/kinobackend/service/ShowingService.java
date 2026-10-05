@@ -7,7 +7,10 @@ import org.example.kinobackend.model.Theatre;
 import org.example.kinobackend.repository.ShowingRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
@@ -58,17 +61,14 @@ public class ShowingService {
         return toResponse(getShowingById(id));
     }
 
-//    public ShowingResponse getShowingResponseById(int id) {
-//        Showing showing = getShowingById(id);
-//
-//        return new ShowingResponse(
-//                showing.getId(),
-//                showing.getStartTime(),
-//                showing.getMovie().getId(),
-//                showing.getMovie().getName(),
-//                showing.getTheatre().getId(),
-//                showing.getTheatre().getName()
-//        );
-//    }
+    public List<ShowingResponse> getUpcomingShowingsForMovie(int movieId) {
+        List<Showing> showings = showingRepository.findByMovieIdAndStartTimeAfterOrderByStartTimeAsc(
+                movieId, LocalDateTime.now());
+        List<ShowingResponse> responses = new ArrayList<>();
+        for (Showing showing : showings) {
+            responses.add(toResponse(showing));
+        }
+        return responses;
+    }
 
 }
