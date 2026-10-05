@@ -12,10 +12,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/showing")
 public class ShowingRestController {
-    private ShowingService showingService;
+    private final ShowingService showingService;
 
     public ShowingRestController(ShowingService showingService) {
         this.showingService = showingService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ShowingResponse>> getAllShowings(){
+        List<ShowingResponse> showingResponses = showingService.getAllShowings();
+        return new ResponseEntity<>(showingResponses, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

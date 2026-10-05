@@ -71,4 +71,13 @@ public class ShowingService {
         return responses;
     }
 
+    public List<ShowingResponse> getAllShowings(){
+        List<Showing> showings = showingRepository.findAll();
+        List<ShowingResponse> responses = new ArrayList<>();
+        for (Showing showing : showings){
+            responses.add(toResponse(showing));
+        }
+        return responses;
+    }
+
 }
