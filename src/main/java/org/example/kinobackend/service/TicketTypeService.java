@@ -47,6 +47,37 @@ public class TicketTypeService {
         return ticketTypeRepository.findById(id);
     }
 
+    public Optional<TicketType> updateTicketType(int id, TicketType ticketType) {
+        if (ticketType.getName() == null || ticketType.getName().isBlank()) {
+
+            throw new IllegalArgumentException("Ticket type must be named");
+        }
+
+        if (ticketType.getPrice() <= 0) {
+            throw new IllegalArgumentException("Price must be greater than 0");
+        }
+
+        Optional<TicketType> sameName =
+                ticketTypeRepository.findByName(ticketType.getName());
+
+        if (sameName.isPresent() && sameName.get().getId() != id) {
+            throw new IllegalArgumentException("Ticket type with that name already exists");
+        }
+
+        Optional<TicketType> existingTicketType = ticketTypeRepository.findById(id);
+
+        if (existingTicketType.isEmpty()) {
+            return Optional.empty();
+        }
+
+        TicketType existing = existingTicketType.get();
+
+        existing.setName(ticketType.getName());
+        existing.setPrice(ticketType.getPrice());
+
+        return Optional.of(ticketTypeRepository.save(existing));
+    }
+
     public void deleteTicketTypeById(int id) {
         TicketType ticketTypeToBeDeleted = ticketTypeRepository.findById(id).orElseThrow(()
         -> new EntityNotFoundException

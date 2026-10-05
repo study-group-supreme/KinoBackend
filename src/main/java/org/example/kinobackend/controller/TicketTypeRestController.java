@@ -49,4 +49,10 @@ public class TicketTypeRestController {
         ticketTypeService.deleteTicketTypeById(id);
         return ResponseEntity.ok().build();
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<TicketType> updateTicketType(@PathVariable int id, @RequestBody TicketType ticketType) {
+        return ticketTypeService.updateTicketType(id, ticketType)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
