@@ -32,6 +32,13 @@ services:
       db:
         condition: service_healthy
 
+  frontend:
+    build: ../KinoFrontEnd
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - app
 
 
 
