@@ -1,10 +1,13 @@
 package org.example.kinobackend.service;
 
+import org.example.kinobackend.model.Movie;
 import org.example.kinobackend.model.Reservation;
 import org.example.kinobackend.model.Seat;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import java.util.Locale;
 
 @Service
 public class EmailConfirmationService {
