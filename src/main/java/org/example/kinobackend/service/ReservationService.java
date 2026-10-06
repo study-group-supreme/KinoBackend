@@ -16,11 +16,13 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final ShowingRepository showingRepository;
     private final SeatRepository seatRepository;
+    private final EmailConfirmationService emailConfirmationService;
 
-    public ReservationService(ReservationRepository reservationRepository, ShowingRepository showingRepository, SeatRepository seatRepository) {
+    public ReservationService(ReservationRepository reservationRepository, ShowingRepository showingRepository, SeatRepository seatRepository, EmailConfirmationService emailConfirmationService) {
         this.reservationRepository = reservationRepository;
         this.showingRepository = showingRepository;
         this.seatRepository = seatRepository;
+        this.emailConfirmationService = emailConfirmationService;
     }
 
 
@@ -40,6 +42,8 @@ public class ReservationService {
         ticket.setReservation(reservation);
         reservation.getTickets().add(ticket);
 
-        return reservationRepository.save(reservation);
+        Reservation savedReservation = reservationRepository.save(reservation);
+        emailConfirmationService.sendConfirmation(savedReservation.getCustomerMail(), savedReservation, seat);
+        return savedReservation;
     }
 }

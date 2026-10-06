@@ -18,7 +18,14 @@ public class EmailConfirmationService {
         SimpleMailMessage confirmation = new SimpleMailMessage();
         confirmation.setTo(email);
         confirmation.setSubject("Order confirmation from KinoEk");
-        confirmation.setText("Dette er din order bekræftelse" + reservation.getId() + " og dine sæder er " + seat.getSeatRow() + seat.getSeatNumber());
+        confirmation.setText(
+                "Dette er din ordre-bekræftelse.\n\n" +
+                        "Reservationsnummer: " + reservation.getId() + "\n" +
+                        "Sæde: Række " + seat.getSeatRow() +
+                        ", nummer " + seat.getSeatNumber() + "\n\n" +
+                        "Tak fordi du valgte KinoEk!"
+        );
+
         mailSender.send(confirmation);
     }
 }
