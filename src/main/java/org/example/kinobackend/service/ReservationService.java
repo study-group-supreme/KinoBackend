@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Set;
+
 @Service
 public class ReservationService {
     private final ReservationRepository reservationRepository;
@@ -36,12 +38,10 @@ public class ReservationService {
                         HttpStatus.NOT_FOUND, "Seat not found"));
 
         reservation.setShowing(showing);
-
         Ticket ticket = new Ticket();
         ticket.setSeat(seat);
         ticket.setReservation(reservation);
-        reservation.getTickets().add(ticket);
-
+        reservation.addTicketToReservation(ticket);
         Reservation savedReservation = reservationRepository.save(reservation);
         emailConfirmationService.sendConfirmation(savedReservation.getCustomerMail(), savedReservation, seat);
         return savedReservation;
