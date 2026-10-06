@@ -32,7 +32,7 @@ public class SeatService {
     }
 
     public List<SeatResponse> getSeatsForShowing(int showingId) {
-        Showing showing = findShowing(showingId);
+        Showing showing = showingRepository.findById(showingId).orElseThrow();
         Set<Integer> takenIds = findTakenSeatIds(showingId);
 
         List<SeatResponse> result = new ArrayList<>();
@@ -41,12 +41,6 @@ public class SeatService {
             result.add(new SeatResponse(seat.getId(), seat.getSeatRow(), seat.getSeatNumber(), taken));
         }
         return result;
-    }
-
-    private Showing findShowing(int showingId) {
-        return showingRepository.findById(showingId)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Showing not found"));
     }
 
     private Set<Integer> findTakenSeatIds(int showingId) {
