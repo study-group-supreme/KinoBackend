@@ -25,7 +25,6 @@ class TicketTypeServiceTest {
     private TicketTypeService ticketTypeService;
 
     private TicketType ticketType;
-    private TicketType existingTicketType;
     private int id;
 
     @BeforeEach
@@ -36,7 +35,7 @@ class TicketTypeServiceTest {
         ticketType.setName("Adult");
         ticketType.setPrice(120.0);
 
-        existingTicketType = new TicketType();
+        TicketType existingTicketType = new TicketType();
         existingTicketType.setId(id);
         existingTicketType.setName("Old Name");
         existingTicketType.setPrice(50);
@@ -306,11 +305,8 @@ class TicketTypeServiceTest {
         verify(ticketTypeRepository).findById(id);
         verify(ticketTypeRepository).delete(ticketType);
     }
-
     @Test
     void deleteTicketTypeById_shouldThrowException_WhenTicketTypeDoesNotExist() {
-        int id = 1;
-
         when(ticketTypeRepository.findById(id))
                 .thenReturn(Optional.empty());
 
