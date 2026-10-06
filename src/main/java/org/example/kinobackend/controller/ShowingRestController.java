@@ -1,5 +1,6 @@
 package org.example.kinobackend.controller;
 
+import org.example.kinobackend.dto.SeatResponse;
 import org.example.kinobackend.dto.ShowingResponse;
 import org.example.kinobackend.model.Showing;
 import org.example.kinobackend.service.ShowingService;
@@ -45,5 +46,10 @@ public class ShowingRestController {
     @GetMapping("/movie/{movieId}")
     public List<ShowingResponse> getShowingsForMovie(@PathVariable int movieId) {
         return showingService.getUpcomingShowingsForMovie(movieId);
+    }
+
+    @GetMapping("/seats/{showingId}")
+    public List<SeatResponse> getSeatsForShowing(@PathVariable int showingId) {
+        return showingService.getSeatsForShowing(showingId);
     }
 }
