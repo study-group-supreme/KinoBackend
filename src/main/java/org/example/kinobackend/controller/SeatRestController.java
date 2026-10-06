@@ -17,7 +17,7 @@ public class SeatRestController {
     }
 
     @GetMapping("/showing/{showingId}")
-    public List<SeatResponse> getSeats(@PathVariable int showingId) {
+    public List<SeatResponse> getForSpecificSeats(@PathVariable int showingId) {
         return seatService.getSeatsForShowing(showingId);
     }
 }
