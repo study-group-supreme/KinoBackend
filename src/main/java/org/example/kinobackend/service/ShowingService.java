@@ -1,17 +1,22 @@
 package org.example.kinobackend.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.example.kinobackend.dto.ShowingResponse;
 import org.example.kinobackend.model.Showing;
+import org.example.kinobackend.model.Theatre;
 import org.example.kinobackend.repository.ShowingRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
 @Service
 public class ShowingService {
-    private ShowingRepository showingRepository;
+    private final ShowingRepository showingRepository;
 
     public ShowingService(ShowingRepository showingRepository) {
         this.showingRepository = showingRepository;
@@ -35,4 +40,44 @@ public class ShowingService {
         }
         showingRepository.delete(showingToBeDeleted);
     }
+
+    public Showing getShowingById(int id){
+        Showing specific = showingRepository.findById(id).orElseThrow(()
+                -> new EntityNotFoundException("Showing not found"));
+        return specific;
+    }
+
+    private ShowingResponse toResponse(Showing showing) {
+        return new ShowingResponse(
+                showing.getId(),
+                showing.getStartTime(),
+                showing.getMovie().getId(),
+                showing.getMovie().getName(),
+                showing.getTheatre().getId(),
+                showing.getTheatre().getName()
+        );
+    }
+    public ShowingResponse getShowingResponseById(int id) {
+        return toResponse(getShowingById(id));
+    }
+
+    public List<ShowingResponse> getUpcomingShowingsForMovie(int movieId) {
+        List<Showing> showings = showingRepository.findByMovieIdAndStartTimeAfterOrderByStartTimeAsc(
+                movieId, LocalDateTime.now());
+        List<ShowingResponse> responses = new ArrayList<>();
+        for (Showing showing : showings) {
+            responses.add(toResponse(showing));
+        }
+        return responses;
+    }
+
+    public List<ShowingResponse> getAllShowings(){
+        List<Showing> showings = showingRepository.findAll();
+        List<ShowingResponse> responses = new ArrayList<>();
+        for (Showing showing : showings){
+            responses.add(toResponse(showing));
+        }
+        return responses;
+    }
+
 }
