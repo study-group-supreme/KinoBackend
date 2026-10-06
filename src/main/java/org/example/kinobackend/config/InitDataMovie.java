@@ -18,7 +18,7 @@ public class InitDataMovie implements CommandLineRunner {
         movie1.setName("Bakemono No Ko");
         movie1.setRuntimeMinutes(119);
         movie1.setDescription("A human boy stumbles into a beast world and becomes the apprentice of a warrior beast.");
-        movie1.setPosterUrl("https://example.com");
+        movie1.setPosterUrl("https://th.bing.com/th/id/OIP.15NlhnviJtrQ_X0zfWMjuQHaK6?w=132&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3");
         movie1.setAgeLimit(11);
         movie1.setActive(true);
 
@@ -45,7 +45,7 @@ public class InitDataMovie implements CommandLineRunner {
         movie4.setName("The Longest Yard");
         movie4.setRuntimeMinutes(113);
         movie4.setDescription("A jailed former NFL quarterback recruits a team of inmates to play a football game against the guards.");
-        movie4.setPosterUrl("https://example.com");
+        movie4.setPosterUrl("https://th.bing.com/th/id/OIP.EoMsj6trlD6ufqN1DI9dFQHaKb?w=202&h=285&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3");
         movie4.setAgeLimit(11);
         movie4.setActive(false);
 
@@ -54,7 +54,7 @@ public class InitDataMovie implements CommandLineRunner {
         movie5.setName("Jackass 3");
         movie5.setRuntimeMinutes(94);
         movie5.setDescription("Johnny Knoxville and his crew return for another round of outrageous stunts and painful pranks.");
-        movie5.setPosterUrl("https://example.com");
+        movie5.setPosterUrl("https://th.bing.com/th/id/OIP.EP-SQrqvlafn3mBUqF4e_wHaLl?w=199&h=312&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3");
         movie5.setAgeLimit(15);
         movie5.setActive(false);
 
