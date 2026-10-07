@@ -12,5 +12,5 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
     List<Movie> findByIsActiveFalse();
 
-    List<Movie> findByCategories_Name(String name);
+    List<Movie> findByCategories_NameAndIsActiveTrue(String name);
 }

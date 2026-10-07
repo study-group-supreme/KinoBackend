@@ -1,5 +1,6 @@
 package org.example.kinobackend.controller;
 
+import org.example.kinobackend.dto.MovieResponse;
 import org.example.kinobackend.model.Category;
 import org.example.kinobackend.model.Movie;
 import org.example.kinobackend.service.MovieService;
@@ -23,22 +24,22 @@ public class MovieRestController {
     }
 
     @GetMapping
-    public List<Movie> getAllMovies() {
+    public List<MovieResponse> getAllMovies() {
         return movieService.getAllMovies();
     }
 
     @GetMapping("/{name}")
-    public List<Movie> getMovieByName(@PathVariable String name) {
+    public List<MovieResponse> getMovieByName(@PathVariable String name) {
         return movieService.getMovieByName(name);
     }
 
     @GetMapping("/available")
-    public List<Movie> getAllAvailableMovies() {
+    public List<MovieResponse> getAllAvailableMovies() {
         return movieService.getAllActiveMovies();
     }
 
     @GetMapping("/unavailable")
-    public List<Movie> getAllUnavailableMovies() {
+    public List<MovieResponse> getAllUnavailableMovies() {
         return movieService.getAllInactiveMovies();
     }
 
@@ -48,7 +49,7 @@ public class MovieRestController {
     }
 
     @GetMapping("/categories/{category}")
-    public List<Movie>getMoviesByCategories(@PathVariable String category) {
+    public List<MovieResponse>getMoviesByCategories(@PathVariable String category) {
         return movieService.getMoviesByCategory(category);
     }
 

@@ -1,11 +1,15 @@
 package org.example.kinobackend.service;
 
+import org.example.kinobackend.dto.MovieResponse;
+import org.example.kinobackend.dto.ShowingResponse;
 import org.example.kinobackend.model.Category;
 import org.example.kinobackend.model.Movie;
+import org.example.kinobackend.model.Showing;
 import org.example.kinobackend.repository.CategoryRepository;
 import org.example.kinobackend.repository.MovieRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,20 +24,40 @@ public class MovieService {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<Movie> getAllMovies() {
-        return movieRepository.findAll();
+    public List<MovieResponse> getAllMovies() {
+        List<Movie> movies = movieRepository.findAll();
+        List<MovieResponse> responses = new ArrayList<>();
+        for (Movie movie : movies){
+            responses.add(toResponse(movie));
+        }
+        return responses;
     }
 
-    public List<Movie> getMovieByName(String name) {
-        return movieRepository.findAllByName(name);
+    public List<MovieResponse> getMovieByName(String name) {
+        List<Movie> movies = movieRepository.findAllByName(name);
+        List<MovieResponse> responses = new ArrayList<>();
+        for (Movie movie : movies){
+            responses.add(toResponse(movie));
+        }
+        return responses;
     }
 
-    public List<Movie> getAllActiveMovies() {
-        return movieRepository.findByIsActiveTrue();
+    public List<MovieResponse> getAllActiveMovies() {
+        List<Movie> movies = movieRepository.findByIsActiveTrue();
+        List<MovieResponse> responses = new ArrayList<>();
+        for (Movie movie : movies){
+            responses.add(toResponse(movie));
+        }
+        return responses;
     }
 
-    public List<Movie> getAllInactiveMovies() {
-        return movieRepository.findByIsActiveFalse();
+    public List<MovieResponse> getAllInactiveMovies() {
+        List<Movie> movies = movieRepository.findByIsActiveFalse();
+        List<MovieResponse> responses = new ArrayList<>();
+        for (Movie movie : movies){
+            responses.add(toResponse(movie));
+        }
+        return responses;
     }
 
     public Movie createMovie(Movie movie) {
@@ -67,8 +91,6 @@ public class MovieService {
         movieRepository.delete(movie);
     }
 
-
-
     public Optional<Movie> getMovieById(int id){
         return movieRepository.findById(id);
     }
@@ -101,7 +123,25 @@ public class MovieService {
         return categoryRepository.findAll();
     }
 
-    public List<Movie> getMoviesByCategory(String category) {
-        return movieRepository.findByCategories_Name(category);
+    public List<MovieResponse> getMoviesByCategory(String category) {
+        List<Movie> movies = movieRepository.findByCategories_NameAndIsActiveTrue(category);
+        List<MovieResponse> responses = new ArrayList<>();
+        for (Movie movie : movies){
+            responses.add(toResponse(movie));
+        }
+        return responses;
+    }
+
+    private MovieResponse toResponse(Movie movie) {
+        return new MovieResponse(
+                movie.getId(),
+                movie.getName(),
+                movie.getRuntimeMinutes(),
+                movie.getDescription(),
+                movie.getPosterUrl(),
+                movie.getAgeLimit(),
+                movie.isActive(),
+                movie.getCategories()
+        );
     }
 }
