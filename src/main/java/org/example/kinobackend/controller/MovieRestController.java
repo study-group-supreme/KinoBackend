@@ -1,5 +1,7 @@
 package org.example.kinobackend.controller;
 
+import org.example.kinobackend.dto.MovieResponse;
+import org.example.kinobackend.model.Category;
 import org.example.kinobackend.dto.ShowingResponse;
 import org.example.kinobackend.model.Movie;
 import org.example.kinobackend.service.MovieService;
@@ -23,7 +25,7 @@ public class MovieRestController {
     }
 
     @GetMapping
-    public List<Movie> getAllMovies() {
+    public List<MovieResponse> getAllMovies() {
         return movieService.getAllMovies();
     }
 
@@ -34,19 +36,30 @@ public class MovieRestController {
     }
 
     @GetMapping("/name/{name}")
-    public List<Movie> getMovieByName(@PathVariable String name) {
+    public List<MovieResponse> getMovieByName(@PathVariable String name) {
         return movieService.getMovieByName(name);
     }
 
     @GetMapping("/available")
-    public List<Movie> getAllAvailableMovies() {
+    public List<MovieResponse> getAllAvailableMovies() {
         return movieService.getAllActiveMovies();
     }
 
     @GetMapping("/unavailable")
-    public List<Movie> getAllUnavailableMovies() {
+    public List<MovieResponse> getAllUnavailableMovies() {
         return movieService.getAllInactiveMovies();
     }
+
+    @GetMapping("/categories")
+    public List<Category> getAllCategories() {
+        return movieService.getAllCategories();
+    }
+
+    @GetMapping("/categories/{category}")
+    public List<MovieResponse>getMoviesByCategories(@PathVariable String category) {
+        return movieService.getMoviesByCategory(category);
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Movie> putMovie(@PathVariable int id, @RequestBody Movie movie){

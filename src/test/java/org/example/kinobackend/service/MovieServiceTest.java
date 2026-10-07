@@ -1,5 +1,6 @@
 package org.example.kinobackend.service;
 
+import org.example.kinobackend.dto.MovieResponse;
 import org.example.kinobackend.model.Movie;
 import org.example.kinobackend.model.Showing;
 import org.example.kinobackend.repository.MovieRepository;
@@ -65,11 +66,11 @@ class MovieServiceTest {
     void getAllMovies_shouldReturnAllMovies() {
         when(movieRepository.findAll()).thenReturn(movies);
 
-        List<Movie> result = movieService.getAllMovies();
+        List<MovieResponse> result = movieService.getAllMovies();
 
         assertEquals(2, result.size());
-        assertTrue(result.contains(hobbit));
-        assertTrue(result.contains(greenMile));
+        assertEquals(hobbit.getName(),result.get(0).name());
+        assertEquals(greenMile.getName(), result.get(1).name());
         verify(movieRepository).findAll();
     }
 
@@ -77,7 +78,7 @@ class MovieServiceTest {
     void getAllMovies_ShouldReturnEmptyList_WhenNoMovies() {
         when(movieRepository.findAll()).thenReturn(List.of());
 
-        List<Movie> result = movieService.getAllMovies();
+        List<MovieResponse> result = movieService.getAllMovies();
 
         assertTrue(result.isEmpty());
     }
@@ -87,10 +88,10 @@ class MovieServiceTest {
     void getMovieByName_ShouldReturnMatchingMovie() {
         when(movieRepository.findAllByName(hobbit.getName())).thenReturn(List.of(hobbit));
 
-        List<Movie> result = movieService.getMovieByName("The Fellowship of the Ring");
+        List<MovieResponse> result = movieService.getMovieByName("The Fellowship of the Ring");
 
         assertEquals(1, result.size());
-        assertEquals("The Fellowship of the Ring", result.get(0).getName());
+        assertEquals("The Fellowship of the Ring", result.get(0).name());
         verify(movieRepository).findAllByName("The Fellowship of the Ring");
     }
 
@@ -98,7 +99,7 @@ class MovieServiceTest {
     void getMovieByName_ShouldReturnEmptyList_WhenNoMatch() {
         when(movieRepository.findAllByName("Unknown Title")).thenReturn(List.of());
 
-        List<Movie> result = movieService.getMovieByName("Unknown Title");
+        List<MovieResponse> result = movieService.getMovieByName("Unknown Title");
 
         assertTrue(result.isEmpty());
     }
@@ -108,10 +109,10 @@ class MovieServiceTest {
     void getAllActiveMovies_ShouldReturnListOfActiveMovies() {
         when(movieRepository.findByIsActiveTrue()).thenReturn(List.of(hobbit));
 
-        List<Movie> result = movieService.getAllActiveMovies();
+        List<MovieResponse> result = movieService.getAllActiveMovies();
 
         assertEquals(1, result.size());
-        assertEquals("The Fellowship of the Ring", result.get(0).getName());
+        assertEquals("The Fellowship of the Ring", result.get(0).name());
         verify(movieRepository).findByIsActiveTrue();
     }
 
@@ -127,10 +128,10 @@ class MovieServiceTest {
     void getAllInactiveMovies_ShouldReturnListOfInactiveMovies() {
         when(movieRepository.findByIsActiveFalse()).thenReturn(List.of(greenMile));
 
-        List<Movie> result = movieService.getAllInactiveMovies();
+        List<MovieResponse> result = movieService.getAllInactiveMovies();
 
         assertEquals(1, result.size());
-        assertEquals("The Green Mile", result.get(0).getName());
+        assertEquals("The Green Mile", result.get(0).name());
         assertFalse(result.get(0).isActive());
         verify(movieRepository).findByIsActiveFalse();
     }

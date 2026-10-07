@@ -1,11 +1,15 @@
 package org.example.kinobackend.config;
 
+import org.example.kinobackend.model.Category;
 import org.example.kinobackend.model.Movie;
+import org.example.kinobackend.repository.CategoryRepository;
 import org.example.kinobackend.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 @Component
 @Order(2)
@@ -13,8 +17,44 @@ public class InitDataMovie implements CommandLineRunner {
     @Autowired
     MovieRepository movieRepository;
 
+    @Autowired
+    CategoryRepository categoryRepository;
+
     @Override
     public void run(String... args) throws Exception {
+
+        //Categories
+        Category action = new Category();
+        action.setName("Action");
+
+        Category horror = new Category();
+        horror.setName("Horror");
+
+        Category comedy = new Category();
+        comedy.setName("Comedy");
+
+        Category fantasy = new Category();
+        fantasy.setName("Fantasy");
+
+        Category adventure = new Category();
+        adventure.setName("Adventure");
+
+        Category drama = new Category();
+        drama.setName("Drama");
+
+        Category crime = new Category();
+        crime.setName("Crime");
+
+        categoryRepository.save(action);
+        categoryRepository.save(horror);
+        categoryRepository.save(comedy);
+        categoryRepository.save(fantasy);
+        categoryRepository.save(adventure);
+        categoryRepository.save(drama);
+        categoryRepository.save(crime);
+
+
+
         // 1. Bakemono No Ko (The Boy and the Beast)
         Movie movie1 = new Movie();
         movie1.setName("Bakemono No Ko");
@@ -23,6 +63,7 @@ public class InitDataMovie implements CommandLineRunner {
         movie1.setPosterUrl("https://th.bing.com/th/id/OIP.15NlhnviJtrQ_X0zfWMjuQHaK6?w=132&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3");
         movie1.setAgeLimit(11);
         movie1.setActive(true);
+        movie1.setCategories(Set.of(adventure, action, drama, fantasy));
 
         // 2. The Lord of the Rings: The Fellowship of the Ring
         Movie movie2 = new Movie();
@@ -32,6 +73,7 @@ public class InitDataMovie implements CommandLineRunner {
         movie2.setPosterUrl("https://image.tmdb.org/t/p/w500/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg");
         movie2.setAgeLimit(11);
         movie2.setActive(true);
+        movie2.setCategories(Set.of(fantasy, adventure, drama));
 
         // 3. The Green Mile
         Movie movie3 = new Movie();
@@ -41,6 +83,7 @@ public class InitDataMovie implements CommandLineRunner {
         movie3.setPosterUrl("https://image.tmdb.org/t/p/w500/velWPhVMQeQKcxggNEU8YmIo52R.jpg");
         movie3.setAgeLimit(15);
         movie3.setActive(true);
+        movie3.setCategories(Set.of(crime, drama, fantasy));
 
         // 4. The Longest Yard
         Movie movie4 = new Movie();
@@ -50,6 +93,7 @@ public class InitDataMovie implements CommandLineRunner {
         movie4.setPosterUrl("https://th.bing.com/th/id/OIP.EoMsj6trlD6ufqN1DI9dFQHaKb?w=202&h=285&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3");
         movie4.setAgeLimit(11);
         movie4.setActive(false);
+        movie4.setCategories(Set.of(comedy, crime));
 
         // 5. Jackass 3
         Movie movie5 = new Movie();
@@ -59,6 +103,7 @@ public class InitDataMovie implements CommandLineRunner {
         movie5.setPosterUrl("https://th.bing.com/th/id/OIP.EP-SQrqvlafn3mBUqF4e_wHaLl?w=199&h=312&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3");
         movie5.setAgeLimit(15);
         movie5.setActive(false);
+        movie5.setCategories(Set.of(action, comedy));
 
         movieRepository.save(movie1);
         movieRepository.save(movie2);
