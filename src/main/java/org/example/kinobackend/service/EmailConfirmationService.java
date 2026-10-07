@@ -38,7 +38,8 @@ public class EmailConfirmationService {
         confirmation.setText(
                 "Dette er din ordre-bekræftelse.\n\n" +
                         "Reservationsnummer: " + reservation.getId() + "\n\n" +
-                        "Dine billetter:\n" + seatsAndType + "\n" +
+                        "Dine billetter:\n" + seatsAndType
+                        + "\n" +
                         "Tak fordi du valgte KinoEk!"
         );
 
