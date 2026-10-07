@@ -1,5 +1,6 @@
 package org.example.kinobackend.controller;
 
+import org.example.kinobackend.model.Category;
 import org.example.kinobackend.model.Movie;
 import org.example.kinobackend.service.MovieService;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,17 @@ public class MovieRestController {
     public List<Movie> getAllUnavailableMovies() {
         return movieService.getAllInactiveMovies();
     }
+
+    @GetMapping("/categories")
+    public List<Category> getAllCategories() {
+        return movieService.getAllCategories();
+    }
+
+    @GetMapping("/categories/{category}")
+    public List<Movie>getMoviesByCategories(@PathVariable String category) {
+        return movieService.getMoviesByCategory(category);
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Movie> putMovie(@PathVariable int id, @RequestBody Movie movie){

@@ -1,6 +1,8 @@
 package org.example.kinobackend.service;
 
+import org.example.kinobackend.model.Category;
 import org.example.kinobackend.model.Movie;
+import org.example.kinobackend.repository.CategoryRepository;
 import org.example.kinobackend.repository.MovieRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +13,11 @@ import java.util.Optional;
 public class MovieService {
     private final MovieRepository movieRepository;
 
-    public MovieService(MovieRepository movieRepository) {
+    private final CategoryRepository categoryRepository;
+
+    public MovieService(MovieRepository movieRepository, CategoryRepository categoryRepository) {
         this.movieRepository = movieRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public List<Movie> getAllMovies() {
@@ -90,5 +95,13 @@ public class MovieService {
         existing.setCategories(movie.getCategories());
         existing.setShowings(movie.getShowings());
         return movieRepository.save(existing);
+    }
+
+    public List<Category> getAllCategories() {
+        return categoryRepository.findAll();
+    }
+
+    public List<Movie> getMoviesByCategory(String category) {
+        return movieRepository.findByCategories_Name(category);
     }
 }
