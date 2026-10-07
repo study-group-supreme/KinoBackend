@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -28,22 +29,21 @@ public class ReservationService {
     }
 
 
-    public Reservation createReservation(Reservation reservation, int showingId, int seatId) {
-        Showing showing = showingRepository.findById(showingId)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Showing not found"));
+    public Reservation createReservation(Reservation reservation, int showingId, List<Integer> seatIds) {
+        reservation.setShowing(showingRepository.findById(showingId).orElseThrow());
 
-        Seat seat = seatRepository.findById(seatId)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Seat not found"));
+        for (int seatId : seatIds) {
+            Ticket ticket = new Ticket();
+            ticket.setSeat(seatRepository.findById(seatId).orElseThrow());
+            ticket.setReservation(reservation);
+            reservation.getTickets().add(ticket);
+        }
 
-        reservation.setShowing(showing);
-        Ticket ticket = new Ticket();
-        ticket.setSeat(seat);
-        ticket.setReservation(reservation);
-        reservation.addTicketToReservation(ticket);
         Reservation savedReservation = reservationRepository.save(reservation);
-        emailConfirmationService.sendConfirmation(savedReservation.getCustomerMail(), savedReservation, seat);
+
+        emailConfirmationService.sendConfirmation(
+                savedReservation.getCustomerMail(), savedReservation);
+
         return savedReservation;
     }
 }
