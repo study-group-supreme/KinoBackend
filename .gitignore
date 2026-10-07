@@ -36,3 +36,5 @@ build/
 ### Personal context dumps ###
 project_context*.txt
 project_dump*.txt
+
+.env
