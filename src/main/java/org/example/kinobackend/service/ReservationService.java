@@ -1,18 +1,13 @@
 package org.example.kinobackend.service;
 
-import org.example.kinobackend.model.Reservation;
-import org.example.kinobackend.model.Seat;
-import org.example.kinobackend.model.Showing;
-import org.example.kinobackend.model.Ticket;
+import org.example.kinobackend.model.*;
 import org.example.kinobackend.repository.ReservationRepository;
 import org.example.kinobackend.repository.SeatRepository;
 import org.example.kinobackend.repository.ShowingRepository;
-import org.springframework.http.HttpStatus;
+import org.example.kinobackend.repository.TicketTypeRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ReservationService {
@@ -20,21 +15,26 @@ public class ReservationService {
     private final ShowingRepository showingRepository;
     private final SeatRepository seatRepository;
     private final EmailConfirmationService emailConfirmationService;
+    private final TicketTypeRepository ticketTypeRepository;
 
-    public ReservationService(ReservationRepository reservationRepository, ShowingRepository showingRepository, SeatRepository seatRepository, EmailConfirmationService emailConfirmationService) {
+    public ReservationService(ReservationRepository reservationRepository, ShowingRepository showingRepository, SeatRepository seatRepository, EmailConfirmationService emailConfirmationService, TicketTypeRepository ticketTypeRepository) {
         this.reservationRepository = reservationRepository;
         this.showingRepository = showingRepository;
         this.seatRepository = seatRepository;
         this.emailConfirmationService = emailConfirmationService;
+        this.ticketTypeRepository = ticketTypeRepository;
     }
 
 
-    public Reservation createReservation(Reservation reservation, int showingId, List<Integer> seatIds) {
+    public Reservation createReservation(Reservation reservation, int showingId,
+                                         List<Integer> seatIds, int ticketTypeId) {
         reservation.setShowing(showingRepository.findById(showingId).orElseThrow());
+        TicketType ticketType = ticketTypeRepository.findById(ticketTypeId).orElseThrow();
 
         for (int seatId : seatIds) {
             Ticket ticket = new Ticket();
             ticket.setSeat(seatRepository.findById(seatId).orElseThrow());
+            ticket.setTicketType(ticketType);
             ticket.setReservation(reservation);
             reservation.getTickets().add(ticket);
         }

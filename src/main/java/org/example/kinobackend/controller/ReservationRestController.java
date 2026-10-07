@@ -20,7 +20,7 @@ public class ReservationRestController {
     }
 
     @PostMapping("/{showingId}")
-    public ResponseEntity<Reservation> postReservation(@PathVariable int showingId, @RequestParam List<Integer> seatIds, @RequestBody Reservation reservation) {
-        Reservation created = reservationService.createReservation(reservation, showingId, seatIds);
+    public ResponseEntity<Reservation> postReservation(@PathVariable int showingId, @RequestParam List<Integer> seatIds, @RequestBody Reservation reservation, @RequestParam int ticketTypeId) {
+        Reservation created = reservationService.createReservation(reservation, showingId, seatIds, ticketTypeId);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }}
