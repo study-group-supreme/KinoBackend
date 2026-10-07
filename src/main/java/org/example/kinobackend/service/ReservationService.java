@@ -1,17 +1,13 @@
 package org.example.kinobackend.service;
 
-import org.example.kinobackend.model.Reservation;
-import org.example.kinobackend.model.Seat;
-import org.example.kinobackend.model.Showing;
-import org.example.kinobackend.model.Ticket;
+import org.example.kinobackend.model.*;
 import org.example.kinobackend.repository.ReservationRepository;
 import org.example.kinobackend.repository.SeatRepository;
 import org.example.kinobackend.repository.ShowingRepository;
-import org.springframework.http.HttpStatus;
+import org.example.kinobackend.repository.TicketTypeRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Set;
+import java.util.List;
 
 @Service
 public class ReservationService {
@@ -19,31 +15,35 @@ public class ReservationService {
     private final ShowingRepository showingRepository;
     private final SeatRepository seatRepository;
     private final EmailConfirmationService emailConfirmationService;
+    private final TicketTypeRepository ticketTypeRepository;
 
-    public ReservationService(ReservationRepository reservationRepository, ShowingRepository showingRepository, SeatRepository seatRepository, EmailConfirmationService emailConfirmationService) {
+    public ReservationService(ReservationRepository reservationRepository, ShowingRepository showingRepository, SeatRepository seatRepository, EmailConfirmationService emailConfirmationService, TicketTypeRepository ticketTypeRepository) {
         this.reservationRepository = reservationRepository;
         this.showingRepository = showingRepository;
         this.seatRepository = seatRepository;
         this.emailConfirmationService = emailConfirmationService;
+        this.ticketTypeRepository = ticketTypeRepository;
     }
 
 
-    public Reservation createReservation(Reservation reservation, int showingId, int seatId) {
-        Showing showing = showingRepository.findById(showingId)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Showing not found"));
+    public Reservation createReservation(Reservation reservation, int showingId,
+                                         List<Integer> seatIds, int ticketTypeId) {
+        reservation.setShowing(showingRepository.findById(showingId).orElseThrow());
+        TicketType ticketType = ticketTypeRepository.findById(ticketTypeId).orElseThrow();
 
-        Seat seat = seatRepository.findById(seatId)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Seat not found"));
+        for (int seatId : seatIds) {
+            Ticket ticket = new Ticket();
+            ticket.setSeat(seatRepository.findById(seatId).orElseThrow());
+            ticket.setTicketType(ticketType);
+            ticket.setReservation(reservation);
+            reservation.getTickets().add(ticket);
+        }
 
-        reservation.setShowing(showing);
-        Ticket ticket = new Ticket();
-        ticket.setSeat(seat);
-        ticket.setReservation(reservation);
-        reservation.addTicketToReservation(ticket);
         Reservation savedReservation = reservationRepository.save(reservation);
-        emailConfirmationService.sendConfirmation(savedReservation.getCustomerMail(), savedReservation, seat);
+
+        emailConfirmationService.sendConfirmation(
+                savedReservation.getCustomerMail(), savedReservation);
+
         return savedReservation;
     }
 }
