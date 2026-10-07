@@ -19,7 +19,7 @@ public class EmailConfirmationService {
     }
 
     public void sendConfirmation(String email, Reservation reservation) {
-        String seats = "";
+        String seatsAndType = "";
 
         for (Ticket ticket : reservation.getTickets()) {
             String typeName = "Ikke valgt";
@@ -27,7 +27,7 @@ public class EmailConfirmationService {
                 typeName = ticket.getTicketType().getName();
             }
 
-            seats += "Række " + ticket.getSeat().getSeatRow()
+            seatsAndType += "Række " + ticket.getSeat().getSeatRow()
                     + ", nummer " + ticket.getSeat().getSeatNumber()
                     + ", billettype: " + typeName + "\n";
         }
@@ -38,8 +38,7 @@ public class EmailConfirmationService {
         confirmation.setText(
                 "Dette er din ordre-bekræftelse.\n\n" +
                         "Reservationsnummer: " + reservation.getId() + "\n\n" +
-                        "Dine billetter:\n" + seats + "\n" +
-                        "Din billet type: " + seats +
+                        "Dine billetter:\n" + seatsAndType + "\n" +
                         "Tak fordi du valgte KinoEk!"
         );
 
