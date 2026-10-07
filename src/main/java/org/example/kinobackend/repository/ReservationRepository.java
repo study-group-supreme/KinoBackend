@@ -1,4 +1,7 @@
 package org.example.kinobackend.repository;
 
-public interface ReservationRepository {
+import org.example.kinobackend.model.Reservation;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
 }

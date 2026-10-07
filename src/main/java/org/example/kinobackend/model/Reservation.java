@@ -73,6 +73,9 @@ public class Reservation {
     public void setShowing(Showing showing) {
         this.showing = showing;
     }
+    public void addTicketToReservation(Ticket ticket){
+        tickets.add(ticket);
+    }
 
     @Override
     public boolean equals(Object o) {
