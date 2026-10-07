@@ -49,8 +49,4 @@ public class ShowingRestController {
         return showingService.getUpcomingShowingsForMovie(movieId);
     }
 
-    @GetMapping("/seats/{showingId}")
-    public List<SeatResponse> getSeatsForShowing(@PathVariable int showingId) {
-        return showingService.getSeatsForShowing(showingId);
-    }
 }
