@@ -1,5 +1,6 @@
 package org.example.kinobackend.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.example.kinobackend.dto.MovieResponse;
 import org.example.kinobackend.model.Movie;
 import org.example.kinobackend.model.Showing;
@@ -12,15 +13,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.swing.text.html.Option;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.Optional;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static tools.jackson.databind.util.ClassUtil.name;
 
 @ExtendWith(MockitoExtension.class)
 class MovieServiceTest {
@@ -69,7 +67,7 @@ class MovieServiceTest {
         List<MovieResponse> result = movieService.getAllMovies();
 
         assertEquals(2, result.size());
-        assertEquals(hobbit.getName(),result.get(0).name());
+        assertEquals(hobbit.getName(), result.get(0).name());
         assertEquals(greenMile.getName(), result.get(1).name());
         verify(movieRepository).findAll();
     }
@@ -357,8 +355,6 @@ class MovieServiceTest {
     }
 
 
-
-
     @Test
     void deleteMovie_ShouldDeleteMovieFromDatabase() {
         when(movieRepository.findById(hobbit.getId())).thenReturn(Optional.of(hobbit));
@@ -390,5 +386,39 @@ class MovieServiceTest {
         assertEquals("Movie not found with id: " + hobbit.getId(), exception.getMessage());
     }
 
-}
+    @Test
+    void movieCategory_ShouldReturnMovies_WhenMoviesAreAvailable() {
+        String category = "Action";
 
+        Movie movie = new Movie();
+        List<Movie> movies = List.of(movie);
+
+        when(movieRepository.findByCategories_NameAndIsActiveTrue(category))
+                .thenReturn(movies);
+
+        List<MovieResponse> result =
+                movieService.getMoviesByCategory(category);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+
+        verify(movieRepository)
+                .findByCategories_NameAndIsActiveTrue(category);
+    }
+
+    @Test
+    void movieCategory_ShouldThrowException_WhenNoActiveMoviesAvailable() {
+        String category = "Action";
+
+        when(movieRepository.findByCategories_NameAndIsActiveTrue(category))
+                .thenReturn(Collections.emptyList());
+
+        assertThrows(
+                EntityNotFoundException.class,
+                () -> movieService.getMoviesByCategory(category)
+        );
+
+        verify(movieRepository)
+                .findByCategories_NameAndIsActiveTrue(category);
+    }
+}
