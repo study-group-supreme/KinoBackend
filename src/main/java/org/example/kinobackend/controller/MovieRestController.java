@@ -2,6 +2,7 @@ package org.example.kinobackend.controller;
 
 import org.example.kinobackend.dto.MovieResponse;
 import org.example.kinobackend.model.Category;
+import org.example.kinobackend.dto.ShowingResponse;
 import org.example.kinobackend.model.Movie;
 import org.example.kinobackend.service.MovieService;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,13 @@ public class MovieRestController {
         return movieService.getAllMovies();
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/{id}")
+    public ResponseEntity<Movie> getMovie(@PathVariable int id) {
+        Movie movie = movieService.getMovieById(id);
+        return new ResponseEntity<>(movie, HttpStatus.OK);
+    }
+
+    @GetMapping("/name/{name}")
     public List<MovieResponse> getMovieByName(@PathVariable String name) {
         return movieService.getMovieByName(name);
     }

@@ -17,8 +17,9 @@ public class InitDataTicketType implements CommandLineRunner {
 
     @Override
     public void run(String @NonNull ... args) throws Exception {
-
-
+        if (ticketTypeRepository.count() > 0) {
+            return;
+        }
         TicketType adult = new TicketType();
         adult.setName("Adult");
         adult.setPrice(120.0);

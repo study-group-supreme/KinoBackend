@@ -7,7 +7,9 @@ import org.example.kinobackend.model.Movie;
 import org.example.kinobackend.model.Showing;
 import org.example.kinobackend.repository.CategoryRepository;
 import org.example.kinobackend.repository.MovieRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,8 +93,11 @@ public class MovieService {
         movieRepository.delete(movie);
     }
 
-    public Optional<Movie> getMovieById(int id){
-        return movieRepository.findById(id);
+
+
+    public Movie getMovieById(int id){
+        return movieRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie not found"));
     }
 
     public Movie updateMovie(Movie movie, int id){
@@ -114,8 +119,6 @@ public class MovieService {
         existing.setActive(movie.isActive());
         existing.setAgeLimit(movie.getAgeLimit());
         existing.setPosterUrl(movie.getPosterUrl());
-        existing.setCategories(movie.getCategories());
-        existing.setShowings(movie.getShowings());
         return movieRepository.save(existing);
     }
 
