@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -20,7 +21,7 @@ import java.util.Optional;
 public class MovieRestController {
     private final MovieService movieService;
 
-    public MovieRestController(MovieService movieService){
+    public MovieRestController(MovieService movieService) {
         this.movieService = movieService;
     }
 
@@ -56,19 +57,19 @@ public class MovieRestController {
     }
 
     @GetMapping("/categories/{category}")
-    public List<MovieResponse>getMoviesByCategories(@PathVariable String category) {
+    public List<MovieResponse> getMoviesByCategories(@PathVariable String category) {
         return movieService.getMoviesByCategory(category);
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Movie> putMovie(@PathVariable int id, @RequestBody Movie movie){
+    public ResponseEntity<Movie> putMovie(@PathVariable int id, @RequestBody Movie movie) {
         Movie updatedMovie = movieService.updateMovie(movie, id);
         return new ResponseEntity<>(updatedMovie, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Movie> postMovie (@RequestBody Movie movie){
+    public ResponseEntity<Movie> postMovie(@RequestBody Movie movie) {
         Movie saveMovie = movieService.createMovie(movie);
         return new ResponseEntity<>(saveMovie, HttpStatus.CREATED);
     }
@@ -80,9 +81,19 @@ public class MovieRestController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMovieById(@PathVariable int id) {
-        movieService.deleteMovieById(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteMovieById(@PathVariable int id) {
+        try {
+            movieService.deleteMovieById(id);
+            return ResponseEntity.noContent().build();
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", e.getMessage()));
+
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("error", e.getMessage()));
+        }
     }
 
 

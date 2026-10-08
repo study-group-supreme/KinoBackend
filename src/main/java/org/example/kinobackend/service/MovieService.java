@@ -29,7 +29,7 @@ public class MovieService {
     public List<MovieResponse> getAllMovies() {
         List<Movie> movies = movieRepository.findAll();
         List<MovieResponse> responses = new ArrayList<>();
-        for (Movie movie : movies){
+        for (Movie movie : movies) {
             responses.add(toResponse(movie));
         }
         return responses;
@@ -38,7 +38,7 @@ public class MovieService {
     public List<MovieResponse> getMovieByName(String name) {
         List<Movie> movies = movieRepository.findAllByName(name);
         List<MovieResponse> responses = new ArrayList<>();
-        for (Movie movie : movies){
+        for (Movie movie : movies) {
             responses.add(toResponse(movie));
         }
         return responses;
@@ -47,7 +47,7 @@ public class MovieService {
     public List<MovieResponse> getAllActiveMovies() {
         List<Movie> movies = movieRepository.findByIsActiveTrue();
         List<MovieResponse> responses = new ArrayList<>();
-        for (Movie movie : movies){
+        for (Movie movie : movies) {
             responses.add(toResponse(movie));
         }
         return responses;
@@ -56,7 +56,7 @@ public class MovieService {
     public List<MovieResponse> getAllInactiveMovies() {
         List<Movie> movies = movieRepository.findByIsActiveFalse();
         List<MovieResponse> responses = new ArrayList<>();
-        for (Movie movie : movies){
+        for (Movie movie : movies) {
             responses.add(toResponse(movie));
         }
         return responses;
@@ -93,21 +93,19 @@ public class MovieService {
         movieRepository.delete(movie);
     }
 
-
-
-    public Movie getMovieById(int id){
+    public Movie getMovieById(int id) {
         return movieRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie not found"));
     }
 
-    public Movie updateMovie(Movie movie, int id){
-        if (movie.getName() == null || movie.getName().isBlank()){
+    public Movie updateMovie(Movie movie, int id) {
+        if (movie.getName() == null || movie.getName().isBlank()) {
             throw new IllegalArgumentException("Movie must have a name");
         }
-        if (movie.getDescription() == null || movie.getDescription().isBlank()){
+        if (movie.getDescription() == null || movie.getDescription().isBlank()) {
             throw new IllegalArgumentException("Movie must have a description");
         }
-        if(movie.getRuntimeMinutes() < 0){
+        if (movie.getRuntimeMinutes() < 0) {
             throw new IllegalArgumentException("Runtime must be a positive number");
         }
 
@@ -129,7 +127,7 @@ public class MovieService {
     public List<MovieResponse> getMoviesByCategory(String category) {
         List<Movie> movies = movieRepository.findByCategories_NameAndIsActiveTrue(category);
         List<MovieResponse> responses = new ArrayList<>();
-        for (Movie movie : movies){
+        for (Movie movie : movies) {
             responses.add(toResponse(movie));
         }
         return responses;
