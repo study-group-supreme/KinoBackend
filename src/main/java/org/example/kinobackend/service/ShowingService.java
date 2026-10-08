@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -89,8 +90,10 @@ public class ShowingService {
 
         Map<String, List<ShowingResponse>> grouped = new TreeMap<>();
 
+        DateTimeFormatter european = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
         for (ShowingResponse s : flatList) {
-            String date = s.startTime().toLocalDate().toString();
+            String date = s.startTime().toLocalDate().format(european);
 
             if (!grouped.containsKey(date)) {
                 grouped.put(date, new ArrayList<>());
