@@ -44,6 +44,6 @@ public class ShowingRestController {
 
     @GetMapping("/movie/{movieId}")
     public List<ShowingResponse> getShowingsForMovie(@PathVariable int movieId) {
-        return showingService.getUpcomingShowingsForMovie(movieId);
+        return showingService.getUpcomingShowingsForMovieBetweenTimes(movieId);
     }
 }
