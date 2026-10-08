@@ -66,9 +66,11 @@ public class ShowingService {
         return toResponse(getShowingById(id));
     }
 
-    public List<ShowingResponse> getUpcomingShowingsForMovie(int movieId) {
-        List<Showing> showings = showingRepository.findByMovieIdAndStartTimeAfterOrderByStartTimeAsc(
-                movieId, LocalDateTime.now());
+
+    public List<ShowingResponse> getUpcomingShowingsForMovieBetweenTimes(int movieId) {
+        LocalDateTime now = LocalDateTime.now();
+        List<Showing> showings = showingRepository.findByMovieIdAndStartTimeBetweenOrderByStartTimeAsc(
+                movieId, now, now.plusMonths(3));
         List<ShowingResponse> responses = new ArrayList<>();
         for (Showing showing : showings) {
             responses.add(toResponse(showing));
@@ -83,6 +85,9 @@ public class ShowingService {
             responses.add(toResponse(showing));
         }
         return responses;
+    }
+    public List<Showing> getShowingsByMovieId(int movieId){
+        return showingRepository.findShowingsByMovieId(movieId);
     }
 
     public List<ShowingByDateResponse> getUpcomingShowingsGrouped(int movieId) {
