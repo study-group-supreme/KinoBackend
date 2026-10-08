@@ -91,7 +91,7 @@ public class ShowingService {
     }
 
     public List<ShowingByDateResponse> getUpcomingShowingsGrouped(int movieId) {
-        List<ShowingResponse> flatList = getUpcomingShowingsForMovie(movieId);
+        List<ShowingResponse> flatList = getUpcomingShowingsForMovieBetweenTimes(movieId);
 
         Map<String, List<ShowingResponse>> grouped = new TreeMap<>();
 
