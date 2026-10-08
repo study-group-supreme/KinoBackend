@@ -54,7 +54,6 @@ public class InitDataMovie implements CommandLineRunner {
         categoryRepository.save(crime);
 
 
-
         // 1. Bakemono No Ko (The Boy and the Beast)
         Movie movie1 = new Movie();
         movie1.setName("Bakemono No Ko");
@@ -135,6 +134,26 @@ public class InitDataMovie implements CommandLineRunner {
         movie8.setActive(true);
         movie8.setCategories(Set.of(drama, comedy));
 
+        //Obsession
+        Movie movie9 = new Movie();
+        movie9.setName("Obsession");
+        movie9.setActive(true);
+        movie9.setRuntimeMinutes(109);
+        movie9.setAgeLimit(18);
+        movie9.setDescription("Obsession (2025) is a horror thriller about a shy man who uses a mysterious wish-granting object to make the girl he loves fall in love with him. At first, everything seems perfect, but her love soon turns into a dangerous and terrifying obsession.");
+        movie9.setCategories(Set.of(horror));
+        movie9.setPosterUrl("https://image.tmdb.org/t/p/original//bRwnj8WEKBCvmfeUNOukJPwB43K.jpg");
+
+
+        Movie movie10 = new Movie();
+        movie10.setName("21 Jump Street");
+        movie10.setRuntimeMinutes(109);
+        movie10.setCategories(Set.of(comedy));
+        movie10.setDescription("21 Jump Street (2012) is a comedy about two former high school rivals who become police officers and are sent undercover as students at a high school.");
+        movie10.setActive(true);
+        movie10.setAgeLimit(16);
+        movie10.setPosterUrl("https://m.media-amazon.com/images/M/MV5BMTg2NjJiODctM2IyMS00MmQ5LWI1YmQtNTBjMTI4M2U2YzA5XkEyXkFqcGc@._V1_.jpg");
+
 
         movieRepository.save(movie1);
         movieRepository.save(movie2);
@@ -144,6 +163,9 @@ public class InitDataMovie implements CommandLineRunner {
         movieRepository.save(movie6);
         movieRepository.save(movie7);
         movieRepository.save(movie8);
+        movieRepository.save(movie8);
+        movieRepository.save(movie9);
+        movieRepository.save(movie10);
 
     }
 }
