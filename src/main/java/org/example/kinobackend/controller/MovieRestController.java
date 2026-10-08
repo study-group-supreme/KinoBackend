@@ -89,12 +89,4 @@ public class MovieRestController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/movie/{movieId}")
-    public ResponseEntity<List<Showing>> getShowingsByMovie(@PathVariable int movieId) {
-        List<Showing> showingList = showingService.getShowingsByMovieId(movieId);
-        return new ResponseEntity<>(showingList, HttpStatus.OK);
-
-    }
-
-
 }
