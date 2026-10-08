@@ -105,11 +105,34 @@ public class InitDataMovie implements CommandLineRunner {
         movie5.setActive(false);
         movie5.setCategories(Set.of(action, comedy));
 
+        // 6. Children of Men
+        Movie movie6 = new Movie();
+        movie6.setName("Children of Men");
+        movie6.setRuntimeMinutes(109);
+        movie6.setDescription("A dystopian classic about a world struck by global infertility, and all the societal ills that brings with it");
+        movie6.setPosterUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkbc0yZeFEwC8dXr7j5dYQcXfVm3JZdPi7sep57nBnYA&s=10");
+        movie6.setAgeLimit(15);
+        movie6.setActive(true);
+        movie6.setCategories(Set.of(drama));
+
+        // 7. Hereditary
+        Movie movie7 = new Movie();
+        movie7.setName("Hereditary");
+        movie7.setRuntimeMinutes(127);
+        movie7.setDescription("Dysfunctional family dynamics and a horrible tragedy melt together into complete nightmare fuel in this absolutely disgusting horror classic");
+        movie7.setPosterUrl("https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTA3DbExi0VI_Gmkpo8F7X0n_bWOy77J1glajg0rmLnlSmKXYoHFCnWtVFxXcmbOJGr1_kc-gRIjSXU1i_CiNA-XIJiQ_uebbWkkgoi6pwmDHwISubM6ICL&usqp=CAc");
+        movie7.setAgeLimit(15);
+        movie7.setActive(true);
+        movie7.setCategories(Set.of(drama, horror));
+
+
         movieRepository.save(movie1);
         movieRepository.save(movie2);
         movieRepository.save(movie3);
         movieRepository.save(movie4);
         movieRepository.save(movie5);
+        movieRepository.save(movie6);
+        movieRepository.save(movie7);
 
     }
 }
