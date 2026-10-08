@@ -52,4 +52,10 @@ public class ShowingRestController {
         return new ResponseEntity<>(showingList, HttpStatus.OK);
 
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Showing> putShowing(@PathVariable int id, @RequestBody Showing showing){
+        Showing updatedShowing = showingService.updateShowing(showing, id);
+        return new ResponseEntity<>(updatedShowing, HttpStatus.OK);
+    }
 }
