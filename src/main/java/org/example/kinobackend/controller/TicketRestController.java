@@ -1,5 +1,6 @@
 package org.example.kinobackend.controller;
 
+import org.example.kinobackend.dto.TicketDto;
 import org.example.kinobackend.dto.TicketResponse;
 import org.example.kinobackend.model.Movie;
 import org.example.kinobackend.model.Ticket;
@@ -28,8 +29,8 @@ public class TicketRestController {
 
     @GetMapping("{showingId}")
     public ResponseEntity<TicketResponse> getAllTicketsForMovie(@PathVariable int showingId) {
-        Movie movieToBeFound = movieService.getMovieByShowingId(showingId);
-        List<Ticket> ticketsToBeFound = ticketService.findTicketsByShowingId(showingId);
-        return new ResponseEntity<>(new TicketResponse(movieToBeFound, ticketsToBeFound), HttpStatus.OK);
+        Movie movie = movieService.getMovieByShowingId(showingId);
+        List<TicketDto> tickets = ticketService.findTicketDtosByShowingId(showingId);
+        return new ResponseEntity<>(new TicketResponse(movie, tickets), HttpStatus.OK);
     }
 }

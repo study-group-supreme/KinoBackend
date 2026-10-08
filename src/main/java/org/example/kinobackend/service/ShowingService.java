@@ -79,5 +79,8 @@ public class ShowingService {
         }
         return responses;
     }
+    public List<Showing> getShowingsByMovieId(int movieId){
+        return showingRepository.findShowingsByMovieId(movieId);
+    }
 
 }
