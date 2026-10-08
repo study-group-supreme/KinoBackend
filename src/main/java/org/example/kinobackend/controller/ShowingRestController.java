@@ -1,5 +1,6 @@
 package org.example.kinobackend.controller;
 
+import org.example.kinobackend.dto.ShowingByDateResponse;
 import org.example.kinobackend.dto.ShowingResponse;
 import org.example.kinobackend.model.Showing;
 import org.example.kinobackend.service.ShowingService;
@@ -51,6 +52,11 @@ public class ShowingRestController {
         List<Showing> showingList = showingService.getShowingsByMovieId(movieId);
         return new ResponseEntity<>(showingList, HttpStatus.OK);
 
+    }
+
+    @GetMapping("/movie/{movieId}/grouped")
+    public List<ShowingByDateResponse> getGroupedShowings(@PathVariable int movieId) {
+        return showingService.getUpcomingShowingsGrouped(movieId);
     }
 
     @PutMapping("/{id}")

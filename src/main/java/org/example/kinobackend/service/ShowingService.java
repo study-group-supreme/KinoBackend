@@ -1,6 +1,7 @@
 package org.example.kinobackend.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.example.kinobackend.dto.ShowingByDateResponse;
 import org.example.kinobackend.dto.ShowingResponse;
 import org.example.kinobackend.model.Showing;
 import org.example.kinobackend.model.Theatre;
@@ -9,8 +10,11 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
@@ -41,7 +45,7 @@ public class ShowingService {
         showingRepository.delete(showingToBeDeleted);
     }
 
-    public Showing getShowingById(int id){
+    public Showing getShowingById(int id) {
         Showing specific = showingRepository.findById(id).orElseThrow(()
                 -> new EntityNotFoundException("Showing not found"));
         return specific;
@@ -57,6 +61,7 @@ public class ShowingService {
                 showing.getTheatre().getName()
         );
     }
+
     public ShowingResponse getShowingResponseById(int id) {
         return toResponse(getShowingById(id));
     }
@@ -73,10 +78,10 @@ public class ShowingService {
         return responses;
     }
 
-    public List<ShowingResponse> getAllShowings(){
+    public List<ShowingResponse> getAllShowings() {
         List<Showing> showings = showingRepository.findAll();
         List<ShowingResponse> responses = new ArrayList<>();
-        for (Showing showing : showings){
+        for (Showing showing : showings) {
             responses.add(toResponse(showing));
         }
         return responses;
@@ -85,6 +90,33 @@ public class ShowingService {
         return showingRepository.findShowingsByMovieId(movieId);
     }
 
+    public List<ShowingByDateResponse> getUpcomingShowingsGrouped(int movieId) {
+        List<ShowingResponse> flatList = getUpcomingShowingsForMovieBetweenTimes(movieId);
+
+        Map<String, List<ShowingResponse>> grouped = new TreeMap<>();
+
+        DateTimeFormatter european = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        for (ShowingResponse s : flatList) {
+            String date = s.startTime().toLocalDate().format(european);
+
+            if (!grouped.containsKey(date)) {
+                grouped.put(date, new ArrayList<>());
+            }
+
+            grouped.get(date).add(s);
+        }
+
+        List<ShowingByDateResponse> result = new ArrayList<>();
+
+        for (Map.Entry<String, List<ShowingResponse>> entry : grouped.entrySet()) {
+            String date = entry.getKey();
+            List<ShowingResponse> showings = entry.getValue();
+
+            result.add(new ShowingByDateResponse(date, showings));
+        }
+        return result;
+    }
     public Showing updateShowing(Showing showing, int id){
         if(showing.getMovie() == null){
             throw new IllegalArgumentException("A movie must be tied to a showing");

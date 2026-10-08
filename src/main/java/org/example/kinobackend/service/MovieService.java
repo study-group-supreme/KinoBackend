@@ -1,5 +1,6 @@
 package org.example.kinobackend.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.example.kinobackend.dto.MovieResponse;
 import org.example.kinobackend.dto.ShowingResponse;
 import org.example.kinobackend.model.Category;
@@ -126,6 +127,13 @@ public class MovieService {
 
     public List<MovieResponse> getMoviesByCategory(String category) {
         List<Movie> movies = movieRepository.findByCategories_NameAndIsActiveTrue(category);
+
+
+        if (movies.isEmpty())
+            throw new EntityNotFoundException(
+                    "No active movies found in category: " + category
+            );
+
         List<MovieResponse> responses = new ArrayList<>();
         for (Movie movie : movies) {
             responses.add(toResponse(movie));
