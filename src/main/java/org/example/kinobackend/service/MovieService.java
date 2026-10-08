@@ -93,7 +93,6 @@ public class MovieService {
         movieRepository.delete(movie);
     }
 
-
     public Movie getMovieById(int id) {
         return movieRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie not found"));
