@@ -28,6 +28,11 @@ public class ReservationService {
 
     public Reservation createReservation(Reservation reservation, int showingId,
                                          List<Integer> seatIds, int ticketTypeId) {
+        if (reservation.getCustomerName() == null ||
+        reservation.getCustomerMail() == null ||
+        reservation.getCustomerPhone() == null){
+            throw new IllegalArgumentException("Customer info is required");
+        }
         reservation.setShowing(showingRepository.findById(showingId).orElseThrow());
         TicketType ticketType = ticketTypeRepository.findById(ticketTypeId).orElseThrow();
 
