@@ -85,4 +85,22 @@ public class ShowingService {
         return showingRepository.findShowingsByMovieId(movieId);
     }
 
+    public Showing updateShowing(Showing showing, int id){
+        if(showing.getMovie() == null){
+            throw new IllegalArgumentException("A movie must be tied to a showing");
+        }
+        if(showing.getTheatre() == null){
+            throw new IllegalArgumentException("A theatre must be tied to a showing");
+        }
+        if(showing.getStartTime() == null){
+            throw new IllegalArgumentException("A showing must have a start time");
+        }
+        Showing existing = showingRepository.findById(id)
+                .orElseThrow();
+        existing.setMovie(showing.getMovie());
+        existing.setStartTime(showing.getStartTime());
+        existing.setTheatre(showing.getTheatre());
+        return showingRepository.save(existing);
+    }
+
 }
