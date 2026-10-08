@@ -135,6 +135,16 @@ public class InitDataMovie implements CommandLineRunner {
         movie8.setPosterUrl("https://image.tmdb.org/t/p/original//bRwnj8WEKBCvmfeUNOukJPwB43K.jpg");
 
 
+        Movie movie9 = new Movie();
+        movie9.setName("21 Jump Street");
+        movie9.setRuntimeMinutes(109);
+        movie9.setCategories(Set.of(comedy));
+        movie9.setDescription("21 Jump Street (2012) is a comedy about two former high school rivals who become police officers and are sent undercover as students at a high school.");
+        movie9.setActive(true);
+        movie9.setAgeLimit(16);
+        movie9.setPosterUrl("https://m.media-amazon.com/images/M/MV5BMTg2NjJiODctM2IyMS00MmQ5LWI1YmQtNTBjMTI4M2U2YzA5XkEyXkFqcGc@._V1_.jpg");
+
+
         movieRepository.save(movie1);
         movieRepository.save(movie2);
         movieRepository.save(movie3);
@@ -143,6 +153,7 @@ public class InitDataMovie implements CommandLineRunner {
         movieRepository.save(movie6);
         movieRepository.save(movie7);
         movieRepository.save(movie8);
+        movieRepository.save(movie9);
 
     }
 }
