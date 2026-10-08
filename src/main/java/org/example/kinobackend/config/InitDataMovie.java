@@ -54,7 +54,6 @@ public class InitDataMovie implements CommandLineRunner {
         categoryRepository.save(crime);
 
 
-
         // 1. Bakemono No Ko (The Boy and the Beast)
         Movie movie1 = new Movie();
         movie1.setName("Bakemono No Ko");
@@ -125,6 +124,16 @@ public class InitDataMovie implements CommandLineRunner {
         movie7.setActive(true);
         movie7.setCategories(Set.of(drama, horror));
 
+        //Obsession
+        Movie movie8 = new Movie();
+        movie8.setName("Obsession");
+        movie8.setActive(true);
+        movie8.setRuntimeMinutes(109);
+        movie8.setAgeLimit(18);
+        movie8.setDescription("Obsession (2025) is a horror thriller about a shy man who uses a mysterious wish-granting object to make the girl he loves fall in love with him. At first, everything seems perfect, but her love soon turns into a dangerous and terrifying obsession.");
+        movie8.setCategories(Set.of(horror));
+        movie8.setPosterUrl("https://image.tmdb.org/t/p/original//bRwnj8WEKBCvmfeUNOukJPwB43K.jpg");
+
 
         movieRepository.save(movie1);
         movieRepository.save(movie2);
@@ -133,6 +142,7 @@ public class InitDataMovie implements CommandLineRunner {
         movieRepository.save(movie5);
         movieRepository.save(movie6);
         movieRepository.save(movie7);
+        movieRepository.save(movie8);
 
     }
 }
