@@ -125,6 +125,16 @@ public class InitDataMovie implements CommandLineRunner {
         movie7.setActive(true);
         movie7.setCategories(Set.of(drama, horror));
 
+        // 8. The Skeleton Twins
+        Movie movie8 = new Movie();
+        movie8.setName("The Skeleton Twins");
+        movie8.setRuntimeMinutes(93);
+        movie8.setDescription("A twin brother and sister attempt to navigate a mish-mash of past family trauma and suicidal ideation in this heart-wrenching dark comedy");
+        movie8.setPosterUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTor17UMDVyd6mHYURaix7MPaPK1VPsWaORx32F4SvMlg&s");
+        movie8.setAgeLimit(11);
+        movie8.setActive(true);
+        movie8.setCategories(Set.of(drama, comedy));
+
 
         movieRepository.save(movie1);
         movieRepository.save(movie2);
@@ -133,6 +143,7 @@ public class InitDataMovie implements CommandLineRunner {
         movieRepository.save(movie5);
         movieRepository.save(movie6);
         movieRepository.save(movie7);
+        movieRepository.save(movie8);
 
     }
 }
