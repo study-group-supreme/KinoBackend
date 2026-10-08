@@ -125,24 +125,24 @@ public class InitDataMovie implements CommandLineRunner {
         movie7.setCategories(Set.of(drama, horror));
 
         //Obsession
-        Movie movie8 = new Movie();
-        movie8.setName("Obsession");
-        movie8.setActive(true);
-        movie8.setRuntimeMinutes(109);
-        movie8.setAgeLimit(18);
-        movie8.setDescription("Obsession (2025) is a horror thriller about a shy man who uses a mysterious wish-granting object to make the girl he loves fall in love with him. At first, everything seems perfect, but her love soon turns into a dangerous and terrifying obsession.");
-        movie8.setCategories(Set.of(horror));
-        movie8.setPosterUrl("https://image.tmdb.org/t/p/original//bRwnj8WEKBCvmfeUNOukJPwB43K.jpg");
-
-
         Movie movie9 = new Movie();
-        movie9.setName("21 Jump Street");
-        movie9.setRuntimeMinutes(109);
-        movie9.setCategories(Set.of(comedy));
-        movie9.setDescription("21 Jump Street (2012) is a comedy about two former high school rivals who become police officers and are sent undercover as students at a high school.");
+        movie9.setName("Obsession");
         movie9.setActive(true);
-        movie9.setAgeLimit(16);
-        movie9.setPosterUrl("https://m.media-amazon.com/images/M/MV5BMTg2NjJiODctM2IyMS00MmQ5LWI1YmQtNTBjMTI4M2U2YzA5XkEyXkFqcGc@._V1_.jpg");
+        movie9.setRuntimeMinutes(109);
+        movie9.setAgeLimit(18);
+        movie9.setDescription("Obsession (2025) is a horror thriller about a shy man who uses a mysterious wish-granting object to make the girl he loves fall in love with him. At first, everything seems perfect, but her love soon turns into a dangerous and terrifying obsession.");
+        movie9.setCategories(Set.of(horror));
+        movie9.setPosterUrl("https://image.tmdb.org/t/p/original//bRwnj8WEKBCvmfeUNOukJPwB43K.jpg");
+
+
+        Movie movie10 = new Movie();
+        movie10.setName("21 Jump Street");
+        movie10.setRuntimeMinutes(109);
+        movie10.setCategories(Set.of(comedy));
+        movie10.setDescription("21 Jump Street (2012) is a comedy about two former high school rivals who become police officers and are sent undercover as students at a high school.");
+        movie10.setActive(true);
+        movie10.setAgeLimit(16);
+        movie10.setPosterUrl("https://m.media-amazon.com/images/M/MV5BMTg2NjJiODctM2IyMS00MmQ5LWI1YmQtNTBjMTI4M2U2YzA5XkEyXkFqcGc@._V1_.jpg");
 
 
         movieRepository.save(movie1);
@@ -154,6 +154,7 @@ public class InitDataMovie implements CommandLineRunner {
         movieRepository.save(movie7);
         movieRepository.save(movie8);
         movieRepository.save(movie9);
+        movieRepository.save(movie10);
 
     }
 }
