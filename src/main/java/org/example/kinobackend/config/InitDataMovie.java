@@ -54,7 +54,6 @@ public class InitDataMovie implements CommandLineRunner {
         categoryRepository.save(crime);
 
 
-
         // 1. Bakemono No Ko (The Boy and the Beast)
         Movie movie1 = new Movie();
         movie1.setName("Bakemono No Ko");
@@ -105,11 +104,68 @@ public class InitDataMovie implements CommandLineRunner {
         movie5.setActive(false);
         movie5.setCategories(Set.of(action, comedy));
 
+        // 6. Children of Men
+        Movie movie6 = new Movie();
+        movie6.setName("Children of Men");
+        movie6.setRuntimeMinutes(109);
+        movie6.setDescription("A dystopian classic about a world struck by global infertility, and all the societal ills that brings with it");
+        movie6.setPosterUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkbc0yZeFEwC8dXr7j5dYQcXfVm3JZdPi7sep57nBnYA&s=10");
+        movie6.setAgeLimit(15);
+        movie6.setActive(true);
+        movie6.setCategories(Set.of(drama));
+
+        // 7. Hereditary
+        Movie movie7 = new Movie();
+        movie7.setName("Hereditary");
+        movie7.setRuntimeMinutes(127);
+        movie7.setDescription("Dysfunctional family dynamics and a horrible tragedy melt together into complete nightmare fuel in this absolutely disgusting horror classic");
+        movie7.setPosterUrl("https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTA3DbExi0VI_Gmkpo8F7X0n_bWOy77J1glajg0rmLnlSmKXYoHFCnWtVFxXcmbOJGr1_kc-gRIjSXU1i_CiNA-XIJiQ_uebbWkkgoi6pwmDHwISubM6ICL&usqp=CAc");
+        movie7.setAgeLimit(15);
+        movie7.setActive(true);
+        movie7.setCategories(Set.of(drama, horror));
+
+        // 8. The Skeleton Twins
+        Movie movie8 = new Movie();
+        movie8.setName("The Skeleton Twins");
+        movie8.setRuntimeMinutes(93);
+        movie8.setDescription("A twin brother and sister attempt to navigate a mish-mash of past family trauma and suicidal ideation in this heart-wrenching dark comedy");
+        movie8.setPosterUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTor17UMDVyd6mHYURaix7MPaPK1VPsWaORx32F4SvMlg&s");
+        movie8.setAgeLimit(11);
+        movie8.setActive(true);
+        movie8.setCategories(Set.of(drama, comedy));
+
+        //Obsession
+        Movie movie9 = new Movie();
+        movie9.setName("Obsession");
+        movie9.setActive(true);
+        movie9.setRuntimeMinutes(109);
+        movie9.setAgeLimit(18);
+        movie9.setDescription("Obsession (2025) is a horror thriller about a shy man who uses a mysterious wish-granting object to make the girl he loves fall in love with him. At first, everything seems perfect, but her love soon turns into a dangerous and terrifying obsession.");
+        movie9.setCategories(Set.of(horror));
+        movie9.setPosterUrl("https://image.tmdb.org/t/p/original//bRwnj8WEKBCvmfeUNOukJPwB43K.jpg");
+
+
+        Movie movie10 = new Movie();
+        movie10.setName("21 Jump Street");
+        movie10.setRuntimeMinutes(109);
+        movie10.setCategories(Set.of(comedy));
+        movie10.setDescription("21 Jump Street (2012) is a comedy about two former high school rivals who become police officers and are sent undercover as students at a high school.");
+        movie10.setActive(true);
+        movie10.setAgeLimit(16);
+        movie10.setPosterUrl("https://m.media-amazon.com/images/M/MV5BMTg2NjJiODctM2IyMS00MmQ5LWI1YmQtNTBjMTI4M2U2YzA5XkEyXkFqcGc@._V1_.jpg");
+
+
         movieRepository.save(movie1);
         movieRepository.save(movie2);
         movieRepository.save(movie3);
         movieRepository.save(movie4);
         movieRepository.save(movie5);
+        movieRepository.save(movie6);
+        movieRepository.save(movie7);
+        movieRepository.save(movie8);
+        movieRepository.save(movie8);
+        movieRepository.save(movie9);
+        movieRepository.save(movie10);
 
     }
 }
