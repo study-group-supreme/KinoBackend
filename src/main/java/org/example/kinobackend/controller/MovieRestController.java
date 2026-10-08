@@ -4,7 +4,9 @@ import org.example.kinobackend.dto.MovieResponse;
 import org.example.kinobackend.model.Category;
 import org.example.kinobackend.dto.ShowingResponse;
 import org.example.kinobackend.model.Movie;
+import org.example.kinobackend.model.Showing;
 import org.example.kinobackend.service.MovieService;
+import org.example.kinobackend.service.ShowingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +21,11 @@ import java.util.Optional;
 @RequestMapping("/api/movies")
 public class MovieRestController {
     private final MovieService movieService;
+    private final ShowingService showingService;
 
-    public MovieRestController(MovieService movieService){
+    public MovieRestController(MovieService movieService, ShowingService showingService) {
         this.movieService = movieService;
+        this.showingService = showingService;
     }
 
     @GetMapping
@@ -56,19 +60,19 @@ public class MovieRestController {
     }
 
     @GetMapping("/categories/{category}")
-    public List<MovieResponse>getMoviesByCategories(@PathVariable String category) {
+    public List<MovieResponse> getMoviesByCategories(@PathVariable String category) {
         return movieService.getMoviesByCategory(category);
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Movie> putMovie(@PathVariable int id, @RequestBody Movie movie){
+    public ResponseEntity<Movie> putMovie(@PathVariable int id, @RequestBody Movie movie) {
         Movie updatedMovie = movieService.updateMovie(movie, id);
         return new ResponseEntity<>(updatedMovie, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Movie> postMovie (@RequestBody Movie movie){
+    public ResponseEntity<Movie> postMovie(@RequestBody Movie movie) {
         Movie saveMovie = movieService.createMovie(movie);
         return new ResponseEntity<>(saveMovie, HttpStatus.CREATED);
     }
@@ -84,6 +88,5 @@ public class MovieRestController {
         movieService.deleteMovieById(id);
         return ResponseEntity.noContent().build();
     }
-
 
 }
