@@ -3,8 +3,10 @@ package org.example.kinobackend.service;
 import jakarta.persistence.EntityNotFoundException;
 import org.example.kinobackend.dto.ShowingByDateResponse;
 import org.example.kinobackend.dto.ShowingResponse;
+import org.example.kinobackend.model.Movie;
 import org.example.kinobackend.model.Showing;
 import org.example.kinobackend.model.Theatre;
+import org.example.kinobackend.repository.MovieRepository;
 import org.example.kinobackend.repository.ShowingRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +23,11 @@ import static org.apache.logging.log4j.ThreadContext.isEmpty;
 @Service
 public class ShowingService {
     private final ShowingRepository showingRepository;
+    private final MovieRepository movieRepository;
 
-    public ShowingService(ShowingRepository showingRepository) {
+    public ShowingService(ShowingRepository showingRepository, MovieRepository movieRepository) {
         this.showingRepository = showingRepository;
+        this.movieRepository = movieRepository;
     }
 
     public Showing createShowing(Showing showing) {
@@ -33,6 +37,8 @@ public class ShowingService {
         if (showing.getTheatre() == null) {
             throw new IllegalArgumentException("Showing cant be created without a theatre");
         }
+        Movie movie = movieRepository.findById(showing.getMovie().getId()).orElseThrow();
+        checkForShowingInTheaterOverlap(showing, movie, 0);
         return showingRepository.save(showing);
     }
 
@@ -129,10 +135,30 @@ public class ShowingService {
         }
         Showing existing = showingRepository.findById(id)
                 .orElseThrow();
+
+        Movie movie = movieRepository.findById(showing.getMovie().getId()).orElseThrow();
+        checkForShowingInTheaterOverlap(showing, movie, id);
+
         existing.setMovie(showing.getMovie());
         existing.setStartTime(showing.getStartTime());
         existing.setTheatre(showing.getTheatre());
         return showingRepository.save(existing);
+    }
+
+    private void checkForShowingInTheaterOverlap(Showing showing, Movie movie, int ignoreId){
+        LocalDateTime newStart = showing.getStartTime();
+        LocalDateTime newEnd = newStart.plusMinutes(movie.getRuntimeMinutes());
+
+        for (Showing existing : showingRepository.findByTheatreId(showing.getTheatre().getId())){
+            if(existing.getId() == ignoreId) continue;
+
+            LocalDateTime existingStart = existing.getStartTime();
+            LocalDateTime existingEnd = existingStart.plusMinutes(existing.getMovie().getRuntimeMinutes()).plusMinutes(15);
+
+            if (newStart.isBefore(existingEnd) && newEnd.isAfter(existingStart)) {
+                throw new IllegalArgumentException("The theatre is already booked at that time");
+            }
+        }
     }
 
 }

@@ -14,4 +14,5 @@ public interface ShowingRepository extends JpaRepository<Showing, Integer> {
 
     List<Showing> findByMovieIdAndStartTimeBetweenOrderByStartTimeAsc(int movieId, LocalDateTime from, LocalDateTime to);
     List<Showing> findShowingsByMovieId(int movieId);
+    List<Showing> findByTheatreId(int theatreId);
 }
