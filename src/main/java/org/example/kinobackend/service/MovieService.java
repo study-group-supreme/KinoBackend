@@ -112,6 +112,9 @@ public class MovieService {
 
         Movie existing = movieRepository.findById(id)
                 .orElseThrow(); //When we agree on custom exceptions I can fill this out, but it will still work now
+        if (existing.isActive() && !movie.isActive() && !existing.getShowings().isEmpty()){
+            throw new IllegalArgumentException("Cannot set movie to inactive because it still has showings");
+        }
         existing.setName(movie.getName());
         existing.setDescription(movie.getDescription());
         existing.setRuntimeMinutes(movie.getRuntimeMinutes());
