@@ -58,4 +58,10 @@ public class ShowingRestController {
     public List<ShowingByDateResponse> getGroupedShowings(@PathVariable int movieId) {
         return showingService.getUpcomingShowingsGrouped(movieId);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Showing> putShowing(@PathVariable int id, @RequestBody Showing showing){
+        Showing updatedShowing = showingService.updateShowing(showing, id);
+        return new ResponseEntity<>(updatedShowing, HttpStatus.OK);
+    }
 }

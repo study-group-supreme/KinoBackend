@@ -3,10 +3,14 @@ package org.example.kinobackend.service;
 import jakarta.persistence.EntityNotFoundException;
 import org.example.kinobackend.dto.ShowingByDateResponse;
 import org.example.kinobackend.dto.ShowingResponse;
+import org.example.kinobackend.model.Movie;
 import org.example.kinobackend.model.Showing;
 import org.example.kinobackend.model.Theatre;
+import org.example.kinobackend.repository.MovieRepository;
 import org.example.kinobackend.repository.ShowingRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -21,9 +25,11 @@ import static org.apache.logging.log4j.ThreadContext.isEmpty;
 @Service
 public class ShowingService {
     private final ShowingRepository showingRepository;
+    private final MovieRepository movieRepository;
 
-    public ShowingService(ShowingRepository showingRepository) {
+    public ShowingService(ShowingRepository showingRepository, MovieRepository movieRepository) {
         this.showingRepository = showingRepository;
+        this.movieRepository = movieRepository;
     }
 
     public Showing createShowing(Showing showing) {
@@ -33,6 +39,8 @@ public class ShowingService {
         if (showing.getTheatre() == null) {
             throw new IllegalArgumentException("Showing cant be created without a theatre");
         }
+        Movie movie = movieRepository.findById(showing.getMovie().getId()).orElseThrow();
+        checkForShowingInTheaterOverlap(showing, movie, 0);
         return showingRepository.save(showing);
     }
 
@@ -117,4 +125,42 @@ public class ShowingService {
         }
         return result;
     }
+    public Showing updateShowing(Showing showing, int id){
+        if(showing.getMovie() == null){
+            throw new IllegalArgumentException("A movie must be tied to a showing");
+        }
+        if(showing.getTheatre() == null){
+            throw new IllegalArgumentException("A theatre must be tied to a showing");
+        }
+        if(showing.getStartTime() == null){
+            throw new IllegalArgumentException("A showing must have a start time");
+        }
+        Showing existing = showingRepository.findById(id)
+                .orElseThrow();
+
+        Movie movie = movieRepository.findById(showing.getMovie().getId()).orElseThrow();
+        checkForShowingInTheaterOverlap(showing, movie, id);
+
+        existing.setMovie(showing.getMovie());
+        existing.setStartTime(showing.getStartTime());
+        existing.setTheatre(showing.getTheatre());
+        return showingRepository.save(existing);
+    }
+
+    private void checkForShowingInTheaterOverlap(Showing showing, Movie movie, int ignoreId){
+        LocalDateTime newStart = showing.getStartTime();
+        LocalDateTime newEnd = newStart.plusMinutes(movie.getRuntimeMinutes()).plusMinutes(15);
+
+        for (Showing existing : showingRepository.findByTheatreId(showing.getTheatre().getId())){
+            if(existing.getId() == ignoreId) continue;
+
+            LocalDateTime existingStart = existing.getStartTime();
+            LocalDateTime existingEnd = existingStart.plusMinutes(existing.getMovie().getRuntimeMinutes()).plusMinutes(15);
+
+            if (newStart.isBefore(existingEnd) && newEnd.isAfter(existingStart)) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT,"The theatre is already booked at that time");
+            }
+        }
+    }
+
 }
