@@ -8,7 +8,9 @@ import org.example.kinobackend.model.Showing;
 import org.example.kinobackend.model.Theatre;
 import org.example.kinobackend.repository.MovieRepository;
 import org.example.kinobackend.repository.ShowingRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -147,7 +149,7 @@ public class ShowingService {
 
     private void checkForShowingInTheaterOverlap(Showing showing, Movie movie, int ignoreId){
         LocalDateTime newStart = showing.getStartTime();
-        LocalDateTime newEnd = newStart.plusMinutes(movie.getRuntimeMinutes());
+        LocalDateTime newEnd = newStart.plusMinutes(movie.getRuntimeMinutes()).plusMinutes(15);
 
         for (Showing existing : showingRepository.findByTheatreId(showing.getTheatre().getId())){
             if(existing.getId() == ignoreId) continue;
@@ -156,7 +158,7 @@ public class ShowingService {
             LocalDateTime existingEnd = existingStart.plusMinutes(existing.getMovie().getRuntimeMinutes()).plusMinutes(15);
 
             if (newStart.isBefore(existingEnd) && newEnd.isAfter(existingStart)) {
-                throw new IllegalArgumentException("The theatre is already booked at that time");
+                throw new ResponseStatusException(HttpStatus.CONFLICT,"The theatre is already booked at that time");
             }
         }
     }
