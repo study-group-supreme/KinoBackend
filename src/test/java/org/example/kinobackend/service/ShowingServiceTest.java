@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,8 @@ import static org.mockito.Mockito.when;
 public class ShowingServiceTest {
     @Mock
     ShowingRepository showingRepository;
+    @Mock
+    MovieRepository movieRepository;
     @InjectMocks
     ShowingService showingService;
     @InjectMocks
@@ -52,13 +55,14 @@ public class ShowingServiceTest {
         showing.setId(1);
         showing.setMovie(movie);
         showing.setTheatre(theatre);
-        showing.setStartTime(null);
+        showing.setStartTime(LocalDateTime.of(2026, 10, 10, 18, 0));
         showing.setReservations(new HashSet<>());
 
     }
 
     @Test
     public void createShowing_CreatesShowing() {
+        when(movieRepository.findById(1)).thenReturn(Optional.of(movie));
         when(showingRepository.save(showing)).thenReturn(showing);
         Showing result = showingService.createShowing(showing);
         assertEquals(showing, result);
