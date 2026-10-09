@@ -122,7 +122,7 @@ public class MovieService {
 
         Movie existing = movieRepository.findById(id)
                 .orElseThrow(); //When we agree on custom exceptions I can fill this out, but it will still work now
-        if (existing.isActive()){
+        if (existing.isActive() && !movie.isActive()) {
             ensureNoShowingsBeforeDeactivating(existing);
         }
         existing.setName(movie.getName());
