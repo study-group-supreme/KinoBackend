@@ -85,19 +85,9 @@ public class MovieRestController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteMovieById(@PathVariable int id) {
-        try {
+    public ResponseEntity<Void> deleteMovieById(@PathVariable int id) {
             movieService.deleteMovieById(id);
             return ResponseEntity.noContent().build();
-
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("error", e.getMessage()));
-
-        } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(Map.of("error", e.getMessage()));
-        }
     }
 
 
