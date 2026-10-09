@@ -2,31 +2,21 @@ package org.example.kinobackend.controller;
 
 import org.example.kinobackend.dto.MovieResponse;
 import org.example.kinobackend.model.Category;
-import org.example.kinobackend.dto.ShowingResponse;
 import org.example.kinobackend.model.Movie;
-import org.example.kinobackend.model.Showing;
 import org.example.kinobackend.service.MovieService;
-import org.example.kinobackend.service.ShowingService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/movies")
 public class MovieRestController {
     private final MovieService movieService;
-    private final ShowingService showingService;
 
-    public MovieRestController(MovieService movieService, ShowingService showingService) {
+    public MovieRestController(MovieService movieService) {
         this.movieService = movieService;
-        this.showingService = showingService;
     }
 
     @GetMapping
@@ -86,9 +76,7 @@ public class MovieRestController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMovieById(@PathVariable int id) {
-            movieService.deleteMovieById(id);
-            return ResponseEntity.noContent().build();
+        movieService.deleteMovieById(id);
+        return ResponseEntity.noContent().build();
     }
-
-
 }
