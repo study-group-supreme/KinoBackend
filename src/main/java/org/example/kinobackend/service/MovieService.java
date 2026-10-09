@@ -80,8 +80,18 @@ public class MovieService {
     public Movie deactivateMovieById(int id) {
         Movie movie = movieRepository.findById(id).orElseThrow(()
                 -> new IllegalArgumentException("Movie not found with id: " + id));
+
+       ensureNoShowingsBeforeDeactivating(movie);
+
         movie.setActive(false);
         return movieRepository.save(movie);
+    }
+
+    private void ensureNoShowingsBeforeDeactivating(Movie movie) {
+        if (movie.isActive() && !movie.getShowings().isEmpty()) {
+            throw new IllegalStateException(
+                    "Cannot set movie to inactive because it still has showings");
+        }
     }
 
     public void deleteMovieById(int id) {
@@ -112,8 +122,8 @@ public class MovieService {
 
         Movie existing = movieRepository.findById(id)
                 .orElseThrow(); //When we agree on custom exceptions I can fill this out, but it will still work now
-        if (existing.isActive() && !movie.isActive() && !existing.getShowings().isEmpty()){
-            throw new IllegalArgumentException("Cannot set movie to inactive because it still has showings");
+        if (existing.isActive()){
+            ensureNoShowingsBeforeDeactivating(existing);
         }
         existing.setName(movie.getName());
         existing.setDescription(movie.getDescription());
