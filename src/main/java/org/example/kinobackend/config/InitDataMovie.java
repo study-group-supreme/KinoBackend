@@ -154,6 +154,52 @@ public class InitDataMovie implements CommandLineRunner {
         movie10.setAgeLimit(16);
         movie10.setPosterUrl("https://m.media-amazon.com/images/M/MV5BMTg2NjJiODctM2IyMS00MmQ5LWI1YmQtNTBjMTI4M2U2YzA5XkEyXkFqcGc@._V1_.jpg");
 
+        Movie movie11 = new Movie();
+        movie11.setActive(true);
+        movie11.setName("Avengers: Doomsday");
+        movie11.setAgeLimit(15);
+        movie11.setDescription("Avengers: Doomsday — Marvel’s heroes unite to face Doctor Doom, a powerful new threat that could destroy the multiverse.");
+        movie11.setCategories(Set.of(action));
+        movie11.setRuntimeMinutes(150);
+        movie11.setPosterUrl("https://image.tmdb.org/t/p/original/9qN1HpgEstLfkxKFR1Gnzcpr0Xc.jpg");
+
+        Movie movie12 = new Movie();
+        movie12.setName("Halloween");
+        movie12.setActive(true);
+        movie12.setAgeLimit(18);
+        movie12.setDescription("Halloween — A masked killer, Michael Myers, escapes and returns to hunt innocent people on Halloween night.");
+        movie12.setCategories(Set.of(horror));
+        movie12.setRuntimeMinutes(91);
+        movie12.setPosterUrl("https://m.media-amazon.com/images/I/613nfsDT4VL.jpg");
+
+        Movie movie13 = new Movie();
+        movie13.setName("The Dark Knight");
+        movie13.setRuntimeMinutes(152);
+        movie13.setCategories(Set.of(action, crime));
+        movie13.setPosterUrl("");
+        movie13.setActive(true);
+        movie13.setDescription("The Dark Knight — Batman faces the Joker, a ruthless criminal who throws Gotham City into chaos.");
+        movie13.setAgeLimit(15);
+        movie13.setPosterUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrdFVAl4j0F_HDf2jwKDBKNo3jq9Gkif9YsSqXyhl9Qw&s=10");
+
+        Movie movie14 = new Movie();
+        movie14.setName("Minions & Monsters");
+        movie14.setRuntimeMinutes(90);
+        movie14.setCategories(Set.of(comedy, adventure));
+        movie14.setAgeLimit(2);
+        movie14.setActive(true);
+        movie14.setDescription("Minions and Monsters — The Minions set out to make a monster movie but accidentally unleash real monsters.");
+        movie14.setPosterUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOL-0gWLyJv2MUoEF0xQzbkcqw8SvQRDFLTWUplSTDrQ&s=10");
+
+        Movie movie15 = new Movie();
+        movie15.setName("Borat: Cultural Learnings of America");
+        movie15.setDescription("Borat — A clueless journalist from Kazakhstan travels across America, causing outrageous and hilarious situations.");
+        movie15.setCategories(Set.of(comedy));
+        movie15.setActive(true);
+        movie15.setAgeLimit(15);
+        movie15.setRuntimeMinutes(84);
+        movie15.setPosterUrl("https://m.media-amazon.com/images/M/MV5BMTk0MTQ3NDQ4Ml5BMl5BanBnXkFtZTcwOTQ3OTQzMw@@._V1_FMjpg_UX1000_.jpg");
+
 
         movieRepository.save(movie1);
         movieRepository.save(movie2);
@@ -166,6 +212,11 @@ public class InitDataMovie implements CommandLineRunner {
         movieRepository.save(movie8);
         movieRepository.save(movie9);
         movieRepository.save(movie10);
+        movieRepository.save(movie11);
+        movieRepository.save(movie12);
+        movieRepository.save(movie13);
+        movieRepository.save(movie14);
+        movieRepository.save(movie15);
 
     }
 }
