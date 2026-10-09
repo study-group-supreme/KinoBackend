@@ -191,6 +191,15 @@ public class InitDataMovie implements CommandLineRunner {
         movie14.setDescription("Minions and Monsters — The Minions set out to make a monster movie but accidentally unleash real monsters.");
         movie14.setPosterUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOL-0gWLyJv2MUoEF0xQzbkcqw8SvQRDFLTWUplSTDrQ&s=10");
 
+        Movie movie15 = new Movie();
+        movie15.setName("Borat: Cultural Learnings of America");
+        movie15.setDescription("Borat — A clueless journalist from Kazakhstan travels across America, causing outrageous and hilarious situations.");
+        movie15.setCategories(Set.of(comedy));
+        movie15.setActive(true);
+        movie15.setAgeLimit(15);
+        movie15.setRuntimeMinutes(84);
+        movie15.setPosterUrl("https://m.media-amazon.com/images/M/MV5BMTk0MTQ3NDQ4Ml5BMl5BanBnXkFtZTcwOTQ3OTQzMw@@._V1_FMjpg_UX1000_.jpg");
+
 
         movieRepository.save(movie1);
         movieRepository.save(movie2);
@@ -207,6 +216,7 @@ public class InitDataMovie implements CommandLineRunner {
         movieRepository.save(movie12);
         movieRepository.save(movie13);
         movieRepository.save(movie14);
+        movieRepository.save(movie15);
 
     }
 }
